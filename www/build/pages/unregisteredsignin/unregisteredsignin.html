@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Set Up: New Volunteer</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+               
+        <ion-content padding>
+        <ion-card>
+            
+<ion-list>
+
+  <ion-item>
+    <ion-label stacked>Full Name:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Email:</ion-label>
+    <ion-input type="email"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Cell Phone Number:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Age:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Sex:</ion-label>
+         <ion-select text-wrap [(ngModel)]="enterSex" (change)="onChangeSex(enterSex)">
+            <ion-option value="female">Female</ion-option>
+            <ion-option value="male">Male</ion-option>
+            <ion-option value="noAnswer">No Answer</ion-option>
+          </ion-select> 
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Party Affiliation:</ion-label>
+         <ion-select text-wrap [(ngModel)]="enterParty" (change)="onChangeParty(enterParty)">
+            <ion-option value="noParty">No Party Preference</ion-option>
+            <ion-option value="democrat">Democratic Party</ion-option>
+            <ion-option value="green">Green Party</ion-option>
+            <ion-option value="republican">Republican Party</ion-option>
+            <ion-option value="other">Other Party</ion-option>
+          </ion-select> 
+  </ion-item>
+
+  <!-- Show line if they need to write in a party -->
+        <ion-item *ngIf="enterParty=='other'">
+        <ion-label stacked>Please Write in Party Name:</ion-label>
+        <ion-input type="text"></ion-input>
+        </ion-item>
+ <!-- end-->   
+
+    <ion-item>
+    <ion-label stacked>Shift(s):</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Passcode:</ion-label>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Re-enter Passcode:</ion-label>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+
+</ion-list>
+             
+        </ion-card>  
+
+  <button type="submit" (click)="onSubmit()" block large>
+    Register
+  </button>
+
+      </ion-content>

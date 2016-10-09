@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Add New Record</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding padding-vertical>
+
+  <button type="submit" (click)="onSubmit('voterRecord')" block large>
+    Voter Record
+  </button>
+  
+  <button type="submit" (click)="onSubmit('anomalyRecord')" block large>
+    Anomaly Record
+  </button>
+  
+  <button type="submit" (click)="onSubmit('amendmentRecord')" block large>
+    Amendment Record
+  </button>
+
+</ion-content>
