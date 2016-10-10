@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController, NavParams } from 'ionic-angular';
-//import {QuestionsPage} from '../questions/questions';
-//import {UserDataService} from '../../user-data-service';
+
+import {VolunteerPage} from '../volunteer/volunteer';
+import {DonatePage} from '../donate/donate';
 
 
 
@@ -22,18 +23,42 @@ export class HomePage {
      //}
   }
 
-    onSubmit() {
+   /* onSubmit() {
         var that = this;
         try {
-           //that.navCtrl.push(QuestionsPage, {
-		//userDataSvc: this.userDataSvc
-            //});
+           that.navCtrl.push(QuestionsPage, {
+		    userDataSvc: this.userDataSvc
+            });
 
         } catch (EE) { 
             console.log('error in Submitting, exc='+ EE.toString())
         }
-    }
+    }*/
     
+onVolunteerClick(){
+    var that = this;
+        try {
+           that.navCtrl.push(VolunteerPage, {
+		    
+            });
+        } catch (EE) { 
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
 
-    
+}   
+
+onDonateClick(){
+var that = this;
+        try {
+           that.navCtrl.push(DonatePage, {
+		    
+            });
+        } catch (EE) { 
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+}  
+
+
+
+
 }

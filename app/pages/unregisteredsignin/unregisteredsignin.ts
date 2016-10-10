@@ -10,12 +10,14 @@ import {RegisteredsigninPage} from '../registeredsignin/registeredsignin';
 export class UnregisteredsigninPage {
 enterSex: string;
 enterParty: string;
+enterShift: string;
 
 
   constructor(private navCtrl: NavController) {
   this.navCtrl = navCtrl;
   this.enterSex = null;
   this.enterParty = null;
+  this.enterShift = null;
   }
 
     onSubmit() {

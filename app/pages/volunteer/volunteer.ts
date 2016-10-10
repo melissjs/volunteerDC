@@ -1,19 +1,30 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-/*
-  Generated class for the VolunteerPage page.
+import {UnregisteredsigninPage} from '../unregisteredsignin/unregisteredsignin';
+import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
+import {AddpollinglocationPage} from '../addpollinglocation/addpollinglocation';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   templateUrl: 'build/pages/volunteer/volunteer.html',
 })
 export class VolunteerPage {
 
   constructor(private navCtrl: NavController) {
+  this.navCtrl = navCtrl;
+  }
 
+  onRegister(){
+        var that = this;
+        try {
+            
+                that.navCtrl.push(UnregisteredsigninPage, {
+                });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
   }
 
 }
