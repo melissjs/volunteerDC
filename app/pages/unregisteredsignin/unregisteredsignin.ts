@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 
-import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
-
+import {RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
 
 @Component({
   templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
@@ -13,7 +12,7 @@ enterParty: string;
 enterShift: string;
 
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController) {
   this.navCtrl = navCtrl;
   this.enterSex = null;
   this.enterParty = null;
@@ -22,9 +21,19 @@ enterShift: string;
 
     onSubmit() {
         var that = this;
+
+if (this.enterSex == null){
+         let alert = this.alertCtrl.create({
+                    title: 'Registration Successful',
+                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+                    buttons: ['OK'] 
+                });
+                alert.present();}
+
+
         try {
             
-                that.navCtrl.push(FindpollinglocationPage, {
+                that.navCtrl.push(RegistrationsuccessPage, {
                 });
             
         } catch (EE) {
@@ -41,3 +50,5 @@ enterShift: string;
    }
 
 }
+
+/* Thank you for registering to volunteer on election day! Now all you need to do is find a polling location near you and sign up for one or more shifts. */
