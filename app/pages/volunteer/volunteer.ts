@@ -27,4 +27,30 @@ export class VolunteerPage {
         }
   }
 
+onFindPolling(){
+var that = this;
+        try {
+            
+                that.navCtrl.push(FindpollinglocationPage, {
+                });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+}
+
+onAddPolling(){
+var that = this;
+        try {
+            
+                that.navCtrl.push(AddpollinglocationPage, {
+                });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+}
+
+
+
 }

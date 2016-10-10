@@ -23,6 +23,7 @@ import {FaqsPage} from './pages/faqs/faqs';
 import {VolunteerlistPage} from './pages/volunteerlist/volunteerlist';
 import {FindpollinglocationPage} from './pages/findpollinglocation/findpollinglocation';
 import {AddpollinglocationPage} from './pages/addpollinglocation/addpollinglocation';
+import {VideosPage} from './pages/videos/videos';
 
 // intermediate components called from others
 //import {UserDataService} from './user-data-service';

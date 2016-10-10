@@ -1,19 +1,56 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-/*
-  Generated class for the EducatePage page.
+import {InstructionsPage} from '../instructions/instructions';
+import {FaqsPage} from '../faqs/faqs';
+import {VideosPage} from '../videos/videos';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
+
+
 @Component({
   templateUrl: 'build/pages/educate/educate.html',
 })
 export class EducatePage {
 
   constructor(private navCtrl: NavController) {
+  this.navCtrl = navCtrl;
+  }
 
+  onSubmitInstructions(){
+        var that = this;
+        try {
+            
+                that.navCtrl.push(InstructionsPage, {
+                });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+  }
+
+    onSubmitFAQs(){
+        var that = this;
+        try {
+            
+                that.navCtrl.push(FaqsPage, {
+                });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+  }
+
+    onSubmitVideos(){
+        var that = this;
+        try {
+            
+                that.navCtrl.push(VideosPage, {
+                });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
   }
 
 }

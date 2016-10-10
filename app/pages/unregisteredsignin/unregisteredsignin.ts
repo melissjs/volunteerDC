@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import {RegisteredsigninPage} from '../registeredsignin/registeredsignin';
+import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
 
 
 @Component({
@@ -24,7 +24,7 @@ enterShift: string;
         var that = this;
         try {
             
-                that.navCtrl.push(RegisteredsigninPage, {
+                that.navCtrl.push(FindpollinglocationPage, {
                 });
             
         } catch (EE) {
