@@ -24,7 +24,7 @@ this.stations =
         "precinctNumber": "9001A",
         "streetAddress": "515 Almont Drive",
         "unitNumber": "11",
-        "roomNumber": "2",
+        "roomNumber": "3",
         "city": "Los Angeles",
         "state": "California",
         "zip": 90025,
