@@ -9,16 +9,27 @@
 
 
 <ion-content padding>
-    <ion-card padding>
-      <ion-list>
 
-<ion-item *ngFor="let item of (stations)">
-                <ion-label>Precinct Number: {{item.precinctNumber}}</ion-label>
-                <ion-label>Street Address: {{item.streetAddress}}</ion-label>
-                <ion-label>Street Address: {{item.city}}, {{item.state}} {{item.zip}}</ion-label>
-                
-                </ion-item>
+      
+      <ul>
 
-      </ion-list>
-  </ion-card>
+      <li *ngFor="let item of (stations)">
+       <!-- replaced with component!!!
+       <ion-card padding>
+       <ion-label>Precinct Number: {{item.precinctNumber}}</ion-label>
+       <ion-label>{{item.streetAddress}}</ion-label>
+       <h1>{{item.city}}, {{item.state}} {{item.zip}}</h1>     
+       </ion-card>   -->
+
+       <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
+
+      </li>
+
+      </ul>
+     
+
+
+
+
+
 </ion-content>
