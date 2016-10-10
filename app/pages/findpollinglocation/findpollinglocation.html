@@ -13,7 +13,10 @@
       <ion-list>
 
 <ion-item *ngFor="let item of (stations)">
-                <ion-label>{{item.precinctNumber}}</ion-label>
+                <ion-label>Precinct Number: {{item.precinctNumber}}</ion-label>
+                <ion-label>Street Address: {{item.streetAddress}}</ion-label>
+                <ion-label>Street Address: {{item.city}}, {{item.state}} {{item.zip}}</ion-label>
+                
                 </ion-item>
 
       </ion-list>
