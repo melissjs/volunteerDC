@@ -9,5 +9,13 @@
 
 
 <ion-content padding>
+    <ion-card padding>
+      <ion-list>
 
+<ion-item *ngFor="let item of (stations)">
+                <ion-label>{{item.precinctNumber}}</ion-label>
+                </ion-item>
+
+      </ion-list>
+  </ion-card>
 </ion-content>
