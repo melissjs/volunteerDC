@@ -29,7 +29,7 @@ currentVolunteer: Volunteer;
         "age": 35,
         "sex": "Female",
         "partyAffiliation": "No Party Preference",    
-        "shifts": "Morning, Evening",
+        "shifts": ["Morning", "Evening"],
         "passcode": "Eric help me!",
         "totalRecords": 6,
         "totalVoteRecords": 5,

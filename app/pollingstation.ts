@@ -1,3 +1,5 @@
+import { Volunteer} from './volunteer.ts';
+
 export interface PollingStation {
 precinctNumber: string;
 streetAddress: string;
@@ -6,7 +8,7 @@ roomNumber?: string;
 city: string;
 state: string;
 zip: number;
-associatedVolunteerList: any[];
-totalRegisteredVolunteers: number;
-totalNeededVolunteers: number;
+associatedVolunteerList?: Volunteer[];
+totalRegisteredVolunteers?: number;
+totalNeededVolunteers?: number;
 }  
