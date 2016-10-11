@@ -16,18 +16,32 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
   directives: [PollingstationComponent],
   //providers: [Pollingstationservice]
 })
-export class PollingstationdetailsPage {
-currentVolunteer: Volunteer; 
-currentTeam: Team;
-stations: PollingStation[];
-pollingStationService: Pollingstationservice;
-constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice ) {
-this.pollingStationService = pollingStationService;
-//var passedStations = this.pollingStationService.selectedStation;
+      export class PollingstationdetailsPage {
+      currentVolunteer: Volunteer; 
+      currentTeam: Team;
+      stations: PollingStation[];
+      pollingStationService: Pollingstationservice;
 
 
+      constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice ) {
+      this.pollingStationService = pollingStationService;
+      //var passedStations = this.pollingStationService.selectedStation;
+        }
 
-  }
+
+        checkArrayForTimeOfDay(passedShifts){
+           // var shiftIterated: string;
+            for (var i = 0; i < passedShifts.length; i++) {
+             // if (shiftIterated[i] == "Morning")
+                if (passedShifts[i] == "Morning"){
+                  return "M";
+                }
+                if (passedShifts[i] == "Afternoon"){
+                  return "A";
+                }
+            }
+            
+        }
 
 
 }

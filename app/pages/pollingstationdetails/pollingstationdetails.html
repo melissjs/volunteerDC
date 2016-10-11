@@ -30,7 +30,8 @@
   <b>Early Morning (5:00 AM - 8:15 AM)</b>
       <ul>
       <li *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
-        <span *ngIf="item.shifts=='Afternoon'">
+        <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
+        <span *ngIf="checkArrayForTimeOfDay(item.shifts)=='M'">
         {{item.fullName}}</span>
       </li>
       </ul>
@@ -42,6 +43,13 @@
 
 <div>
   <b>Early Afternoon (11:00 AM - 2:15 PM)</b>
+  <ul>
+      <li *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
+        <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
+        <span *ngIf="checkArrayForTimeOfDay(item.shifts)=='A'">
+        {{item.fullName}}</span>
+      </li>
+      </ul>
 </div>
 
 <div>
