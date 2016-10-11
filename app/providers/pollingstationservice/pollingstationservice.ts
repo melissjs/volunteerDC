@@ -27,4 +27,10 @@ printSelectedStation(){
   console.log('from service' + this.selectedStation.streetAddress)
 }
 
+
+//printSelectedStations(){
+  //console.log('from service hello')
+//}
+
+
 }

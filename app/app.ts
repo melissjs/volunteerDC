@@ -28,12 +28,14 @@ import {RegistrationsuccessPage} from './pages/registrationsuccess/registrations
 
 // intermediate components called from others
 //import {UserDataService} from './user-data-service';
+import { Pollingstationservice } from './providers/pollingstationservice/pollingstationservice.ts';
 
 
 @Component({
   templateUrl: 'build/app.html',
   // config: {}, // http://ionicframework.com/docs/v2/api/config/Config/	  
   //providers: [UserDataService]
+  providers: [Pollingstationservice]
 })
 class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -41,11 +43,14 @@ class MyApp {
   rootPage: any = HomePage;
   pages: Array<{title: string, component: any}>;
   //userDataSvc: UserDataService;
+  pollingStationService: Pollingstationservice;
 
   constructor(
     public platform: Platform,
-      public menu: MenuController
+      public menu: MenuController,
       //userDataSvc: UserDataService
+      pollingStationService: Pollingstationservice
+
   ) {
     this.initializeApp();
 

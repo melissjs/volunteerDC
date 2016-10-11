@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstationdetails';
+
 import { PollingStation } from '../../pollingstation.ts';
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 import { Volunteer} from '../../volunteer.ts';
@@ -14,17 +16,17 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
 @Component({
   templateUrl: 'build/pages/findpollinglocation/findpollinglocation.html',
   inputs: ['pollingstation', 'volunteer', 'team'],
-  providers: [Pollingstationservice],
+  //providers: [Pollingstationservice],
   directives: [PollingstationComponent]
 })
 
 
 export class FindpollinglocationPage {
-currentVolunteer: Volunteer; 
-currentTeam: Team;
-stations: PollingStation[];
-selectedStation: PollingStation;
-pollingStationService: Pollingstationservice;
+  currentVolunteer: Volunteer; 
+  currentTeam: Team;
+  stations: PollingStation[];
+  selectedStation: PollingStation;
+  pollingStationService: Pollingstationservice;
 
   constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice ) {
   var that = this;
@@ -33,17 +35,24 @@ pollingStationService: Pollingstationservice;
   this.pollingStationService = pollingStationService;
   }
 
-showStationDetails(variablePassedFromItem){
-this.selectedStation = variablePassedFromItem;
-console.log('selectedStation'+ this.selectedStation);
+
+  showStationDetails(variablePassedFromItem){
+  this.selectedStation = variablePassedFromItem;
+  console.log('selectedStation'+ this.selectedStation);
   this.pollingStationService.setStation(this.selectedStation);
   this.pollingStationService.printSelectedStation();
+  var that = this;
+         try {
+            
+                this.navCtrl.push(PollingstationdetailsPage, {
+                  });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+  
+    }
+  }
+
   
 }
-
-
-}
-
-
-   
 
