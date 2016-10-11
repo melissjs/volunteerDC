@@ -5,6 +5,8 @@ import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstati
 
 import { PollingStation } from '../../pollingstation.ts';
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
+//import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
+
 import { Volunteer} from '../../volunteer.ts';
 import { Team } from '../../team.ts';
 

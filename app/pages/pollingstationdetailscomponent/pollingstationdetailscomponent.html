@@ -4,3 +4,9 @@
        <h1>{{passedStations.city}}, {{passedStations.state}} {{passedStations.zip}}</h1>     
        </ion-card>   
 
+       <ion-card padding>
+                <ion-item *ngFor="let item of (passedStations.associatedVolunteerList)">
+                <ion-label>{{item.fullName}}</ion-label>
+                <ion-label>{{item.shifts}}</ion-label>
+                </ion-item>
+       </ion-card> 

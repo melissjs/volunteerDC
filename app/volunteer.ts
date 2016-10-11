@@ -5,7 +5,7 @@ phoneNumber: string;
 age: number;
 sex: string;
 partyAffiliation: string;
-shifts: string;
+shifts?: string[];
 passcode: string;
 totalRecords: number;
 totalVoteRecords: number;

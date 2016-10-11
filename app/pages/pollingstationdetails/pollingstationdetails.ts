@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
+//import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
 import { Volunteer} from '../../volunteer.ts';
 import { Team } from '../../team.ts';
 import { PollingStation } from '../../pollingstation.ts';
