@@ -1,19 +1,40 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 
-/*
-  Generated class for the AddpollinglocationPage page.
+import {PollingstationdetailsPage} from '../pollingstationdetails/pollingstationdetails';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
+
 @Component({
   templateUrl: 'build/pages/addpollinglocation/addpollinglocation.html',
 })
 export class AddpollinglocationPage {
 
-  constructor(private navCtrl: NavController) {
-
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController) {
+  this.navCtrl = navCtrl;
   }
+
+      onSubmit() {
+            var that = this;
+            if (this !== null){
+            let alert = this.alertCtrl.create({
+                        title: 'Addition Successful',
+                        subTitle: 'Congratulations you have successfully initiated a new audit! This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.',
+                        buttons: ['OK'] 
+                    });
+                    alert.present();
+            }
+
+
+            try {
+                that.navCtrl.push(PollingstationdetailsPage, {});
+                } catch (EE) {
+                console.log('error in Submitting, exc='+ EE.toString())
+                }
+
+        }
+
+
+
 
 }

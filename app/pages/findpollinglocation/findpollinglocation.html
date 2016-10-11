@@ -13,14 +13,7 @@
       
       <ul>
 
-      <li *ngFor="let item of (stations)">
-       <!-- replaced with component!!!
-       <ion-card padding>
-       <ion-label>Precinct Number: {{item.precinctNumber}}</ion-label>
-       <ion-label>{{item.streetAddress}}</ion-label>
-       <h1>{{item.city}}, {{item.state}} {{item.zip}}</h1>     
-       </ion-card>   -->
-
+      <li (click)="showStationDetails(item);" *ngFor="let item of (stations)">
        <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
 
       </li>

@@ -1,32 +1,30 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { PollingStation } from '../../pollingstation.ts';
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 import { Volunteer} from '../../volunteer.ts';
 import { Team } from '../../team.ts';
+import { PollingStation } from '../../pollingstation.ts';
 
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
 
-//import { STATIONS } from '../../stationlist.ts';
-
 
 @Component({
-  templateUrl: 'build/pages/findpollinglocation/findpollinglocation.html',
+  templateUrl: 'build/pages/pollingstationdetails/pollingstationdetails.html',
   inputs: ['pollingstation', 'volunteer', 'team'],
-  providers: [Pollingstationservice],
-  directives: [PollingstationComponent]
+  directives: [PollingstationComponent],
+  providers: [Pollingstationservice]
 })
-export class FindpollinglocationPage {
+export class PollingstationdetailsPage {
 currentVolunteer: Volunteer; 
 currentTeam: Team;
 stations: PollingStation[];
+  constructor(private navCtrl: NavController) {
 
-  constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice ) {
-  this.stations = pollingStationService.getStations();
 
-/*this.stations = STATIONS;
-        [{
+
+this.stations =
+      [{
         "precinctNumber": "9001A",
         "streetAddress": "515 Almont Drive",
         "unitNumber": "11",
@@ -144,15 +142,9 @@ stations: PollingStation[];
       }],
         "totalRegisteredVolunteers": 2,
         "totalNeededVolunteers": 4
-      }]*/
-
-
+      }]
 
 
   }
 
 }
-
-
-   
-

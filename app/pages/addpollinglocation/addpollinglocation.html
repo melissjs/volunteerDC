@@ -10,4 +10,65 @@
 
 <ion-content padding>
 
+<ion-card padding>
+   Use the form below to add a new polling location to our list and initiate a new audit.
+   <br><br>
+   Find your designated polling location, or a different one that you would like to volunteer at even if it is not the one that you are designated to vote at, by googling "find my voting location" along with your state. Each state has different websites where you enter your address and then find your polling location. For example, in California, http://www.sos.ca.gov/elections/polling-place lists websites that help you look up your polling location by county. 
+    <br><br>
+    If you want to find a polling location in a different area, enter an address in that area instead of your own. Choosing a different location to initiate an audit is sometimes smart; for example, if you live in a less busy area it might be a better use of time and energy to volunteer in a close by area that is more populated. 
+     <br><br>
+     College areas are good choices and other factors to consider when choosing a polling location to volunteer at are access to shade, parking, bathrooms, electrical outlets, etc. and also it is beneficial to choose a location with one central entrance and exit. That way you have a better chance of getting close to 100% of voters to participate because auditors will see them come and go. However, if an audit is well staffed, there can be multiple volunteers at multiple doors. 
+  <br><br>
+  On occasion, one location is used for more than one precinct number. In that case, enter both in the precinct numbers field separated by a comma. 
+</ion-card>
+
+        <ion-card>
+            
+<ion-list>
+
+  <ion-item>
+    <ion-label stacked>Precinct Number(s):</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Street Address:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Unit Number (if applicable):</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Room Number (if applicable):</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>City:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>State:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Zip:</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+
+
+</ion-list>
+             
+        </ion-card>  
+
+  <button type="submit" (click)="onSubmit()" block large>
+    Add Location
+  </button>
+
 </ion-content>
