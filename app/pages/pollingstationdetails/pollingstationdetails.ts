@@ -29,19 +29,83 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
         }
 
 
-        checkArrayForTimeOfDay(passedShifts){
+
+
+
+            checkEarlyMorning(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Early Morning"){
+                  return true;
+                }
+            }
+            }
+
+            checkLateMorning(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Late Morning"){
+                  return true;
+                }
+            }
+            }
+
+            checkEarlyAfternoon(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Early Afternoon"){
+                  return true;
+                }
+            }
+            }
+
+            checkLateAfternoon(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Late Afternoon"){
+                  return true;
+                }
+            }
+            }
+
+            checkEarlyEvening(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Early Evening"){
+                  return true;
+                }
+            }
+            }
+
+            checkLateEvening(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Late Evening"){
+                  return true;
+                }
+            }
+            }
+
+
+
+
+        /*checkArrayForTimeOfDay(passedShifts){
            // var shiftIterated: string;
             for (var i = 0; i < passedShifts.length; i++) {
              // if (shiftIterated[i] == "Morning")
-                if (passedShifts[i] == "Morning"){
-                  return "M";
+                if (passedShifts[i] == "Early Morning"){
+                  return "EM";
                 }
-                if (passedShifts[i] == "Afternoon"){
-                  return "A";
+                if (passedShifts[i] == "Late Morning"){
+                  return "LM";
+                }
+                if (passedShifts[i] == "Early Afternoon"){
+                  return "EA";
+                }
+                if (passedShifts[i] == "Late Afternoon"){
+                  return "LA";
+                }
+                if (passedShifts[i] == "Early Evening"){
+                  return "EE";
+                }
+                if (passedShifts[i] == "Late Evening"){
+                  return "LE";
                 }
             }
             
-        }
-
-
-}
+        }*/
+ }
