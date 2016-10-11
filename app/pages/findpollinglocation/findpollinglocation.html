@@ -11,14 +11,13 @@
 <ion-content padding>
 
       
-      <ul>
+      
 
-      <li (click)="showStationDetails(item);" *ngFor="let item of (stations)">
+      
+       <ion-card padding (click)="showStationDetails(item);" *ngFor="let item of (stations)">
        <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
-
-      </li>
-
-      </ul>
+       </ion-card>
+      
      
 
 
