@@ -14,7 +14,7 @@
       
 
       
-       <ion-card padding (click)="showStationDetails(item);" *ngFor="let item of (stations)">
+       <ion-card padding (click)="showStationDetails(item);" *ngFor="let item of (stations)" style="cursor:pointer">
        <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
        </ion-card>
       

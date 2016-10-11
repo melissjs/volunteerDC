@@ -11,4 +11,5 @@ zip: number;
 associatedVolunteerList?: Volunteer[];
 totalRegisteredVolunteers?: number;
 totalNeededVolunteers?: number;
+totalRemainingShiftsToFill: number;
 }  

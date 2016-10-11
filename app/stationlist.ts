@@ -70,7 +70,8 @@ export var STATIONS: PollingStation[] = [{
         "totalAmendmentRecords": 1
       }],
         "totalRegisteredVolunteers": 2,
-        "totalNeededVolunteers": 4
+        "totalNeededVolunteers": 4,
+        "totalRemainingShiftsToFill": 32
         
       },    {
         "precinctNumber": "9001b",
@@ -110,7 +111,8 @@ export var STATIONS: PollingStation[] = [{
         "totalAmendmentRecords": 1
       }],
         "totalRegisteredVolunteers": 2,
-        "totalNeededVolunteers": 4
+        "totalNeededVolunteers": 4,
+        "totalRemainingShiftsToFill": 32
       },      {
         "precinctNumber": "1001b",
         "streetAddress": "4209 Raymond Road",
@@ -149,5 +151,6 @@ export var STATIONS: PollingStation[] = [{
         "totalAmendmentRecords": 1
       }],
         "totalRegisteredVolunteers": 2,
-        "totalNeededVolunteers": 4 
+        "totalNeededVolunteers": 4, 
+         "totalRemainingShiftsToFill": 32
       }]

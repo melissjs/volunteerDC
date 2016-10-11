@@ -11,7 +11,7 @@
 
 
 <ion-content padding>
-  
+
       <ion-card padding>
     <pollingstationcomponent [passedStations]=pollingStationService.selectedStation> </pollingstationcomponent> 
       </ion-card>
@@ -90,6 +90,7 @@
 <ion-card padding>
 <p>Total Registered Volunteers: {{pollingStationService.selectedStation.totalRegisteredVolunteers}}</p>
 <p>Total Needed Volunteers Remaining: {{pollingStationService.selectedStation.totalNeededVolunteers}}</p>
+ <p>Total Remaining Shifts To Fill: {{pollingStationService.selectedStation.totalRemainingShiftsToFill}}</p>  
 </ion-card>
       
 </ion-content>
