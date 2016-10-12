@@ -16,22 +16,22 @@
 
   <ion-item>
     <ion-label stacked>Full Name:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterFullName" (change)="onChangeName(fullName)"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input type="email"></ion-input>
+    <ion-input type="email" [(ngModel)]="enterEmail" (change)="onChangeEmail(email)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Cell Phone Number:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterPhoneNumber" (change)="onChangePhoneNumber(phoneNumber)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Age:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterAge" (change)="onChangeAge(enterAge)"></ion-input>
   </ion-item>
 
     <ion-item>
@@ -45,7 +45,7 @@
 
     <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
-         <ion-select text-wrap [(ngModel)]="enterParty" (change)="onChangeParty(enterParty)">
+         <ion-select text-wrap [(ngModel)]="enterParty" (change)="onChangePartyAffiliation(enterParty)">
             <ion-option value="noParty">No Party Preference</ion-option>
             <ion-option value="democrat">Democratic Party</ion-option>
             <ion-option value="green">Green Party</ion-option>
@@ -57,10 +57,12 @@
   <!-- Show line if they need to write in a party -->
         <ion-item *ngIf="enterParty=='other'">
         <ion-label stacked>Please Write in Party Name:</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="enterOtherPartyAffiliation" (change)="onChangeOtherPartyAffiliation(enterOtherPartyAffiliation)"></ion-input>
         </ion-item>
  <!-- end-->   
 
+
+ <!-- 
     <ion-item>
     <ion-label stacked>Shift(s):</ion-label>
              <ion-select text-wrap [(ngModel)]="enterShift" (change)="onChangeShift(enterShift)">
@@ -72,6 +74,8 @@
             <ion-option value="lateEvening">Late Evening (8:00 PM - 10:30 PM)</ion-option>
           </ion-select> 
   </ion-item>
+  -->   
+
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>

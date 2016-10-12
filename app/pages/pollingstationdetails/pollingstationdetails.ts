@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 
+import { ConfirmationPage } from '../confirmation/confirmation';
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
 import { Volunteer} from '../../volunteer.ts';
@@ -126,14 +127,24 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
 
 
           onSubmit(){
+              var that = this;
+          try{
             if ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
-         let alert = this.alertCtrl.create({
+                  let alert = this.alertCtrl.create({
                     //title: 'Please confirm',
                     subTitle: 'I have read this statement and confirm that I understand the terms for participating in this audit.',
                     buttons: ['CONFIRM'] 
                 });
-                alert.present();}
+                alert.present();
+            } else {
+                that.navCtrl.push(ConfirmationPage, {
+                });
+            }
 
-          }
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+    }
 
- }
+}
+
