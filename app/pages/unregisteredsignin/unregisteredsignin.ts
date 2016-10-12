@@ -19,6 +19,7 @@ enterAge: number;
 enterSex: string;
 enterPartyAffiliation: string;
 enterShifts: string[];
+enterPasscode: string;
 enterPasscode1: string;
 enterPasscode2: string;
 enterTotalRecords: number;
@@ -38,6 +39,7 @@ volunteerservice: Volunteerservice;
   this.enterSex = null;
   this.enterPartyAffiliation = null;
   this.enterShifts = null;
+  this.enterPasscode = null;
   this.enterPasscode1 = null;
   this.enterPasscode2 = null;
   this.enterTotalRecords = null;
@@ -152,6 +154,9 @@ volunteerservice: Volunteerservice;
 
            onChangePasscode2(value){
            this.enterPasscode2 = value;
+           if (this.enterPasscode1==this.enterPasscode2){
+                this.enterPasscode=this.enterPasscode1;
+           }
            }
 
 }
