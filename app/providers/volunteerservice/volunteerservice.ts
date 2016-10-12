@@ -7,13 +7,36 @@ import { Volunteer} from '../../volunteer.ts';
 import { Team } from '../../team.ts';
 
 // station json array
-import { STATIONS } from '../../stationlist.ts';
+import { VOLUNTEERS } from '../../volunteerlist.ts';
 
 
 @Injectable()
 export class Volunteerservice {
+currentVolunteer: Volunteer;
 
-  constructor(private http: Http) {}
+  constructor() {
+    //this.currentVolunteer = null;
+  }
+  
+  
+  
+  
+      setNewVolunteer(value){
+      var that = this;
+      this.currentVolunteer = value;
+      }
+
+       getNewVolunteer(value){
+     return this.currentVolunteer;
+      }
+
+      addCurrentVolunteerToList(value){
+     
+      }
+
+      deleteCurrentVolunteerFromList(value){
+     
+      }
 
 }
 

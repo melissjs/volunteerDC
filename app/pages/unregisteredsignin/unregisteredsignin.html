@@ -16,17 +16,17 @@
 
   <ion-item>
     <ion-label stacked>Full Name:</ion-label>
-    <ion-input type="text" [(ngModel)]="enterFullName" (change)="onChangeName(fullName)"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterFullName" (change)="onChangeFullName(enterFullName)"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input type="email" [(ngModel)]="enterEmail" (change)="onChangeEmail(email)"></ion-input>
+    <ion-input type="email" [(ngModel)]="enterEmail" (change)="onChangeEmail(enterEmail)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Cell Phone Number:</ion-label>
-    <ion-input type="text" [(ngModel)]="enterPhoneNumber" (change)="onChangePhoneNumber(phoneNumber)"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterPhoneNumber" (change)="onChangePhoneNumber(enterPhoneNumber)"></ion-input>
   </ion-item>
 
     <ion-item>
@@ -79,12 +79,12 @@
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
-    <ion-input type="password"></ion-input>
+    <ion-input type="password" [(ngModel)]="enterPasscode1" (change)="onChangePasscode1(enterPasscode1)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Re-enter Passcode:</ion-label>
-    <ion-input type="password"></ion-input>
+    <ion-input type="password" [(ngModel)]="enterPasscode2" (change)="onChangePasscode2(enterPasscode2)"></ion-input>
   </ion-item>
 
 </ion-list>

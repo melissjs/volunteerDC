@@ -4,7 +4,8 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import {RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
 
 import { Volunteer} from '../../volunteer.ts';
-import { VOLUNTEERS} from '../../volunteerlist.ts';
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts'
+//import { VOLUNTEERS} from '../../volunteerlist.ts';
 
 @Component({
   templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
@@ -18,14 +19,16 @@ enterAge: number;
 enterSex: string;
 enterPartyAffiliation: string;
 enterShifts: string[];
-enterPasscode: string;
+enterPasscode1: string;
+enterPasscode2: string;
 enterTotalRecords: number;
 enterTotalVoteRecords: number;
 enterTotalAnomalyRecords: number;
 enterTotalAmendmentRecords: number;
 enterOtherPartyAffiliation: string;
+volunteerservice: Volunteerservice;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
   this.newVolunteer = null;
   this.enterFullName = null;
@@ -35,12 +38,14 @@ enterOtherPartyAffiliation: string;
   this.enterSex = null;
   this.enterPartyAffiliation = null;
   this.enterShifts = null;
-  this.enterPasscode = null;
+  this.enterPasscode1 = null;
+  this.enterPasscode2 = null;
   this.enterTotalRecords = null;
   this.enterTotalVoteRecords = null;
   this.enterTotalAnomalyRecords = null;
   this.enterTotalAmendmentRecords = null;
   this.enterOtherPartyAffiliation = null;
+  this.volunteerservice = volunteerservice;
   }
 
     onSubmit() {
@@ -61,7 +66,7 @@ enterOtherPartyAffiliation: string;
                         totalAnomalyRecords: null,
                         totalAmendmentRecords: null
                     } 
-                    VOLUNTEERS.push({
+                    /*VOLUNTEERS.push({
                         fullName: this.enterFullName,
                         emailAddress: this.enterEmailAddress,
                         phoneNumber: this.enterPhoneNumber,
@@ -74,7 +79,9 @@ enterOtherPartyAffiliation: string;
                         totalVoteRecords: null,
                         totalAnomalyRecords: null,
                         totalAmendmentRecords: null
-                    });
+                    });*/
+
+                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
 
                      console.log(this.newVolunteer);
 
@@ -108,7 +115,7 @@ enterOtherPartyAffiliation: string;
 
 
 
-            onChangeName(value){
+            onChangeFullName(value){
             this.enterFullName = value;
             }
 
@@ -138,6 +145,14 @@ enterOtherPartyAffiliation: string;
                 this.enterPartyAffiliation=this.enterOtherPartyAffiliation;
             }
             }
+
+            onChangePasscode1(value){
+           this.enterPasscode1 = value;
+           }
+
+           onChangePasscode2(value){
+           this.enterPasscode2 = value;
+           }
 
 }
 
