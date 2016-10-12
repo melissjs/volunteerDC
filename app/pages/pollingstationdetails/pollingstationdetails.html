@@ -92,5 +92,37 @@
 <p>Total Needed Volunteers Remaining: {{pollingStationService.selectedStation.totalNeededVolunteers}}</p>
  <p>Total Remaining Shifts To Fill: {{pollingStationService.selectedStation.totalRemainingShiftsToFill}}</p>  
 </ion-card>
+
+<ion-card padding>
+  <h1>Select all shifts you want to volunteer for:</h1>
+  <ion-item>
+    <ion-label>Early Morning (5:00 AM - 8:15 AM)</ion-label>
+    <ion-checkbox [(ngModel)]="earlyM" (click)="onChangeEarlyM(earlyM)" ></ion-checkbox>
+  </ion-item>
+  <ion-item>
+     <ion-label>Late Morning (8:00 AM - 11:15 AM)</ion-label>
+    <ion-checkbox [(ngModel)]="lateM" (click)="onChangeLateM(lateM)" ></ion-checkbox>
+  </ion-item>
+   <ion-item>
+     <ion-label>Early Afternoon (11:00 AM - 2:15 PM)</ion-label>
+      <ion-checkbox [(ngModel)]="earlyA" (click)="onChangeEarlyA(earlyA)" ></ion-checkbox>
+  </ion-item>
+   <ion-item>
+     <ion-label>Late Afternoon (2:00 AM - 5:15 AM)</ion-label>
+      <ion-checkbox [(ngModel)]="lateA" (click)="onChangeLateA(lateA)" ></ion-checkbox>
+  </ion-item>
+   <ion-item>
+     <ion-label>Early Evening (5:00 AM - 8:15 AM)</ion-label>
+      <ion-checkbox [(ngModel)]="earlyE" (click)="onChangeEarlyE(earlyE)" ></ion-checkbox>
+  </ion-item>
+   <ion-item>
+     <ion-label>Late Evening (8:00 AM - 10:30 AM)</ion-label>
+      <ion-checkbox [(ngModel)]="lateE" (click)="onChangeLateE(lateE)" ></ion-checkbox>
+  </ion-item>
+</ion-card>
+
+<button type="submit" (click)="onSubmit()" block large>
+  			    Submit
+           </button>
       
 </ion-content>
