@@ -6,12 +6,18 @@ import { PollingStation } from '../../pollingstation.ts';
 //import { Volunteer} from '../../volunteer.ts';
 //import { Team } from '../../team.ts';
 
+
+// datalist
 import { STATIONS } from '../../stationlist.ts';
+
+// pipes
+//import { Searchpipe } from '../../pipes/searchpipe.ts';
 
 
 @Injectable()
 export class Pollingstationservice {
 selectedStation: PollingStation;
+//searchpipe: Searchpipe;
 
 constructor(){}
 

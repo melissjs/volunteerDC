@@ -28,37 +28,37 @@
 
   <ion-item>
     <ion-label stacked>Precinct Number(s):</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterPrecinctNumber" (change)="onChangePrecinctNumber(enterPrecinctNumber)"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label stacked>Street Address:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterStreetAddress" (change)="onChangeStreetAddress(enterStreetAddress)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Unit Number (if applicable):</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterUnitNumber" (change)="onChangeUnitNumber(enterUnitNumber)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Room Number (if applicable):</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterRoomNumber" (change)="onChangeRoomNumber(enterRoomNumber)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>City:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterCity" (change)="onChangeCity(enterCity)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>State:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterState" (change)="onChangeState(enterState)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Zip:</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="enterZip" (change)="onChangeZip(enterZip)"></ion-input>
   </ion-item>
 
 

@@ -21,7 +21,7 @@
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input type="email" [(ngModel)]="enterEmail" (change)="onChangeEmail(enterEmail)"></ion-input>
+    <ion-input type="email" [(ngModel)]="enterEmailAddress" (change)="onChangeEmail(enterEmailAddress)"></ion-input>
   </ion-item>
 
     <ion-item>
@@ -43,9 +43,9 @@
           </ion-select> 
   </ion-item>
 
-    <ion-item>
+   <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
-         <ion-select text-wrap [(ngModel)]="enterParty" (change)="onChangePartyAffiliation(enterParty)">
+         <ion-select text-wrap [(ngModel)]="enterPartyAffiliationFromList" (change)="onChangePartyAffiliationFromList(enterPartyAffiliationFromList)">
             <ion-option value="noParty">No Party Preference</ion-option>
             <ion-option value="democrat">Democratic Party</ion-option>
             <ion-option value="green">Green Party</ion-option>
@@ -55,10 +55,10 @@
   </ion-item>
 
   <!-- Show line if they need to write in a party -->
-        <ion-item *ngIf="enterParty=='other'">
+        <ion-item *ngIf="enterPartyAffiliationFromList=='other'">
         <ion-label stacked>Please Write in Party Name:</ion-label>
         <ion-input type="text" [(ngModel)]="enterOtherPartyAffiliation" (change)="onChangeOtherPartyAffiliation(enterOtherPartyAffiliation)"></ion-input>
-        </ion-item>
+        </ion-item> 
  <!-- end-->   
 
 

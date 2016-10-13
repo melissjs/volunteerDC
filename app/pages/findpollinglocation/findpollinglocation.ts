@@ -1,16 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+// page to navigate to
 import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstationdetails';
 
 import { PollingStation } from '../../pollingstation.ts';
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
 
+// interfaces
 import { Volunteer} from '../../volunteer.ts';
 import { Team } from '../../team.ts';
 
+//providers
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
+
+// pipes
+import { Searchpipe } from '../../pipes/searchpipe.ts';
 
 //import { STATIONS } from '../../stationlist.ts';
 
@@ -18,7 +24,8 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
 @Component({
   templateUrl: 'build/pages/findpollinglocation/findpollinglocation.html',
   inputs: ['pollingstation', 'volunteer', 'team'],
-  //providers: [Pollingstationservice],
+  pipes: [Searchpipe],
+  //providers: [Searchpipe],
   directives: [PollingstationComponent]
 })
 
@@ -29,12 +36,14 @@ export class FindpollinglocationPage {
   stations: PollingStation[];
   selectedStation: PollingStation;
   pollingStationService: Pollingstationservice;
+  //searchpipe: Searchpipe;
 
   constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice ) {
   var that = this;
   this.navCtrl = navCtrl;
   this.stations = pollingStationService.getStations();
   this.pollingStationService = pollingStationService;
+  //this.searchpipe = searchpipe;
   }
 
 

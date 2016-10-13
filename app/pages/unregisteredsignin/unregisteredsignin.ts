@@ -26,8 +26,10 @@ enterTotalRecords: number;
 enterTotalVoteRecords: number;
 enterTotalAnomalyRecords: number;
 enterTotalAmendmentRecords: number;
+enterPartyAffiliationFromList: string;
 enterOtherPartyAffiliation: string;
 volunteerservice: Volunteerservice;
+party: string;
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
@@ -38,6 +40,7 @@ volunteerservice: Volunteerservice;
   this.enterAge = null;
   this.enterSex = null;
   this.enterPartyAffiliation = null;
+  this.enterPartyAffiliationFromList = null;
   this.enterShifts = null;
   this.enterPasscode = null;
   this.enterPasscode1 = null;
@@ -50,8 +53,21 @@ volunteerservice: Volunteerservice;
   this.volunteerservice = volunteerservice;
   }
 
+
     onSubmit() {
         var that = this;
+
+        // first party logic
+        if (this.enterPartyAffiliationFromList!=="other"){
+               this.enterOtherPartyAffiliation=null;
+               this.enterPartyAffiliation=this.enterPartyAffiliationFromList;
+           }
+
+           if (this.enterPartyAffiliationFromList=="other" && this.enterOtherPartyAffiliation!==null){
+                this.enterPartyAffiliation=this.enterOtherPartyAffiliation;
+            }
+        
+        //then fill object
 
                     this.newVolunteer =
                     {
@@ -122,30 +138,34 @@ volunteerservice: Volunteerservice;
             }
 
            onChangeEmail(value){
-           this.enterPartyAffiliation = value;
+           this.enterEmailAddress = value;
            }
 
            onChangePhoneNumber(value){
-           this.enterPartyAffiliation = value;
+           this.enterPhoneNumber = value;
            }
 
             onChangeAge(value){
-            this.enterSex = value;
+            this.enterAge = value;
             }
 
             onChangeSex(value){
             this.enterSex = value;
             }
 
-           onChangePartyAffiliation(value){
-           this.enterPartyAffiliation = value;
+           onChangePartyAffiliationFromList(value){
+           this.enterPartyAffiliationFromList = value;
+           /*if (this.enterPartyAffiliationFromList!=="other"){
+               this.enterOtherPartyAffiliation=null;
+               this.enterPartyAffiliation=this.enterPartyAffiliationFromList;
+           }*/
            }
 
-           onChangeOtherPartyAffiliation(value){
+            onChangeOtherPartyAffiliation(value){
             this.enterOtherPartyAffiliation = value;
-            if (this.enterOtherPartyAffiliation!==null){
+             /*if (this.enterPartyAffiliationFromList=="other" && this.enterOtherPartyAffiliation!==null){
                 this.enterPartyAffiliation=this.enterOtherPartyAffiliation;
-            }
+            }*/
             }
 
             onChangePasscode1(value){
@@ -161,4 +181,5 @@ volunteerservice: Volunteerservice;
 
 }
 
-/* Thank you for registering to volunteer on election day! Now all you need to do is find a polling location near you and sign up for one or more shifts. */
+/* Thank you for registering to volunteer on election day! Now all you need to do is find a polling location near you and sign up for one or more shifts. 
+*/  

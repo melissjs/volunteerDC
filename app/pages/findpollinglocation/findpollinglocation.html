@@ -10,11 +10,12 @@
 
 <ion-content padding>
 
-      
+        
       
 
-      
-       <ion-card padding (click)="showStationDetails(item);" *ngFor="let item of (stations)" style="cursor:pointer">
+      <ion-searchbar [(ngModel)]="query"></ion-searchbar> 
+       <!--<ion-card padding style="cursor:pointer" (click)="showStationDetails(item);" *ngFor="let item of (stations) | searchpipe:query"> -->
+         <ion-card padding style="cursor:pointer" (click)="showStationDetails(item);" *ngFor="let item of (stations)"> 
        <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
        </ion-card>
       

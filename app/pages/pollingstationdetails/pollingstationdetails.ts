@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 
+// to nav to
 import { ConfirmationPage } from '../confirmation/confirmation';
+
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
 import { Volunteer} from '../../volunteer.ts';
-import { Team } from '../../team.ts';
+//import { Team } from '../../team.ts';
 import { PollingStation } from '../../pollingstation.ts';
 
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
@@ -13,13 +15,13 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
 
 @Component({
   templateUrl: 'build/pages/pollingstationdetails/pollingstationdetails.html',
-  inputs: ['pollingstation', 'volunteer', 'team'],
+  inputs: ['pollingstation', 'volunteer'],
   directives: [PollingstationComponent],
   //providers: [Pollingstationservice]
 })
       export class PollingstationdetailsPage {
       currentVolunteer: Volunteer; 
-      currentTeam: Team;
+      //currentTeam: Team;
       stations: PollingStation[];
       pollingStationService: Pollingstationservice;
 
