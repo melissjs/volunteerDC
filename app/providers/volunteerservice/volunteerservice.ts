@@ -15,7 +15,7 @@ export class Volunteerservice {
 currentVolunteer: Volunteer;
 
   constructor() {
-    //this.currentVolunteer = null;
+    this.currentVolunteer = null;
   }
   
   
@@ -26,7 +26,7 @@ currentVolunteer: Volunteer;
       this.currentVolunteer = value;
       }
 
-       getNewVolunteer(value){
+       getNewVolunteer(){
      return this.currentVolunteer;
       }
 
@@ -37,6 +37,12 @@ currentVolunteer: Volunteer;
       deleteCurrentVolunteerFromList(value){
      
       }
+
+      /*checkCurrentVolunteerExists(){
+      if(this.currentVolunteer !== null){
+        return true;
+      }
+      }*/
 
 }
 

@@ -67,8 +67,15 @@
              
         </ion-card>  
 
-  <button type="submit" (click)="onSubmit()" block large>
-    Add Location
+<!--for  registered-->
+  <button *ngIf!="currentVolunteerHere" type="submit" (click)="onSubmit()" block large disabled >
+    Register to add a location
   </button>
+
+<!--for non registered-->
+  <button *ngIf="currentVolunteerHere" type="submit" (click)="onSubmit()" block large >
+    Add Location 
+  </button>
+
 
 </ion-content>
