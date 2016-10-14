@@ -13,6 +13,7 @@ import { VOLUNTEERS } from '../../volunteerlist.ts';
 @Injectable()
 export class Volunteerservice {
 currentVolunteer: Volunteer;
+exposedYesOrNo: string;
 
   constructor() {
     this.currentVolunteer = null;
@@ -37,6 +38,18 @@ currentVolunteer: Volunteer;
       deleteCurrentVolunteerFromList(value){
      
       }
+
+      isEmailExposed(passedVolunteer){
+      this.currentVolunteer = passedVolunteer;
+      if(this.currentVolunteer.exposeEmail == true){
+      this.exposedYesOrNo = "Yes";
+      }
+
+      if(this.currentVolunteer.exposeEmail == false){
+      this.exposedYesOrNo = "No";
+      }
+      return this.exposedYesOrNo;
+      } 
 
       /*checkCurrentVolunteerExists(){
       if(this.currentVolunteer !== null){

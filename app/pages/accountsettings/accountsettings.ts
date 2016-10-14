@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 import { Volunteer} from '../../volunteer.ts';
 //import {VotePage} from '../vote/vote';
 
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts'
+
 
 @Component({
   templateUrl: 'build/pages/accountsettings/accountsettings.html',
@@ -16,15 +18,18 @@ import { Volunteer} from '../../volunteer.ts';
 export class AccountsettingsPage {
 
 currentVolunteer: Volunteer; 
+exposedYesOrNo: string;
+volunteerservice: Volunteerservice;
 
-
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, volunteerservice: Volunteerservice) {
       this.navCtrl = navCtrl;
+      this.volunteerservice = volunteerservice;
 
       this.currentVolunteer = 
       {
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
+        "exposeEmail": false,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -36,6 +41,9 @@ currentVolunteer: Volunteer;
         "totalAnomalyRecords": 0,
         "totalAmendmentRecords": 1
       }
+
+      this.exposedYesOrNo = this.volunteerservice.isEmailExposed(this.currentVolunteer);
+
 
   }
 

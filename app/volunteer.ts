@@ -1,6 +1,7 @@
 export interface Volunteer {
 fullName: string;
 emailAddress: string;
+exposeEmail: boolean;
 phoneNumber: string;
 age: number;
 sex: string;

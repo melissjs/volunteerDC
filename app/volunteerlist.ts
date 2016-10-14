@@ -5,6 +5,7 @@ import { Volunteer } from './volunteer.ts'
 export var VOLUNTEERS: Volunteer[] = [{         
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
+        "exposeEmail": true,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -19,7 +20,8 @@ export var VOLUNTEERS: Volunteer[] = [{
         },      {
                 
         "fullName":"James Patrick",
-        "emailAddress":"melissjs@gmail.com",
+        "emailAddress":"jp@gmail.com",
+        "exposeEmail": true,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -35,6 +37,7 @@ export var VOLUNTEERS: Volunteer[] = [{
                 
         "fullName":"Janice Row",
         "emailAddress":"melissjs@gmail.com",
+        "exposeEmail": false,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -49,6 +52,7 @@ export var VOLUNTEERS: Volunteer[] = [{
         }, {
         "fullName":"Eric Hillis",
         "emailAddress":"eric@hillis.com",
+        "exposeEmail": true,
         "phoneNumber":"310-222-3333",
         "age": 40,
         "sex": "Male",

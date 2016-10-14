@@ -14,6 +14,7 @@ export class UnregisteredsigninPage {
 newVolunteer: Volunteer;
 enterFullName: string;
 enterEmailAddress: string;
+enterExposeEmail: boolean;
 enterPhoneNumber: string;
 enterAge: number;
 enterSex: string;
@@ -37,6 +38,7 @@ volunteers: Volunteer[];
   this.newVolunteer = null;
   this.enterFullName = null;
   this.enterEmailAddress = null;
+  this.enterExposeEmail = false;
   this.enterPhoneNumber = null;
   this.enterAge = null;
   this.enterSex = null;
@@ -58,7 +60,6 @@ volunteers: Volunteer[];
 
     onSubmit() {
         var that = this;
-
         // first party logic
         if (this.enterPartyAffiliationFromList!=="other"){
                this.enterOtherPartyAffiliation=null;
@@ -75,6 +76,7 @@ volunteers: Volunteer[];
                     {
                         fullName: this.enterFullName,
                         emailAddress: this.enterEmailAddress,
+                        exposeEmail: this.enterExposeEmail,
                         phoneNumber: this.enterPhoneNumber,
                         age: this.enterAge,
                         sex: this.enterSex,
@@ -103,7 +105,7 @@ volunteers: Volunteer[];
 
                     this.volunteerservice.setNewVolunteer(this.newVolunteer);
 
-                     console.log(this.newVolunteer);
+                     console.log('hello ' + this.newVolunteer.fullName);
 
                      //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
                      this.volunteers.push(this.newVolunteer);
@@ -144,7 +146,45 @@ volunteers: Volunteer[];
 
            onChangeEmail(value){
            this.enterEmailAddress = value;
+
            }
+
+        askToExposeEmail(){
+
+                    
+                let confirm = this.alertCtrl.create({
+                title: 'Would you like to expose your email address to your team?',
+                message: 'This will help you organize with each other before and on election day. You can change this setting later in your account.',
+                buttons: [
+                    {
+                    text: 'No',
+                    handler: () => {
+                        this.enterExposeEmail = false;
+                        console.log('Disagree clicked');
+                    }
+                    },
+                    {
+                    text: 'Yes',
+                    handler: () => {
+                        this.enterExposeEmail = true;
+                        console.log('Agree clicked' + this.enterExposeEmail);
+                        
+                    }
+                    }
+                ]
+                });
+                confirm.present();
+            
+            
+        /*if (this.enterEmailAddress !== null){
+                    let alert = this.alertCtrl.create({
+                    title: 'Expose Email to Team?',
+                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+                    buttons: ['OK'] 
+                });
+                alert.present();}*/
+        }
+
 
            onChangePhoneNumber(value){
            this.enterPhoneNumber = value;

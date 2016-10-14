@@ -28,6 +28,7 @@ export class Searchpipe {
                 return eachItem['streetAddress'].toLowerCase().includes(lowerModifier) ||                
                     eachItem['zip'].toString().includes(lowerModifier) ||
                     eachItem['city'].toLowerCase().includes(lowerModifier) ||
+                    eachItem['precinctNumber'].toLowerCase().includes(lowerModifier) ||
                     eachItem['state'].toLowerCase().includes(lowerModifier); 
             });
         }

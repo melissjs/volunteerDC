@@ -14,6 +14,7 @@ export var STATIONS: PollingStation[] = [{
                 
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
+        "exposeEmail": true,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -28,7 +29,8 @@ export var STATIONS: PollingStation[] = [{
         },      {
                 
         "fullName":"James Patrick",
-        "emailAddress":"melissjs@gmail.com",
+        "emailAddress":"jp@gmail.com",
+        "exposeEmail": true,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -43,7 +45,8 @@ export var STATIONS: PollingStation[] = [{
         }, {
                 
         "fullName":"Janice Row",
-        "emailAddress":"melissjs@gmail.com",
+        "emailAddress":"jancie@gmail.com",
+        "exposeEmail": false,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -58,6 +61,7 @@ export var STATIONS: PollingStation[] = [{
         }, {
         "fullName":"Eric Hillis",
         "emailAddress":"eric@hillis.com",
+        "exposeEmail": true,
         "phoneNumber":"310-222-3333",
         "age": 40,
         "sex": "Male",
@@ -85,6 +89,7 @@ export var STATIONS: PollingStation[] = [{
                 
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
+        "exposeEmail": true,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -99,6 +104,7 @@ export var STATIONS: PollingStation[] = [{
         },      {
         "fullName":"Eric Hillis",
         "emailAddress":"eric@hillis.com",
+        "exposeEmail": true,
         "phoneNumber":"310-222-3333",
         "age": 40,
         "sex": "Male",
@@ -125,6 +131,7 @@ export var STATIONS: PollingStation[] = [{
                 
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
+        "exposeEmail": true,
         "phoneNumber":"602-524-5453",
         "age": 35,
         "sex": "Female",
@@ -139,6 +146,7 @@ export var STATIONS: PollingStation[] = [{
         },      {
         "fullName":"Eric Hillis",
         "emailAddress":"eric@hillis.com",
+        "exposeEmail": true,
         "phoneNumber":"310-222-3333",
         "age": 40,
         "sex": "Male",
