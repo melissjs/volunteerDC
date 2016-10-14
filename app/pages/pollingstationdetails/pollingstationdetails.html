@@ -93,7 +93,7 @@
  <p>Total Remaining Shifts To Fill: {{pollingStationService.selectedStation.totalRemainingShiftsToFill}}</p>  
 </ion-card>
 
-<ion-card padding>
+<ion-card padding >
   <h1>Select all shifts you want to volunteer for:</h1>
   <ion-item>
     <ion-label>Early Morning (5:00 AM - 8:15 AM)</ion-label>
@@ -121,8 +121,14 @@
   </ion-item>
 </ion-card>
 
-<button type="submit" (click)="onSubmit()" block large>
+            <!-- for  reg -->
+            <button type="submit" (click)="onSubmit()" block large *ngIf="currentVolunteerHere">
   			    Submit
+           </button>
+
+           <!-- for non reg -->
+           <button type="submit" (click)="onSubmit()" block large *ngIf!="currentVolunteerHere" disabled>
+  			    Register to sign up for shifts
            </button>
       
 </ion-content>

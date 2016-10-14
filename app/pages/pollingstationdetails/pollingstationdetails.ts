@@ -11,6 +11,7 @@ import { Volunteer} from '../../volunteer.ts';
 import { PollingStation } from '../../pollingstation.ts';
 
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts';
 
 
 @Component({
@@ -20,10 +21,11 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
   //providers: [Pollingstationservice]
 })
       export class PollingstationdetailsPage {
-      currentVolunteer: Volunteer; 
+      currentVolunteerHere: Volunteer; 
       //currentTeam: Team;
       stations: PollingStation[];
       pollingStationService: Pollingstationservice;
+      volunteerservice: Volunteerservice;
 
       eM: boolean = false;
       lM: boolean = false;
@@ -32,8 +34,11 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
       eE: boolean = false;
       lE: boolean = false;
 
-      constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, private alertCtrl: AlertController ) {
+      constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController ) {
       this.pollingStationService = pollingStationService;
+      this.volunteerservice = volunteerservice;
+      //this.currentVolunteerHere = null;
+      this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
       //var passedStations = this.pollingStationService.selectedStation;
         }
 

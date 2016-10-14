@@ -10,6 +10,7 @@ import { Volunteer} from '../../volunteer.ts';
 
 // services
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts';
 
 
 @Component({
@@ -31,8 +32,10 @@ associatedVolunteerList: Volunteer[];
 totalRegisteredVolunteers: number;
 totalNeededVolunteers: number;
 totalRemainingShiftsToFill: number;
+currentVolunteerHere: Volunteer;
+volunteerservice: Volunteerservice;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
   this.pollingStationService = pollingStationService;
   this.stations = pollingStationService.getStations();
@@ -46,6 +49,8 @@ totalRemainingShiftsToFill: number;
   this.totalRegisteredVolunteers = null;
   this.totalNeededVolunteers = null;
   this.totalRemainingShiftsToFill = null;
+  this.volunteerservice = volunteerservice;
+  this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
   }
 
 
