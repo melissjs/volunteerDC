@@ -35,6 +35,27 @@ constructor(){}
     //return this.selectedStation;
   }
 
+
+  isCurrentVolunteerInArray(passedVolunteer){
+  for (var i = 0; i < this.selectedStation.associatedVolunteerList.length; i++) {
+                if (this.selectedStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAddress){
+                  console.log(this.selectedStation.associatedVolunteerList[i].emailAddress + passedVolunteer.emailAddress);
+                  return true;
+                  } else {
+                    return false;
+                  }
+              }
+  }
+
+  removeCurrentVolunteerFromArray(passedVolunteer){
+      for (var i = 0; i < this.selectedStation.associatedVolunteerList.length; i++) {
+                if (this.selectedStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAdress){
+                this.selectedStation.associatedVolunteerList.splice(i, 1);
+                }
+              }
+  }
+
+
       addVolunteerToAssociatedVolunteerList(passedVolunteer){
       this.selectedStation.associatedVolunteerList.push(passedVolunteer);
     //return this.selectedStation;

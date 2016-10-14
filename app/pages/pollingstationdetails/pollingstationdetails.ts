@@ -183,9 +183,18 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
 
           // add volunteer to associatedVolunteerList in station object
+         if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
+           //console.log('false, not yet in array' + this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere));
           this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
-          //console.log(this.currentStation);
-
+          //console.log(this.pollingStationService.selectedStation.associatedVolunteerList);
+          } 
+          
+          
+          /*else {
+            this.pollingStationService.removeCurrentVolunteerFromArray(this.currentVolunteerHere);
+          }
+          console.log(this.pollingStationService.selectedStation.associatedVolunteerList);
+*/
 
           // ###### left to do: push station and volunteer obejcts to appropriate arrays??
 
