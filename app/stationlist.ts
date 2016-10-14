@@ -1,8 +1,9 @@
-import { PollingStation } from './pollingstation.ts'
+import { PollingStation } from './pollingstation'
 
 
 
 export var STATIONS: PollingStation[] = [{
+        "pollingStationKey": "ps1",
         "precinctNumber": "9001A",
         "streetAddress": "515 Almont Drive",
         "unitNumber": "11",
@@ -10,78 +11,13 @@ export var STATIONS: PollingStation[] = [{
         "city": "Los Angeles",
         "state": "California",
         "zip": 90025,
-        "associatedVolunteerList": [{
-                
-        "fullName":"Melissa Schwartz",
-        "emailAddress":"melissjs@gmail.com",
-        "exposeEmail": true,
-        "phoneNumber":"602-524-5453",
-        "age": 35,
-        "sex": "Female",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Early Morning", "Late Evening"],
-        "passcode": "Eric help me!",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      
-        },      {
-                
-        "fullName":"James Patrick",
-        "emailAddress":"jp@gmail.com",
-        "exposeEmail": true,
-        "phoneNumber":"602-524-5453",
-        "age": 35,
-        "sex": "Female",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Early Afternoon", "Late Afternoon"],
-        "passcode": "Eric help me!",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      
-        }, {
-                
-        "fullName":"Janice Row",
-        "emailAddress":"jancie@gmail.com",
-        "exposeEmail": false,
-        "phoneNumber":"602-524-5453",
-        "age": 35,
-        "sex": "Female",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Early Evening", "Late Evening"],
-        "passcode": "Eric help me!",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      
-        }, {
-        "fullName":"Eric Hillis",
-        "emailAddress":"eric@hillis.com",
-        "exposeEmail": true,
-        "phoneNumber":"310-222-3333",
-        "age": 40,
-        "sex": "Male",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Late Morning"],
-        "passcode": "Code",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      }],
-        "totalRegisteredVolunteers": 2,
-        "totalNeededVolunteers": 4,
-        "totalRemainingShiftsToFill": 32
+        "associatedVolunteerKeyList": ["v1","v4"]
         
-      },    {
+      },    
+      
+      
+      
+      { "pollingStationKey": "ps2",
         "precinctNumber": "9001b",
         "streetAddress": "5445 Roxbery Lane",
         "unitNumber": "11",
@@ -89,43 +25,12 @@ export var STATIONS: PollingStation[] = [{
         "city": "Los Angeles",
         "state": "California",
         "zip": 90025,
-        "associatedVolunteerList": [{
-                
-        "fullName":"Melissa Schwartz",
-        "emailAddress":"melissjs@gmail.com",
-        "exposeEmail": true,
-        "phoneNumber":"602-524-5453",
-        "age": 35,
-        "sex": "Female",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Morning", "Evening"],
-        "passcode": "Eric help me!",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
+        "associatedVolunteerKeyList": ["v3","v2"]
+      },     
       
-        },      {
-        "fullName":"Eric Hillis",
-        "emailAddress":"eric@hillis.com",
-        "exposeEmail": true,
-        "phoneNumber":"310-222-3333",
-        "age": 40,
-        "sex": "Male",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Afternoon"],
-        "passcode": "Code",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      }],
-        "totalRegisteredVolunteers": 2,
-        "totalNeededVolunteers": 4,
-        "totalRemainingShiftsToFill": 32
-      },      {
+      
+      
+       { "pollingStationKey": "ps3",
         "precinctNumber": "1001b",
         "streetAddress": "4209 Raymond Road",
         "unitNumber": "11",
@@ -133,40 +38,6 @@ export var STATIONS: PollingStation[] = [{
         "city": "Marina Del Rey",
         "state": "California",
         "zip": 90025,
-        "associatedVolunteerList": [{
-                
-        "fullName":"Melissa Schwartz",
-        "emailAddress":"melissjs@gmail.com",
-        "exposeEmail": true,
-        "phoneNumber":"602-524-5453",
-        "age": 35,
-        "sex": "Female",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Morning", "Evening"],
-        "passcode": "Eric help me!",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      
-        },      {
-        "fullName":"Eric Hillis",
-        "emailAddress":"eric@hillis.com",
-        "exposeEmail": true,
-        "phoneNumber":"310-222-3333",
-        "age": 40,
-        "sex": "Male",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Afternoon"],
-        "passcode": "Code",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      }],
-        "totalRegisteredVolunteers": 2,
-        "totalNeededVolunteers": 4, 
-         "totalRemainingShiftsToFill": 32
+        "associatedVolunteerKeyList": [],
+
       }]

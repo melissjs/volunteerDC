@@ -3,12 +3,14 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 // interfaces
-import { Volunteer} from '../../volunteer.ts';
-import { Team } from '../../team.ts';
-import { PollingStation } from '../../pollingstation.ts';
+import { Volunteer} from '../../volunteer';
+import { PollingStation } from '../../pollingstation';
 
 // station json array
-import { VOLUNTEERS } from '../../volunteerlist.ts';
+import { VOLUNTEERS } from '../../volunteerlist';
+
+//other service
+import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
 
 
@@ -17,29 +19,35 @@ export class Volunteerservice {
 currentVolunteer: Volunteer;
 exposedYesOrNo: string;
 oldStation: PollingStation;
+pollingstationservice: Pollingstationservice;
 
-  constructor() {
+  constructor(pollingstationservice: Pollingstationservice) {
     this.currentVolunteer = null;
+    this.pollingstationservice = pollingstationservice;
   }
   
   
       getVolunteers() { return VOLUNTEERS;  }
+
+      generateVolunteerKey(){
+        return 'v'+(this.getVolunteers.length+1);
+      }
   
       setNewVolunteer(value){
       var that = this;
       this.currentVolunteer = value;
       }
 
-       getNewVolunteer(){
+      getNewVolunteer(){
      return this.currentVolunteer;
       }
 
       setPollingStationForVolunteer(value){
-      this.currentVolunteer.pollingStation = value;
+      this.currentVolunteer.associatedPollingStationKey = value.pollingStationKey;
       }
 
       hasPollingStation(passedVolunteer){
-        if(this.currentVolunteer.pollingStation != null)
+        if(this.currentVolunteer.associatedPollingStationKey != null)
         return true;
       }
 
@@ -50,13 +58,7 @@ oldStation: PollingStation;
       }
 
 
-       /* setOldStation(passedString){
-        this.oldStation = 
-      }
 
-       getOldStation(passedString){
-        return this.oldStation;
-      }*/
 
       addCurrentVolunteerToList(value){
      

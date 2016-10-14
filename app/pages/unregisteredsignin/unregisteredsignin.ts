@@ -3,8 +3,8 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 import {RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
 
-import { Volunteer} from '../../volunteer.ts';
-import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts'
+import { Volunteer} from '../../volunteer';
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice'
 //import { VOLUNTEERS} from '../../volunteerlist.ts';
 
 @Component({
@@ -12,6 +12,7 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 })
 export class UnregisteredsigninPage {
 newVolunteer: Volunteer;
+volunteerKey: string;
 enterFullName: string;
 enterEmailAddress: string;
 enterExposeEmail: boolean;
@@ -36,6 +37,7 @@ volunteers: Volunteer[];
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
   this.newVolunteer = null;
+  this.volunteerKey = this.volunteerservice.generateVolunteerKey();
   this.enterFullName = null;
   this.enterEmailAddress = null;
   this.enterExposeEmail = false;
@@ -74,6 +76,7 @@ volunteers: Volunteer[];
 
                     this.newVolunteer =
                     {
+                        volunteerKey: this.volunteerKey,
                         fullName: this.enterFullName,
                         emailAddress: this.enterEmailAddress,
                         exposeEmail: this.enterExposeEmail,
@@ -83,25 +86,13 @@ volunteers: Volunteer[];
                         partyAffiliation: this.enterPartyAffiliation,
                         shifts: this.enterShifts,
                         passcode: this.enterPasscode,
+                        associatedPollingStationKey: null,
                         totalRecords: null,
                         totalVoteRecords: null,
                         totalAnomalyRecords: null,
                         totalAmendmentRecords: null
                     } 
-                    /*VOLUNTEERS.push({
-                        fullName: this.enterFullName,
-                        emailAddress: this.enterEmailAddress,
-                        phoneNumber: this.enterPhoneNumber,
-                        age: this.enterAge,
-                        sex: this.enterSex,
-                        partyAffiliation: this.enterPartyAffiliation,
-                        shifts: this.enterShifts,
-                        passcode: this.enterPasscode,
-                        totalRecords: null,
-                        totalVoteRecords: null,
-                        totalAnomalyRecords: null,
-                        totalAmendmentRecords: null
-                    });*/
+                    
 
                     this.volunteerservice.setNewVolunteer(this.newVolunteer);
 

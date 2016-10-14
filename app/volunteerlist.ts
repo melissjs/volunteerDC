@@ -1,8 +1,9 @@
-import { Volunteer } from './volunteer.ts'
+import { Volunteer } from './volunteer'
 
 
 
-export var VOLUNTEERS: Volunteer[] = [{         
+export var VOLUNTEERS: Volunteer[] = [{
+        "volunteerKey": "v1",         
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
         "exposeEmail": true,
@@ -12,14 +13,14 @@ export var VOLUNTEERS: Volunteer[] = [{
         "partyAffiliation": "No Party Preference",    
         "shifts": ["Early Morning", "Late Evening"],
         "passcode": "Eric help me!",
-        "pollingStation": null,
+        "associatedPollingStationKey": "ps1",
         "totalRecords": 6,
         "totalVoteRecords": 5,
         "totalAnomalyRecords": 0,
         "totalAmendmentRecords": 1
       
         },      {
-                
+        "volunteerKey": "v2",        
         "fullName":"James Patrick",
         "emailAddress":"jp@gmail.com",
         "exposeEmail": true,
@@ -29,14 +30,14 @@ export var VOLUNTEERS: Volunteer[] = [{
         "partyAffiliation": "No Party Preference",    
         "shifts": ["Early Afternoon", "Late Afternoon"],
         "passcode": "Eric help me!",
-        "pollingStation": null,
+        "associatedPollingStationKey": "ps2",
         "totalRecords": 6,
         "totalVoteRecords": 5,
         "totalAnomalyRecords": 0,
         "totalAmendmentRecords": 1
       
         }, {
-                
+        "volunteerKey": "v3",
         "fullName":"Janice Row",
         "emailAddress":"melissjs@gmail.com",
         "exposeEmail": false,
@@ -46,13 +47,14 @@ export var VOLUNTEERS: Volunteer[] = [{
         "partyAffiliation": "No Party Preference",    
         "shifts": ["Early Evening", "Late Evening"],
         "passcode": "Eric help me!",
-        "pollingStation": null,
+        "associatedPollingStationKey": "ps2",
         "totalRecords": 6,
         "totalVoteRecords": 5,
         "totalAnomalyRecords": 0,
         "totalAmendmentRecords": 1
       
         }, {
+        "volunteerKey": "v4",
         "fullName":"Eric Hillis",
         "emailAddress":"eric@hillis.com",
         "exposeEmail": true,
@@ -62,7 +64,7 @@ export var VOLUNTEERS: Volunteer[] = [{
         "partyAffiliation": "No Party Preference",    
         "shifts": ["Late Morning"],
         "passcode": "Code",
-        "pollingStation": null,
+        "associatedPollingStationKey": "ps1",
         "totalRecords": 6,
         "totalVoteRecords": 5,
         "totalAnomalyRecords": 0,

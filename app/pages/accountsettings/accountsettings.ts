@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { Volunteer} from '../../volunteer.ts';
+import { Volunteer} from '../../volunteer';
 //import {VotePage} from '../vote/vote';
 
-import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts'
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice'
 
 
 @Component({
@@ -28,23 +28,6 @@ volunteerservice: Volunteerservice;
       this.currentVolunteer = volunteerservice.getNewVolunteer();
         }
       
-      /*this.currentVolunteer = 
-      {
-        "fullName":"Melissa Schwartz",
-        "emailAddress":"melissjs@gmail.com",
-        "exposeEmail": false,
-        "phoneNumber":"602-524-5453",
-        "age": 35,
-        "sex": "Female",
-        "partyAffiliation": "No Party Preference",    
-        "shifts": ["Morning", "Evening"],
-        "passcode": "Eric help me!",
-        "pollingStation": null,
-        "totalRecords": 6,
-        "totalVoteRecords": 5,
-        "totalAnomalyRecords": 0,
-        "totalAmendmentRecords": 1
-      }*/
 
       // get exposed value
       if(volunteerservice.currentVolunteer!==null){

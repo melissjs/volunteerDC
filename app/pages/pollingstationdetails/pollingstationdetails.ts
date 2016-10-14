@@ -6,12 +6,12 @@ import { ConfirmationPage } from '../confirmation/confirmation';
 
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
-import { Volunteer} from '../../volunteer.ts';
+import { Volunteer} from '../../volunteer';
 //import { Team } from '../../team.ts';
-import { PollingStation } from '../../pollingstation.ts';
+import { PollingStation } from '../../pollingstation';
 
-import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
-import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts';
+import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 
 
 @Component({
@@ -176,9 +176,9 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
           }
 
            //check for selected station, remove volunteer from old station
-           if(this.volunteerservice.currentVolunteer.pollingStation && this.volunteerservice.currentVolunteer.pollingStation!=this.currentStation){
-           this.pollingStationService.removeVolunteerFromAssociatedVolunteerList(this.volunteerservice.currentVolunteer, this.volunteerservice.currentVolunteer.pollingStation);   
-           console.log(this.volunteerservice.currentVolunteer.pollingStation.associatedVolunteerList);
+           if(this.volunteerservice.currentVolunteer.associatedPollingStationKey && this.volunteerservice.currentVolunteer.associatedPollingStationKey!=this.currentStation.pollingStationKey){
+           this.pollingStationService.removeVolunteerFromAssociatedVolunteerList(this.volunteerservice.currentVolunteer, this.volunteerservice.currentVolunteer.associatedPollingStationKey);   
+           //console.log(this.volunteerservice.currentVolunteer.pollingStation.associatedVolunteerList);
            }
 
            //add polling station to volunteer object
