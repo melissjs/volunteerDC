@@ -12,7 +12,7 @@
                
         <ion-content padding>
 
-        <ion-card *ngIf="currentVolunteer && volunteerservice.hasPollingStation(currentVolunteer)">
+        <ion-card padding *ngIf="currentVolunteer && volunteerservice.hasPollingStation(currentVolunteer)">
           <ion-list>
             <ion-list-header>
               Polling Station Team Information
@@ -23,12 +23,12 @@
         </ion-card>
 
 
-<ion-card *ngIf!="currentVolunteer">
+<ion-card padding *ngIf!="currentVolunteer">
   Register to generate account settings.
 </ion-card>
 
 
-        <ion-card *ngIf="currentVolunteer">
+        <ion-card padding *ngIf="currentVolunteer">
             <form name="signinnewvolunteer" novalidate>
 <ion-list>
 <ion-list-header>Account Settings</ion-list-header>

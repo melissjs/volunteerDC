@@ -139,6 +139,14 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
           onSubmit(){
 
+            //clear shift arrays
+            this.volunteerservice.currentVolunteer.shifts.splice(0, this.volunteerservice.currentVolunteer.shifts.length);
+            
+            //check to see if polling station conflict (needed?)
+            
+                         
+
+            
             
 
           // add shift(s) to volunteer object
@@ -164,7 +172,7 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
           if(this.lE){
             this.volunteerservice.setShifts('Late Evening');
-            //console.log(this.currentVolunteerHere);
+            console.log(this.currentVolunteerHere);
           }
 
 
