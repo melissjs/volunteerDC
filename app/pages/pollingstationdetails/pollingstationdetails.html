@@ -83,6 +83,8 @@
         <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
         <span *ngIf="checkLateEvening(item.shifts)==true">
         {{item.fullName}}</span>
+        <!--<span *ngIf="(checkLateEvening(item.shifts)==true) && (volunteerservice.isEmailExposed(item)=='Yes')">
+        {{item.emailAddress}}</span>-->
       </p>
 </div>
 </ion-card>

@@ -1,3 +1,5 @@
+import { PollingStation} from './pollingstation.ts';
+
 export interface Volunteer {
 fullName: string;
 emailAddress: string;
@@ -8,6 +10,7 @@ sex: string;
 partyAffiliation: string;
 shifts?: string[];
 passcode: string;
+pollingStation?: PollingStation;
 totalRecords: number;
 totalVoteRecords: number;
 totalAnomalyRecords: number;

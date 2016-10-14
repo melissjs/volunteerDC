@@ -44,7 +44,7 @@ volunteers: Volunteer[];
   this.enterSex = null;
   this.enterPartyAffiliation = null;
   this.enterPartyAffiliationFromList = null;
-  this.enterShifts = null;
+  this.enterShifts = [];
   this.enterPasscode = null;
   this.enterPasscode1 = null;
   this.enterPasscode2 = null;

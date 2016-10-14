@@ -29,6 +29,17 @@ constructor(){}
     //return this.selectedStation;
   }
 
+    getStation(){
+    var that = this;
+    return this.selectedStation;
+    //return this.selectedStation;
+  }
+
+      addVolunteerToAssociatedVolunteerList(passedVolunteer){
+      this.selectedStation.associatedVolunteerList.push(passedVolunteer);
+    //return this.selectedStation;
+  }
+
 printSelectedStation(){
   console.log('from service' + this.selectedStation.streetAddress)
 }

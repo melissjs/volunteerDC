@@ -24,8 +24,9 @@ volunteerservice: Volunteerservice;
   constructor(private navCtrl: NavController, volunteerservice: Volunteerservice) {
       this.navCtrl = navCtrl;
       this.volunteerservice = volunteerservice;
+      this.currentVolunteer = volunteerservice.getNewVolunteer();
 
-      this.currentVolunteer = 
+      /*this.currentVolunteer = 
       {
         "fullName":"Melissa Schwartz",
         "emailAddress":"melissjs@gmail.com",
@@ -36,14 +37,17 @@ volunteerservice: Volunteerservice;
         "partyAffiliation": "No Party Preference",    
         "shifts": ["Morning", "Evening"],
         "passcode": "Eric help me!",
+        "pollingStation": null,
         "totalRecords": 6,
         "totalVoteRecords": 5,
         "totalAnomalyRecords": 0,
         "totalAmendmentRecords": 1
-      }
+      }*/
 
+      // get exposed value
+      
       this.exposedYesOrNo = this.volunteerservice.isEmailExposed(this.currentVolunteer);
-
+      
 
   }
 

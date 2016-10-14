@@ -26,6 +26,7 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
       stations: PollingStation[];
       pollingStationService: Pollingstationservice;
       volunteerservice: Volunteerservice;
+      currentStation: PollingStation;
 
       eM: boolean = false;
       lM: boolean = false;
@@ -39,7 +40,10 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
       this.volunteerservice = volunteerservice;
       //this.currentVolunteerHere = null;
       this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
+      this.currentStation = this.pollingStationService.getStation();
       //var passedStations = this.pollingStationService.selectedStation;
+
+      //console.log(pollingStationService.selectedStation.associatedVolunteerList[1].exposeEmail);
         }
 
 
@@ -135,10 +139,47 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
           onSubmit(){
 
+            
+
           // add shift(s) to volunteer object
+            if(this.eM){
+            this.volunteerservice.setShifts('Early Morning');
+          }
+
+          if(this.lM){
+            this.volunteerservice.setShifts('Late Morning');
+          }
+
+            if(this.eA){
+            this.volunteerservice.setShifts('Early Afternoon');
+          }
+
+          if(this.lA){
+            this.volunteerservice.setShifts('Late Afternoon');
+          }
+
+            if(this.eE){
+            this.volunteerservice.setShifts('Early Evening');
+          }
+
+          if(this.lE){
+            this.volunteerservice.setShifts('Late Evening');
+            //console.log(this.currentVolunteerHere);
+          }
+
+
+
+           //add polling station to volunteer object
+           this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
+           //console.log(this.currentVolunteerHere);
 
 
           // add volunteer to associatedVolunteerList in station object
+          this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
+          //console.log(this.currentStation);
+
+
+          // ###### left to do: push station and volunteer obejcts to appropriate arrays??
 
 
 

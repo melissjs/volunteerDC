@@ -31,6 +31,21 @@ exposedYesOrNo: string;
      return this.currentVolunteer;
       }
 
+      setPollingStationForVolunteer(value){
+      this.currentVolunteer.pollingStation = value;
+      }
+
+      hasPollingStation(passedVolunteer){
+        if(this.currentVolunteer.pollingStation != null)
+        return true;
+      }
+
+      setShifts(passedString){
+        //this.currentVolunteer.shifts = passedString;
+        
+        this.currentVolunteer.shifts.push(passedString);
+      }
+
       addCurrentVolunteerToList(value){
      
       }
@@ -50,6 +65,8 @@ exposedYesOrNo: string;
       }
       return this.exposedYesOrNo;
       } 
+
+    
 
       /*checkCurrentVolunteerExists(){
       if(this.currentVolunteer !== null){
