@@ -90,7 +90,7 @@ volunteerservice: Volunteerservice;
 
 
         // show alert
-            var that = this;
+            var that = this; 
             if (this !== null){
             let alert = this.alertCtrl.create({
                         title: 'Addition Successful',

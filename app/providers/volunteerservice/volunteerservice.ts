@@ -19,7 +19,7 @@ currentVolunteer: Volunteer;
   }
   
   
-  
+      getVolunteers() { return VOLUNTEERS;  }
   
       setNewVolunteer(value){
       var that = this;

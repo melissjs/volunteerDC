@@ -30,6 +30,7 @@ enterPartyAffiliationFromList: string;
 enterOtherPartyAffiliation: string;
 volunteerservice: Volunteerservice;
 party: string;
+volunteers: Volunteer[];
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
@@ -51,6 +52,7 @@ party: string;
   this.enterTotalAmendmentRecords = null;
   this.enterOtherPartyAffiliation = null;
   this.volunteerservice = volunteerservice;
+  this.volunteers = this.volunteerservice.getVolunteers();
   }
 
 
@@ -103,6 +105,9 @@ party: string;
 
                      console.log(this.newVolunteer);
 
+                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
+                     this.volunteers.push(this.newVolunteer);
+                     console.log(this.volunteers);
         
             
         // then

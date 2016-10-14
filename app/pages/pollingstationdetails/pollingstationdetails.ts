@@ -134,6 +134,15 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
 
           onSubmit(){
+
+          // add shift(s) to volunteer object
+
+
+          // add volunteer to associatedVolunteerList in station object
+
+
+
+            // alert
               var that = this;
           try{
             if ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
