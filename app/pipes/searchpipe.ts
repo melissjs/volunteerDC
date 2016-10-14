@@ -18,15 +18,20 @@ export class Searchpipe {
 //pollingstationservice: Pollingstationservice;
 
 
-transform(pipeData, [pipeModifier]){
-  //this.pollingstationservice = pollingstationservice;
-  return pipeData.filter((eachItem)=>{
-    return eachItem['streetAddress'].toLowerCase().includes(pipeModifier.toLowerCase()) ||                
-           eachItem['zip'].toLowerCase().includes(pipeModifier.toLowerCase()) ||
-           eachItem['city'].toLowerCase().includes(pipeModifier.toLowerCase()) ||
-           eachItem['state'].toLowerCase().includes(pipeModifier.toLowerCase()); 
-  });
-  }
+    transform(pipeData, pipeModifier){
+        //this.pollingstationservice = pollingstationservice;
+        if (pipeModifier == null) {
+            return pipeData;
+        } else {
+	    var lowerModifier = pipeModifier.toLowerCase();
+            return pipeData.filter((eachItem)=>{
+                return eachItem['streetAddress'].toLowerCase().includes(lowerModifier) ||                
+                    eachItem['zip'].toString().includes(lowerModifier) ||
+                    eachItem['city'].toLowerCase().includes(lowerModifier) ||
+                    eachItem['state'].toLowerCase().includes(lowerModifier); 
+            });
+        }
+    }
 }
 
 

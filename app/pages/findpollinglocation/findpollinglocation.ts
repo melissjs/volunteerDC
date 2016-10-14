@@ -36,14 +36,17 @@ export class FindpollinglocationPage {
   stations: PollingStation[];
   selectedStation: PollingStation;
   pollingStationService: Pollingstationservice;
-  //searchpipe: Searchpipe;
+  // searchpipe: Searchpipe;
 
   constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice ) {
   var that = this;
   this.navCtrl = navCtrl;
   this.stations = pollingStationService.getStations();
   this.pollingStationService = pollingStationService;
-  //this.searchpipe = searchpipe;
+  // this.searchpipe = searchpipe;
+  console.log('pollingstation=' + this.pollingStationService);
+  console.log('stations=' + this.stations);  
+  // console.log('searchpipe=' + this.searchpipe);  
   }
 
 
