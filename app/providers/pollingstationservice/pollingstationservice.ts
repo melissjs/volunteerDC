@@ -40,7 +40,6 @@ constructor(){}
   isCurrentVolunteerInArray(passedVolunteer){
               for (var i = 0; i < this.selectedStation.associatedVolunteerList.length; i++) {
                           if (this.selectedStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAddress){
-                            console.log(this.selectedStation.associatedVolunteerList[i].emailAddress + passedVolunteer.emailAddress);
                             return true;
                             } 
                 }
