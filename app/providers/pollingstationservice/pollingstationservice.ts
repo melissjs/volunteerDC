@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { PollingStation } from '../../pollingstation.ts';
-//import { Volunteer} from '../../volunteer.ts';
+import { Volunteer} from '../../volunteer.ts';
 //import { Team } from '../../team.ts';
 
 
@@ -17,6 +17,7 @@ import { STATIONS } from '../../stationlist.ts';
 @Injectable()
 export class Pollingstationservice {
 selectedStation: PollingStation;
+oldStation: PollingStation;
 //searchpipe: Searchpipe;
 
 constructor(){}
@@ -37,23 +38,32 @@ constructor(){}
 
 
   isCurrentVolunteerInArray(passedVolunteer){
-  for (var i = 0; i < this.selectedStation.associatedVolunteerList.length; i++) {
-                if (this.selectedStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAddress){
-                  console.log(this.selectedStation.associatedVolunteerList[i].emailAddress + passedVolunteer.emailAddress);
-                  return true;
-                  } else {
-                    return false;
-                  }
-              }
-  }
+              for (var i = 0; i < this.selectedStation.associatedVolunteerList.length; i++) {
+                          if (this.selectedStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAddress){
+                            console.log(this.selectedStation.associatedVolunteerList[i].emailAddress + passedVolunteer.emailAddress);
+                            return true;
+                            } 
+                }
+                   return false; 
+  } 
 
-  removeCurrentVolunteerFromArray(passedVolunteer){
-      for (var i = 0; i < this.selectedStation.associatedVolunteerList.length; i++) {
-                if (this.selectedStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAdress){
-                this.selectedStation.associatedVolunteerList.splice(i, 1);
+  removeVolunteerFromAssociatedVolunteerList(passedVolunteer: Volunteer, passedStation: PollingStation){
+      this.oldStation = passedStation;
+
+      for (var i = 0; i < this.oldStation.associatedVolunteerList.length; i++) {
+                if (this.oldStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAddress){
+                this.oldStation.associatedVolunteerList.splice(i, 1);
                 }
               }
   }
+
+  /*  removeVolunteerFromOldStationAssociatedVolunteerList(passedVolunteer, oldStation){
+      for (var i = 0; i < this.oldStation.associatedVolunteerList.length; i++) {
+                if (this.oldStation.associatedVolunteerList[i].emailAddress == passedVolunteer.emailAdress){
+                this.oldStation.associatedVolunteerList.splice(i, 1);
+                }
+              }
+  }*/
 
 
       addVolunteerToAssociatedVolunteerList(passedVolunteer){

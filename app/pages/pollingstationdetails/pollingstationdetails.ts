@@ -175,7 +175,11 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
             console.log(this.currentVolunteerHere);
           }
 
-
+           //check for selected station, remove volunteer from old station
+           if(this.volunteerservice.currentVolunteer.pollingStation && this.volunteerservice.currentVolunteer.pollingStation!=this.currentStation){
+           this.pollingStationService.removeVolunteerFromAssociatedVolunteerList(this.volunteerservice.currentVolunteer, this.volunteerservice.currentVolunteer.pollingStation);   
+           console.log(this.volunteerservice.currentVolunteer.pollingStation.associatedVolunteerList);
+           }
 
            //add polling station to volunteer object
            this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
@@ -184,17 +188,10 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
           // add volunteer to associatedVolunteerList in station object
          if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
-           //console.log('false, not yet in array' + this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere));
           this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
-          //console.log(this.pollingStationService.selectedStation.associatedVolunteerList);
           } 
-          
-          
-          /*else {
-            this.pollingStationService.removeCurrentVolunteerFromArray(this.currentVolunteerHere);
-          }
-          console.log(this.pollingStationService.selectedStation.associatedVolunteerList);
-*/
+
+
 
           // ###### left to do: push station and volunteer obejcts to appropriate arrays??
 

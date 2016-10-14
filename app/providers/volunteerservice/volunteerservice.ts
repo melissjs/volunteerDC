@@ -5,15 +5,18 @@ import 'rxjs/add/operator/map';
 // interfaces
 import { Volunteer} from '../../volunteer.ts';
 import { Team } from '../../team.ts';
+import { PollingStation } from '../../pollingstation.ts';
 
 // station json array
 import { VOLUNTEERS } from '../../volunteerlist.ts';
+
 
 
 @Injectable()
 export class Volunteerservice {
 currentVolunteer: Volunteer;
 exposedYesOrNo: string;
+oldStation: PollingStation;
 
   constructor() {
     this.currentVolunteer = null;
@@ -45,6 +48,15 @@ exposedYesOrNo: string;
         
         this.currentVolunteer.shifts.push(passedString);
       }
+
+
+       /* setOldStation(passedString){
+        this.oldStation = 
+      }
+
+       getOldStation(passedString){
+        return this.oldStation;
+      }*/
 
       addCurrentVolunteerToList(value){
      
