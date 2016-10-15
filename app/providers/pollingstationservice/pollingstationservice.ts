@@ -56,9 +56,11 @@ constructor(){
 
 
   isCurrentVolunteerInArray(passedVolunteer){
+
               for (var i = 0; i < this.selectedStation.associatedVolunteerKeyList.length; i++) {
                           if (this.selectedStation.associatedVolunteerKeyList[i] == passedVolunteer.volunteerKey){
                             console.log(this.selectedStation.associatedVolunteerKeyList[i] + passedVolunteer.volunteerKey);
+
                             return true;
                             } 
                 }
