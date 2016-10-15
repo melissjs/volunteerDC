@@ -20,14 +20,17 @@ currentVolunteer: Volunteer;
 exposedYesOrNo: string;
 oldStation: PollingStation;
 pollingstationservice: Pollingstationservice;
+volunteerListInMemory: Volunteer[];
+volunteersByStation: Volunteer[];
 
   constructor(pollingstationservice: Pollingstationservice) {
     this.currentVolunteer = null;
     this.pollingstationservice = pollingstationservice;
+    this.volunteerListInMemory = VOLUNTEERS;
   }
   
   
-      getVolunteers() { return VOLUNTEERS;  }
+      getVolunteers() { return this.volunteerListInMemory;  }
 
       generateVolunteerKey(){
         return 'v'+(this.getVolunteers.length+1);
@@ -80,13 +83,24 @@ pollingstationservice: Pollingstationservice;
       return this.exposedYesOrNo;
       } 
 
+         getVolunteerbyKey(passedKey){ 
+         for (var i = 0; i < this.volunteerListInMemory.length; i++){
+           if (this.volunteerListInMemory[i].volunteerKey == passedKey){
+             return this.volunteerListInMemory[i]
+           }
+         }
+          return null;
+       }
     
-
-      /*checkCurrentVolunteerExists(){
-      if(this.currentVolunteer !== null){
-        return true;
+       getVolunteersByStation(selectedStationPassed: PollingStation){
+         this.volunteersByStation = [];
+         for (var i = 0; i < selectedStationPassed.associatedVolunteerKeyList.length; i++){
+           this.volunteersByStation.push(this.getVolunteerbyKey(selectedStationPassed.associatedVolunteerKeyList[i]))
+        }
+        return this.volunteersByStation;
       }
-      }*/
+
+
 
 }
 

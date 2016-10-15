@@ -20,7 +20,6 @@ import {UnregisteredsigninPage} from './pages/unregisteredsignin/unregisteredsig
 import {HomePage} from './pages/home/home';
 import {InstructionsPage} from './pages/instructions/instructions';
 import {FaqsPage} from './pages/faqs/faqs';
-import {VolunteerlistPage} from './pages/volunteerlist/volunteerlist';
 import {FindpollinglocationPage} from './pages/findpollinglocation/findpollinglocation';
 import {AddpollinglocationPage} from './pages/addpollinglocation/addpollinglocation';
 import {VideosPage} from './pages/videos/videos';
@@ -28,8 +27,8 @@ import {RegistrationsuccessPage} from './pages/registrationsuccess/registrations
 
 // intermediate components called from others
 //import {UserDataService} from './user-data-service';
-import { Pollingstationservice } from './providers/pollingstationservice/pollingstationservice.ts';
-import { Volunteerservice } from './providers/volunteerservice/volunteerservice.ts';
+import { Pollingstationservice } from './providers/pollingstationservice/pollingstationservice';
+import { Volunteerservice } from './providers/volunteerservice/volunteerservice';
 
 @Component({
   templateUrl: 'build/app.html',

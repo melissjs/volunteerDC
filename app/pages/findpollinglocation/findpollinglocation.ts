@@ -4,19 +4,18 @@ import { NavController } from 'ionic-angular';
 // page to navigate to
 import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstationdetails';
 
-import { PollingStation } from '../../pollingstation.ts';
+import { PollingStation } from '../../pollingstation';
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
 
 // interfaces
-import { Volunteer} from '../../volunteer.ts';
-import { Team } from '../../team.ts';
+import { Volunteer} from '../../volunteer'; 
 
 //providers
-import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
+import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
 // pipes
-import { Searchpipe } from '../../pipes/searchpipe.ts';
+import { Searchpipe } from '../../pipes/searchpipe';
 
 //import { STATIONS } from '../../stationlist.ts';
 
@@ -32,7 +31,6 @@ import { Searchpipe } from '../../pipes/searchpipe.ts';
 
 export class FindpollinglocationPage {
   currentVolunteer: Volunteer; 
-  currentTeam: Team;
   stations: PollingStation[];
   selectedStation: PollingStation;
   pollingStationService: Pollingstationservice;

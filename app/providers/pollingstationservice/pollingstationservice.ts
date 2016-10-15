@@ -39,6 +39,10 @@ constructor(){
     //return this.selectedStation;
   }
 
+   generatePollingStationKey(){
+    return 'ps'+(this.getStations().length+1);
+    }
+
          getPollingStationbyKey(passedKey){ 
          for (var i = 0; i < this.stationListInMemory.length; i++){
            if (this.stationListInMemory[i].pollingStationKey == passedKey){
@@ -47,6 +51,8 @@ constructor(){
          }
           return null;
        }
+
+
 
 
   isCurrentVolunteerInArray(passedVolunteer){

@@ -19,10 +19,10 @@
 
 
 <ion-card padding>
+  
 <div>
   <b>Early Morning (5:00 AM - 8:15 AM)</b>
-      <p *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
-        <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
+      <p *ngFor="let item of (volunteerservice.getVolunteersByStation(currentStation))"> 
         <span *ngIf="checkEarlyMorning(item.shifts)==true">
         {{item.fullName}}</span>
       </p>
@@ -33,8 +33,7 @@
 
 <div>
   <b>Late Morning (8:00 AM - 11:15 AM)</b>
-        <p *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
-        <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
+        <p *ngFor="let item of (volunteerservice.getVolunteersByStation(currentStation))">
         <span *ngIf="checkLateMorning(item.shifts)==true">
         {{item.fullName}}</span>
       </p>
@@ -45,7 +44,7 @@
 
 <div>
   <b>Early Afternoon (11:00 AM - 2:15 PM)</b>
-  <p *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
+  <p *ngFor="let item of (volunteerservice.getVolunteersByStation(currentStation))">
         <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
         <span *ngIf="checkEarlyAfternoon(item.shifts)==true">
         {{item.fullName}}</span>
@@ -57,7 +56,7 @@
 
 <div>
   <b>Late Afternoon (2:00 AM - 5:15 AM)</b>
-        <p *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
+        <p *ngFor="let item of (volunteerservice.getVolunteersByStation(currentStation))">
         <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
         <span *ngIf="checkLateAfternoon(item.shifts)==true">
         {{item.fullName}}</span>
@@ -68,7 +67,7 @@
 
 <div>
     <b>Early Evening (5:00 AM - 8:15 AM)</b>
-      <p *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
+      <p *ngFor="let item of (volunteerservice.getVolunteersByStation(currentStation))">
         <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
         <span *ngIf="checkEarlyEvening(item.shifts)==true">
         {{item.fullName}}</span>
@@ -79,7 +78,7 @@
 
 <div>
   <b>Late Evening (8:00 AM - 10:30 AM)</b>
-        <p *ngFor="let item of (pollingStationService.selectedStation.associatedVolunteerList)">
+        <p *ngFor="let item of (volunteerservice.getVolunteersByStation(currentStation))">
         <!-- <span *ngIf="item.shifts=='Afternoon'"> -->
         <span *ngIf="checkLateEvening(item.shifts)==true">
         {{item.fullName}}</span>
@@ -90,7 +89,7 @@
 </ion-card>
 
 <ion-card padding>
-<p>Total Registered Volunteers: {{pollingStationService.selectedStation.totalRegisteredVolunteers}}</p>
+<p>Total Registered Volunteers: {{check}}</p>
 <p>Total Needed Volunteers Remaining: {{pollingStationService.selectedStation.totalNeededVolunteers}}</p>
  <p>Total Remaining Shifts To Fill: {{pollingStationService.selectedStation.totalRemainingShiftsToFill}}</p>  
 </ion-card>

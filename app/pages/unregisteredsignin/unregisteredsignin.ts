@@ -37,7 +37,7 @@ volunteers: Volunteer[];
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
   this.newVolunteer = null;
-  this.volunteerKey = this.volunteerservice.generateVolunteerKey();
+  this.volunteerKey = null;
   this.enterFullName = null;
   this.enterEmailAddress = null;
   this.enterExposeEmail = false;
@@ -72,6 +72,9 @@ volunteers: Volunteer[];
                 this.enterPartyAffiliation=this.enterOtherPartyAffiliation;
             }
         
+            //generate key for new volunteer
+             this.volunteerKey = this.volunteerservice.generateVolunteerKey();
+
         //then fill object
 
                     this.newVolunteer =

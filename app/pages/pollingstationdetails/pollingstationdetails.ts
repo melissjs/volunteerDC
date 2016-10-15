@@ -134,6 +134,8 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
      var LateE = !value;
     console.log('signature selected:' + LateE);
     this.lE = LateE;
+    
+    console.log(this.volunteerservice.getVolunteersByStation(this.currentStation));
   }
 
 

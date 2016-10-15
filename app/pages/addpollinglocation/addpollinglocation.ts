@@ -5,12 +5,12 @@ import { NavController, AlertController } from 'ionic-angular';
 import {PollingstationdetailsPage} from '../pollingstationdetails/pollingstationdetails';
 
 // interfaces
-import { PollingStation } from '../../pollingstation.ts';
-import { Volunteer} from '../../volunteer.ts';
+import { PollingStation } from '../../pollingstation';
+import { Volunteer} from '../../volunteer';
 
 // services
-import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice.ts';
-import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice.ts';
+import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 
 
 @Component({
@@ -18,6 +18,7 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
   inputs: ['pollingstation', 'volunteer'],
 })
 export class AddpollinglocationPage {
+pollingStationKey: string;
 newPollingStation: PollingStation;
 pollingStationService: Pollingstationservice;
 stations: PollingStation[];
@@ -39,6 +40,7 @@ volunteerservice: Volunteerservice;
   this.navCtrl = navCtrl;
   this.pollingStationService = pollingStationService;
   this.stations = pollingStationService.getStations();
+  this.pollingStationKey = this.pollingStationService.generatePollingStationKey();
   this.precinctNumber = null;
   this.streetAddress = null;
   this.unitNumber = null;
@@ -61,6 +63,7 @@ volunteerservice: Volunteerservice;
 
         // instantiate new station
         this.newPollingStation = {
+          pollingStationKey: this.pollingStationKey,
           precinctNumber: this.precinctNumber,
           streetAddress: this.streetAddress,
           unitNumber: this.unitNumber,
@@ -68,10 +71,7 @@ volunteerservice: Volunteerservice;
           city: this.city,
           state: this.state,
           zip: this.zip,
-          associatedVolunteerList: [],
-          totalRegisteredVolunteers: null,
-          totalNeededVolunteers: null,
-          totalRemainingShiftsToFill: null
+          associatedVolunteerKeyList: []
         }
 
         console.log(this.newPollingStation);
