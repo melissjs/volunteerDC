@@ -185,13 +185,14 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
            //add polling station to volunteer object
            this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
-           //console.log(this.currentVolunteerHere);
+           console.log(this.currentVolunteerHere);
 
 
           // add volunteer to associatedVolunteerList in station object
          if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
           this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
           } 
+           console.log(this.currentStation.associatedVolunteerKeyList);
 
 
 

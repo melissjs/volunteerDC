@@ -40,7 +40,7 @@ constructor(){
   }
 
    generatePollingStationKey(){
-    return 'ps'+(this.getStations().length+1);
+    return 'ps'+(this.stationListInMemory.length+1);
     }
 
          getPollingStationbyKey(passedKey){ 

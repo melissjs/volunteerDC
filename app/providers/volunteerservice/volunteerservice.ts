@@ -33,7 +33,7 @@ volunteersByStation: Volunteer[];
       getVolunteers() { return this.volunteerListInMemory;  }
 
       generateVolunteerKey(){
-        return 'v'+(this.getVolunteers.length+1);
+        return 'v'+(this.volunteerListInMemory.length+1);
       }
   
       setNewVolunteer(value){
