@@ -24,6 +24,7 @@ import {FindpollinglocationPage} from './pages/findpollinglocation/findpollinglo
 import {AddpollinglocationPage} from './pages/addpollinglocation/addpollinglocation';
 import {VideosPage} from './pages/videos/videos';
 import {RegistrationsuccessPage} from './pages/registrationsuccess/registrationsuccess';
+import {TempPage} from './pages/temp/temp';
 
 // intermediate components called from others
 //import {UserDataService} from './user-data-service';
@@ -39,7 +40,8 @@ import { Volunteerservice } from './providers/volunteerservice/volunteerservice'
 class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  //set back to HomePage after using TempPage
+  rootPage: any = TempPage;
   pages: Array<{title: string, component: any}>;
   //userDataSvc: UserDataService;
   pollingStationService: Pollingstationservice;

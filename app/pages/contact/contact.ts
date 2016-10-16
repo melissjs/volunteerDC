@@ -24,7 +24,8 @@ contactForm: FormGroup;
 constructor(private navCtrl: NavController, public fb: FormBuilder) {
 var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*'
 this.contactForm = fb.group({  
-    'fullName': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+    'fullName': ['', Validators.compose([Validators.required])],
+    //'emailAddress': ['', Validators.compose([Validators.required])],
     //'emailAddress': ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern('[a-zA-Z]*')])],
     'emailAddress': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
     'message': ['', Validators.required],

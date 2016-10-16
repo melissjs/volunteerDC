@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Account Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+               
+               
+        <ion-content padding>
+
+
+        <ion-card>
+        <ion-list>
+
+            <ion-list-header>
+              Polling Station Team Information
+            </ion-list-header>
+
+            
+   <ion-item  style="cursor:pointer" (click)="goToStationDetails();">
+  <pollingstationcomponent [passedStations]=thisTempStation> </pollingstationcomponent> 
+   </ion-item>
+
+
+    <ion-item>
+    <ion-label stacked>Registered Shifts:</ion-label>
+    <ion-input readonly type="text" placeholder="{{currentTempVolunteer.fullName}}"></ion-input>
+    </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Volunteer List:</ion-label>
+    <ion-input readonly type="text" placeholder="{{currentTempVolunteer.fullName}}"></ion-input>
+    </ion-item>
+
+        </ion-list>
+        </ion-card>
+
+
+
+<ion-card  *ngIf!="currentTempVolunteer">
+  Register to generate account settings.
+</ion-card>
+
+
+        <ion-card >
+            <form name="signinnewvolunteer" novalidate>
+<ion-list>
+<ion-list-header>Account Settings</ion-list-header>
+  <ion-item>
+    <ion-label stacked>Full Name:</ion-label>
+    <ion-input readonly type="text" placeholder="{{currentTempVolunteer.fullName}}"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Email:</ion-label>
+    <ion-input  type="email" placeholder="{{currentTempVolunteer.emailAddress}}"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Email Exposed:</ion-label>
+    <ion-input  type="text" placeholder="{{exposedYesOrNo}}"></ion-input>
+  </ion-item>
+
+
+    <ion-item>
+    <ion-label stacked>Cell Phone Number:</ion-label>
+    <ion-input type="text" placeholder="{{currentTempVolunteer.phoneNumber}}"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Age:</ion-label>
+    <ion-input type="text" placeholder="{{currentTempVolunteer.age}}"></ion-input>
+  </ion-item>
+
+
+    <ion-item>
+    <ion-label stacked>Sex:</ion-label>
+    <ion-input type="text" placeholder="{{currentTempVolunteer.sex}}"></ion-input>
+  </ion-item>
+  
+
+    <ion-item>
+    <ion-label stacked>Party Affiliation:</ion-label>
+    <ion-input type="text" placeholder="{{currentTempVolunteer.partyAffiliation}}"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label stacked>Shift(s):</ion-label>
+    <ion-input type="text" placeholder="{{currentTempVolunteer.shifts}}"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Passcode:</ion-label>
+    <ion-input type="password" placeholder="{{currentTempVolunteer.passcode}}"></ion-input>
+  </ion-item>
+
+</ion-list>
+
+
+             </form>
+        </ion-card>  
+
+
+
+
+  <button type="submit" (click)="onSubmit()" block large>
+    Edit
+  </button>
+
+      </ion-content>
