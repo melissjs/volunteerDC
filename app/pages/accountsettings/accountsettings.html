@@ -89,7 +89,7 @@
 
 
 
-  <button type="submit" (click)="onSubmit()" block large>
+  <button *ngIf="currentVolunteer" type="submit" (click)="onSubmit()" block large>
     Edit
   </button>
 

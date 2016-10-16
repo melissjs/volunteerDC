@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Volunteer} from '../../volunteer.ts';
+import { Volunteer} from '../../volunteer';
 // pipes
 //import { Searchpipe } from '../../pipes/searchpipe.ts';
 
