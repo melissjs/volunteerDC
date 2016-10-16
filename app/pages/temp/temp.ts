@@ -31,6 +31,7 @@ thisTempStationPrecint: string;
 printedShifts: string;
 fullVolunteerKeyList: string[];
 fullVolunteerList: Volunteer[];
+wasTouched: boolean;
 
   constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController) {
       this.navCtrl = navCtrl;
@@ -181,6 +182,36 @@ presentConfirm() {
 askSex(){
   this.presentConfirm();
 }
+
+askShifts(){
+   let confirm = this.alertCtrl.create({
+                title: 'Would you like to cancel your shifts?',
+                message: 'If you want to change times or stations, head over to the polling station pages. Get to the station you are currently signed up for by clicking on the address above.',
+                buttons: [
+                    {
+                    text: 'No',
+                    handler: () => {
+                        console.log('Disagree clicked' + this.currentTempVolunteer.shifts);
+                    }
+                    },
+                    {
+                    text: 'Yes',
+                    handler: () => {
+                        this.volunteerservice.clearShifts()
+                        this.printedShifts = "None";
+                        console.log('Agree clicked' + this.currentTempVolunteer.shifts);
+                        
+                    }
+                    }
+                ]
+                });
+                confirm.present();
+  }
+
+
+      wasThisTouched(){
+        this.wasTouched = true;
+      }
 
 
 

@@ -68,6 +68,11 @@ tempVolunteer: Volunteer;
 
 
 
+      clearShifts(){
+      this.currentVolunteer.shifts.splice(0, this.currentVolunteer.shifts.length);
+      }
+
+      
 
         printShifts(passedVolunteer){
          if(this.currentVolunteer.shifts[0]){
