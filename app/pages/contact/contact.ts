@@ -22,7 +22,7 @@ contactForm: FormGroup;
 
 
 constructor(private navCtrl: NavController, public fb: FormBuilder) {
-var regExEmail: string = '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b'
+var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*'
 this.contactForm = fb.group({  
     'fullName': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
     //'emailAddress': ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.pattern('[a-zA-Z]*')])],
