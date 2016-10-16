@@ -22,11 +22,17 @@ oldStation: PollingStation;
 pollingstationservice: Pollingstationservice;
 volunteerListInMemory: Volunteer[];
 volunteersByStation: Volunteer[];
+buildString: string;
+notRegistered: string;
+associatedVolunteerArray: Volunteer[];
+tempVolunteer: Volunteer;
 
   constructor(pollingstationservice: Pollingstationservice) {
     this.currentVolunteer = null;
     this.pollingstationservice = pollingstationservice;
     this.volunteerListInMemory = VOLUNTEERS;
+    this.notRegistered = "None";
+    this.associatedVolunteerArray = [];
   }
   
   
@@ -62,6 +68,23 @@ volunteersByStation: Volunteer[];
 
 
 
+
+        printShifts(passedVolunteer){
+         if(this.currentVolunteer.shifts[0]){
+          this.buildString = this.currentVolunteer.shifts[0];
+
+          for (var i=1; i < this.currentVolunteer.shifts.length; i++){
+          this.buildString = this.buildString + ", " + this.currentVolunteer.shifts[i];
+          }
+          return this.buildString;
+        } else {
+
+          console.log(this.notRegistered);
+          return this.notRegistered;
+        }
+        
+      }
+ 
 
       addCurrentVolunteerToList(value){
      
@@ -101,6 +124,64 @@ volunteersByStation: Volunteer[];
       }
 
 
+      getVolunteerArrayByKeyList(passedKeyList){
+        for ( var i=0; i < passedKeyList.length; i++){
+          this.tempVolunteer = this.getVolunteerbyKey(passedKeyList[i]);
+          this.associatedVolunteerArray.push(this.tempVolunteer);
+        }
+        return this.associatedVolunteerArray;
+      }
+
+// begin shifts
+
+
+checkEarlyMorning(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Early Morning"){
+                  return true;
+                }
+            }
+            }
+
+            checkLateMorning(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Late Morning"){
+                  return true;
+                }
+            }
+            }
+
+            checkEarlyAfternoon(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Early Afternoon"){
+                  return true;
+                }
+            }
+            }
+
+            checkLateAfternoon(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Late Afternoon"){
+                  return true;
+                }
+            }
+            }
+
+            checkEarlyEvening(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Early Evening"){
+                  return true;
+                }
+            }
+            }
+
+            checkLateEvening(passedShifts){
+            for (var i = 0; i < passedShifts.length; i++) {
+                if (passedShifts[i] == "Late Evening"){
+                  return true;
+                }
+            }
+            }
 
 }
 

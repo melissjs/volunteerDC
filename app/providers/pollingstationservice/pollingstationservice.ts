@@ -19,6 +19,7 @@ export class Pollingstationservice {
 selectedStation: PollingStation;
 oldStation: PollingStation;
 stationListInMemory: PollingStation[];
+associatedVolunteerKeyList: string[];
 //searchpipe: Searchpipe;
 
 constructor(){
@@ -94,6 +95,11 @@ printSelectedStation(){
   console.log('from service' + this.selectedStation.streetAddress)
 }
 
+//notchecked
+getAssociatedVolunteerKeyList(passedStationKey){
+  this.associatedVolunteerKeyList = this.getPollingStationbyKey(passedStationKey).associatedVolunteerKeyList;
+  return this.associatedVolunteerKeyList;
+}
 
 //printSelectedStations(){
   //console.log('from service hello')

@@ -14,27 +14,27 @@
 
 
         <ion-card>
-        <ion-list>
+        <ion-list text-wrap>
 
-            <ion-list-header>
+            <ion-list-header >
               Polling Station Team Information
             </ion-list-header>
 
-            
-   <ion-item  style="cursor:pointer" (click)="goToStationDetails();">
+
+   <ion-item style="cursor:pointer" (click)="goToStationDetails();">
   <pollingstationcomponent [passedStations]=thisTempStation> </pollingstationcomponent> 
    </ion-item>
 
 
-    <ion-item>
-    <ion-label stacked>Registered Shifts:</ion-label>
-    <ion-input readonly type="text" placeholder="{{currentTempVolunteer.fullName}}"></ion-input>
-    </ion-item>
+        
 
-    <ion-item>
-    <ion-label stacked>Volunteer List:</ion-label>
-    <ion-input readonly type="text" placeholder="{{currentTempVolunteer.fullName}}"></ion-input>
-    </ion-item>
+      <div padding>
+      <h2 style="margin-bottom:10px">Volunteer List:</h2>
+      <p *ngFor="let item of (fullVolunteerList)"> 
+        <span >{{item.fullName}}</span> <span style="float: right" *ngIf="item.exposeEmail">{{item.emailAddress}}</span>
+      </p>
+      </div>
+    
 
         </ion-list>
         </ion-card>
@@ -48,7 +48,7 @@
 
         <ion-card >
             <form name="signinnewvolunteer" novalidate>
-<ion-list>
+<ion-list text-wrap>
 <ion-list-header>Account Settings</ion-list-header>
   <ion-item>
     <ion-label stacked>Full Name:</ion-label>
@@ -89,9 +89,9 @@
   </ion-item>
 
     <ion-item>
-    <ion-label stacked>Shift(s):</ion-label>
-    <ion-input type="text" placeholder="{{currentTempVolunteer.shifts}}"></ion-input>
-  </ion-item>
+    <ion-label stacked>Registered Shifts:</ion-label>
+    <ion-textarea readonly type="text" placeholder="{{printedShifts}}"></ion-textarea>
+    </ion-item>
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
