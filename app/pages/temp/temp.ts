@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 
 import { Volunteer} from '../../volunteer';
 import { PollingStation} from '../../pollingstation';
@@ -11,6 +11,8 @@ import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstati
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+
 
 @Component({
   templateUrl: 'build/pages/temp/temp.html',
@@ -18,6 +20,7 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
   directives: [PollingstationComponent],
 })
 export class TempPage {
+changeForm: FormGroup;
 currentVolunteer: Volunteer; 
 exposedYesOrNo: string;
 volunteerservice: Volunteerservice;
@@ -29,7 +32,7 @@ printedShifts: string;
 fullVolunteerKeyList: string[];
 fullVolunteerList: Volunteer[];
 
-  constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice) {
+  constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController) {
       this.navCtrl = navCtrl;
       this.volunteerservice = volunteerservice; 
       this.pollingstationservice = pollingstationservice;
@@ -54,6 +57,24 @@ totalVoteRecords: 0,
 totalAnomalyRecords: 0,
 totalAmendmentRecords: 0,
 } 
+
+    //form stuff
+    var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
+    var regExPhone: string = '*';
+this.changeForm = fb.group({  
+    'fullNameCtrl': [this.currentTempVolunteer.fullName, Validators.compose([Validators.required])],
+    'emailAddressCtrl': [this.currentTempVolunteer.emailAddress, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
+    'exposeEmailCtrl': [this.currentTempVolunteer.exposeEmail, Validators.required],
+    'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.required],
+    'ageCtrl': [this.currentTempVolunteer.phoneNumber, Validators.required],
+    'sexCtrl': [this.currentTempVolunteer.sex, Validators.required],
+    'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
+    'shiftsCtrl': [this.currentTempVolunteer.shifts, Validators.required],
+    'passcodeCtrl': [this.currentTempVolunteer.passcode, Validators.required],
+    });
+
+  
+  //end form stuff
       
       //setVolunteer to be erased
       volunteerservice.setNewVolunteer(this.currentTempVolunteer);
@@ -80,9 +101,101 @@ totalAmendmentRecords: 0,
 //end constructor
   }
 
+  askExpose(){
+     let confirm = this.alertCtrl.create({
+                title: 'Would you like to expose your email address to your team?',
+                message: 'This will help you organize with each other before and on election day. You can change this setting later in your account.',
+                buttons: [
+                    {
+                    text: 'No',
+                    handler: () => {
+                        this.currentTempVolunteer.exposeEmail = false;
+                        this.exposedYesOrNo = "No";
+                        console.log('Disagree clicked' + this.currentTempVolunteer.exposeEmail);
+                    }
+                    },
+                    {
+                    text: 'Yes',
+                    handler: () => {
+                        this.currentTempVolunteer.exposeEmail = true;
+                        this.exposedYesOrNo = "Yes";
+                        console.log('Agree clicked' + this.currentTempVolunteer.exposeEmail);
+                        
+                    }
+                    }
+                ]
+                });
+                confirm.present();
+  }
 
-       onSubmit() {
+
+
+
+
+
+presentConfirm() {
+
+    // Object with options used to create the alert
+    var options = {
+      //title: 'Choose Sex',
+      //message: 'Which name do you like?',
+      inputs: [
+        { 
+          name : 'options', 
+          value: 'Female', 
+          label: 'Female', 
+          type: 'radio' 
+        }, { 
+          name : 'options', 
+          value: 'Male', 
+          label: 'Male', 
+          type: 'radio' 
+        },{ 
+          name : 'options', 
+          value: 'noAnwser', 
+          label: 'No Answer', 
+          type: 'radio' 
+        },
+          ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            console.log(data);
+          }
+        }
+      ]
+    };
+ let alert = this.alertCtrl.create(options);
+    alert.present();
+}
+
+
+askSex(){
+  this.presentConfirm();
+}
+
+
+
+
+
+       onSubmit(value: string): void {
         var that = this;
+
+
+        if(this.changeForm.valid) {
+            console.log('Submitted value: ', value);
+        }
+
+
+
         try {
                 //that.navCtrl.push(VotePage, {
                 //});

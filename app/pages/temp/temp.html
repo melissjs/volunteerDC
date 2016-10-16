@@ -47,55 +47,55 @@
 
 
         <ion-card >
-            <form name="signinnewvolunteer" novalidate>
-<ion-list text-wrap>
+            <form [formGroup]="changeForm" (ngSubmit)="onSubmit(changeForm.value)" novalidate>
+              <ion-list text-wrap>
 <ion-list-header>Account Settings</ion-list-header>
   <ion-item>
     <ion-label stacked>Full Name:</ion-label>
-    <ion-input readonly type="text" placeholder="{{currentTempVolunteer.fullName}}"></ion-input>
+    <ion-input readonly type="text" formControlName="fullNameCtrl" ></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input  type="email" placeholder="{{currentTempVolunteer.emailAddress}}"></ion-input>
+    <ion-input  type="text" formControlName="emailAddressCtrl" value="{{currentTempVolunteer.emailAddress}}"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Email Exposed:</ion-label>
-    <ion-input  type="text" placeholder="{{exposedYesOrNo}}"></ion-input>
+    <ion-input  type="text" formControlName="exposeEmailCtrl" value="{{exposedYesOrNo}}" (click)="askExpose()"></ion-input>
   </ion-item>
 
 
     <ion-item>
     <ion-label stacked>Cell Phone Number:</ion-label>
-    <ion-input type="text" placeholder="{{currentTempVolunteer.phoneNumber}}"></ion-input>
+    <ion-input type="text" formControlName="phoneNumberCtrl" value="{{currentTempVolunteer.phoneNumber}}"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Age:</ion-label>
-    <ion-input type="text" placeholder="{{currentTempVolunteer.age}}"></ion-input>
+    <ion-input type="text" formControlName="ageCtrl" value="{{currentTempVolunteer.age}}"></ion-input>
   </ion-item>
 
 
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-    <ion-input type="text" placeholder="{{currentTempVolunteer.sex}}"></ion-input>
+    <ion-input type="text" formControlName="sexCtrl" (click)="askSex()"></ion-input>
   </ion-item>
   
 
     <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
-    <ion-input type="text" placeholder="{{currentTempVolunteer.partyAffiliation}}"></ion-input>
+    <ion-input type="text" formControlName="partyAffiliationCtrl" value="{{currentTempVolunteer.partyAffiliation}}"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Registered Shifts:</ion-label>
-    <ion-textarea readonly type="text" placeholder="{{printedShifts}}"></ion-textarea>
+    <ion-textarea readonly type="text" formControlName="shiftsCtrl" value="{{printedShifts}}"></ion-textarea>
     </ion-item>
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
-    <ion-input type="password" placeholder="{{currentTempVolunteer.passcode}}"></ion-input>
+    <ion-input type="password" formControlName="passcodeCtrl" value="{{currentTempVolunteer.passcode}}"></ion-input>
   </ion-item>
 
 </ion-list>
@@ -107,8 +107,12 @@
 
 
 
-  <button type="submit" (click)="onSubmit()" block large>
-    Edit
+  <button *ngIf="changeForm.touched" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit()" block large>
+    Submit
   </button>
+
+
+ <p>Form: {{ changeForm.value | json }}</p>
+<p>Form Status: {{ changeForm.status }}</p>
 
       </ion-content>
