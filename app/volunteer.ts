@@ -1,4 +1,4 @@
-import { PollingStation} from './pollingstation';
+// import { PollingStation} from './pollingstation';
 
 export interface Volunteer {
 volunteerKey: string;
@@ -9,7 +9,7 @@ phoneNumber: string;
 age: number;
 sex: string;
 partyAffiliation: string;
-shifts?: string[];
+shifts?: string;
 passcode: string;
 associatedPollingStationKey?: string;
 totalRecords: number;
@@ -17,3 +17,4 @@ totalVoteRecords: number;
 totalAnomalyRecords: number;
 totalAmendmentRecords: number;
 } 
+

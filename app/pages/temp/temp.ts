@@ -49,7 +49,7 @@ phoneNumber: '602-453-5544',
 age: 23,
 sex: 'Female',
 partyAffiliation: 'Other Party',
-shifts:['Late Morning', 'Early Evening', 'Early Morning', 'Late Evening'], //'Late Morning', 'Early Evening'
+shifts:'Late Morning, Early Evening, Early Morning, Late Evening', //'Late Morning, Early Evening'
 passcode: 'passcodestring',
 associatedPollingStationKey:'ps1', 
 totalRecords: 0,

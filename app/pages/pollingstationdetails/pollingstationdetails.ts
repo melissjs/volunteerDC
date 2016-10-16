@@ -13,198 +13,211 @@ import { PollingStation } from '../../pollingstation';
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 
+import * as globals from '../../globals';
+
 
 @Component({
-  templateUrl: 'build/pages/pollingstationdetails/pollingstationdetails.html',
-  inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent],
-  //providers: [Pollingstationservice]
+    templateUrl: 'build/pages/pollingstationdetails/pollingstationdetails.html',
+    inputs: ['pollingstation', 'volunteer'],
+    directives: [PollingstationComponent],
+    //providers: [Pollingstationservice]
 })
-      export class PollingstationdetailsPage {
-      currentVolunteerHere: Volunteer; 
-      //currentTeam: Team;
-      stations: PollingStation[];
-      pollingStationService: Pollingstationservice;
-      volunteerservice: Volunteerservice;
-      currentStation: PollingStation;
+export class PollingstationdetailsPage {
+    currentVolunteerHere: Volunteer; 
+    //currentTeam: Team;
+    stations: PollingStation[];
+    pollingStationService: Pollingstationservice;
+    volunteerservice: Volunteerservice;
+    currentStation: PollingStation;
 
-      eM: boolean = false;
-      lM: boolean = false;
-      eA: boolean = false;
-      lA: boolean = false;
-      eE: boolean = false;
-      lE: boolean = false;
+    eM: boolean = false;
+    lM: boolean = false;
+    eA: boolean = false;
+    lA: boolean = false;
+    eE: boolean = false;
+    lE: boolean = false;
 
-      constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController ) {
-      this.pollingStationService = pollingStationService;
-      this.volunteerservice = volunteerservice;
-      //this.currentVolunteerHere = null;
-      this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
-      this.currentStation = this.pollingStationService.getStation();
-      //var passedStations = this.pollingStationService.selectedStation;
+    earlyM: boolean = false;
+    lateM: boolean = false;
+    earlyA: boolean = false;
+    lateA: boolean = false;
+    earlyE: boolean = false;
+    lateE: boolean = false;
 
-      //console.log(pollingStationService.selectedStation.associatedVolunteerList[1].exposeEmail);
+    EARLY_MORNING: string = globals.EARLY_MORNING;
+    LATE_MORNING: string = globals.LATE_MORNING;
+    EARLY_AFTERNOON: string = globals.EARLY_AFTERNOON;
+    LATE_AFTERNOON: string = globals.LATE_AFTERNOON;
+    EARLY_EVENING: string = globals.EARLY_EVENING;
+    LATE_EVENING: string = globals.LATE_EVENING;
+
+
+    shiftSelected: boolean = false;
+
+    constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController ) {
+        this.pollingStationService = pollingStationService;
+        this.volunteerservice = volunteerservice;
+        //this.currentVolunteerHere = null;
+        this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
+        this.currentStation = this.pollingStationService.getStation();
+        //var passedStations = this.pollingStationService.selectedStation;
+
+        //console.log(pollingStationService.selectedStation.associatedVolunteerList[1].exposeEmail);
+        this.setShifts();
+    }
+
+
+    setShifts() {
+        if (this.currentVolunteerHere.associatedPollingStationKey == 
+            this.currentStation.pollingStationKey) {
+            if (this.currentVolunteerHere.shifts.includes(globals.EARLY_MORNING)) {
+                this.eM = true;
+                this.earlyM = true;
+                this.shiftSelected = true;
+            }
+            if (this.currentVolunteerHere.shifts.includes(globals.LATE_MORNING)) {
+                this.lM = true;
+                this.lateM = true;
+                this.shiftSelected = true;
+            }
+            if (this.currentVolunteerHere.shifts.includes(globals.EARLY_AFTERNOON)) {
+                this.eA = true;
+                this.earlyA = true;
+                this.shiftSelected = true;
+            }
+            if (this.currentVolunteerHere.shifts.includes(globals.LATE_AFTERNOON)) {
+                this.lA = true;
+                this.lateA = true;
+                this.shiftSelected = true;
+            }
+            if (this.currentVolunteerHere.shifts.includes(globals.EARLY_EVENING)) {
+                this.eE = true;
+                this.earlyE = true;
+                this.shiftSelected = true;
+            }
+            if (this.currentVolunteerHere.shifts.includes(globals.LATE_EVENING)) {
+                this.lE = true;
+                this.lateE = true;
+                this.shiftSelected = true;
+            }
         }
+    }
+
+    onChangeEarlyM(value) {
+        var earlyM = !value;
+        console.log('signature selected:' + earlyM);
+        this.eM = earlyM;
+    }
+
+    onChangeLateM(value) {
+        var lateM = !value;
+        console.log('signature selected:' + lateM);
+        this.lM = lateM;
+    }
 
 
-
-
-
-            checkEarlyMorning(passedShifts){
-            for (var i = 0; i < passedShifts.length; i++) {
-                if (passedShifts[i] == "Early Morning"){
-                  return true;
-                }
-            }
-            }
-
-            checkLateMorning(passedShifts){
-            for (var i = 0; i < passedShifts.length; i++) {
-                if (passedShifts[i] == "Late Morning"){
-                  return true;
-                }
-            }
-            }
-
-            checkEarlyAfternoon(passedShifts){
-            for (var i = 0; i < passedShifts.length; i++) {
-                if (passedShifts[i] == "Early Afternoon"){
-                  return true;
-                }
-            }
-            }
-
-            checkLateAfternoon(passedShifts){
-            for (var i = 0; i < passedShifts.length; i++) {
-                if (passedShifts[i] == "Late Afternoon"){
-                  return true;
-                }
-            }
-            }
-
-            checkEarlyEvening(passedShifts){
-            for (var i = 0; i < passedShifts.length; i++) {
-                if (passedShifts[i] == "Early Evening"){
-                  return true;
-                }
-            }
-            }
-
-            checkLateEvening(passedShifts){
-            for (var i = 0; i < passedShifts.length; i++) {
-                if (passedShifts[i] == "Late Evening"){
-                  return true;
-                }
-            }
-            }
-
-  onChangeEarlyM(value) {
-     var earlyM = !value;
-    console.log('signature selected:' + earlyM);
-    this.eM = earlyM;
-  }
-
-  onChangeLateM(value) {
-     var lateM = !value;
-    console.log('signature selected:' + lateM);
-    this.lM = lateM;
-  }
-
-
-  onChangeEarlyA(value) {
-     var EarlyA = !value;
-    console.log('signature selected:' + EarlyA);
-    this.eA = EarlyA;
-  }
+    onChangeEarlyA(value) {
+        var EarlyA = !value;
+        console.log('signature selected:' + EarlyA);
+        this.eA = EarlyA;
+    }
 
     onChangeLateA(value) {
-     var LateA = !value;
-    console.log('signature selected:' + LateA);
-    this.lA = LateA;
-  }
+        var LateA = !value;
+        console.log('signature selected:' + LateA);
+        this.lA = LateA;
+    }
 
 
     onChangeEarlyE(value) {
-     var EarlyE = !value;
-    console.log('signature selected:' + EarlyE);
-    this.eE = EarlyE;
-  }
+        var EarlyE = !value;
+        console.log('signature selected:' + EarlyE);
+        this.eE = EarlyE;
+    }
 
-      onChangeLateE(value) {
-     var LateE = !value;
-    console.log('signature selected:' + LateE);
-    this.lE = LateE;
-    
-    console.log(this.volunteerservice.getVolunteersByStation(this.currentStation));
-  }
+    onChangeLateE(value) {
+        var LateE = !value;
+        console.log('signature selected:' + LateE);
+        this.lE = LateE;
+        // console.log(this.volunteerservice.getVolunteersByStation(this.currentStation));
+    }
 
 
-          onSubmit(){
+    onSubmit(){
 
-            //clear shift arrays
-            this.volunteerservice.currentVolunteer.shifts.splice(0, this.volunteerservice.currentVolunteer.shifts.length);
-            
-            //check to see if polling station conflict (needed?)
-            
-                         
+        //clear shifts
+        
+        
+        // this.volunteerservice.currentVolunteer.shifts.splice(0, this.volunteerservice.currentVolunteer.shifts.length);
+        this.volunteerservice.clearShifts();
+        
+        //check to see if polling station conflict (needed?)
 
-            
-            
+        var shiftNowSelected = false;
 
-          // add shift(s) to volunteer object
-            if(this.eM){
-            this.volunteerservice.setShifts('Early Morning');
-          }
+        // add shift(s) to volunteer object
+        if(this.eM){
+            this.volunteerservice.setShifts(globals.EARLY_MORNING);
+            shiftNowSelected = true;
+        }
 
-          if(this.lM){
-            this.volunteerservice.setShifts('Late Morning');
-          }
+        if(this.lM){
+            this.volunteerservice.setShifts(globals.LATE_MORNING);
+            shiftNowSelected = true;
+        }
 
-            if(this.eA){
-            this.volunteerservice.setShifts('Early Afternoon');
-          }
+        if(this.eA){
+            this.volunteerservice.setShifts(globals.EARLY_AFTERNOON);
+            shiftNowSelected = true;
+        }
 
-          if(this.lA){
-            this.volunteerservice.setShifts('Late Afternoon');
-          }
+        if(this.lA){
+            this.volunteerservice.setShifts(globals.LATE_AFTERNOON);
+            shiftNowSelected = true;
+        }
 
-            if(this.eE){
-            this.volunteerservice.setShifts('Early Evening');
-          }
+        if(this.eE){
+            this.volunteerservice.setShifts(globals.EARLY_EVENING);
+            shiftNowSelected = true;
+        }
 
-          if(this.lE){
-            this.volunteerservice.setShifts('Late Evening');
+        if(this.lE){
+            this.volunteerservice.setShifts(globals.LATE_EVENING);
+            shiftNowSelected = true;
             console.log(this.currentVolunteerHere);
-          }
+        }
 
-           //check for selected station, remove volunteer from old station
-           if(this.volunteerservice.currentVolunteer.associatedPollingStationKey && this.volunteerservice.currentVolunteer.associatedPollingStationKey!=this.currentStation.pollingStationKey){
-           this.pollingStationService.removeVolunteerFromAssociatedVolunteerList(this.volunteerservice.currentVolunteer, this.volunteerservice.currentVolunteer.associatedPollingStationKey);   
-           //console.log(this.volunteerservice.currentVolunteer.pollingStation.associatedVolunteerList);
-           }
+        //check for selected station, remove volunteer from old station
+        if ((shiftNowSelected) ||
+            (this.shiftSelected && !shiftNowSelected)) { // Something changed (all cleared)
+            
+            if(this.currentVolunteerHere.associatedPollingStationKey && this.currentVolunteerHere.associatedPollingStationKey!=this.currentStation.pollingStationKey) {
+                this.pollingStationService.removeVolunteerFromAssociatedVolunteerList(this.currentVolunteerHere, this.currentVolunteerHere.associatedPollingStationKey);   
+                //console.log(this.currentVolunteerHere.pollingStation.associatedVolunteerList);
+            }
 
-           //add polling station to volunteer object
-           this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
-           console.log(this.currentVolunteerHere);
+            //add polling station to volunteer object
+            this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
+            console.log(this.currentVolunteerHere);
+
+            // add volunteer to associatedVolunteerList in station object
+            if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
+                this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
+            }
+            console.log(this.currentStation.associatedVolunteerKeyList);
+
+            // ###### left to do: push station and volunteer obejcts to appropriate arrays??
+        }
 
 
-          // add volunteer to associatedVolunteerList in station object
-         if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
-          this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
-          } 
-           console.log(this.currentStation.associatedVolunteerKeyList);
+        // alert
+        var that = this;
+        try {
+            if ((shiftNowSelected) ||
+                (this.shiftSelected && !shiftNowSelected)) { // Something changed (all cleared)
 
-
-
-          // ###### left to do: push station and volunteer obejcts to appropriate arrays??
-
-
-
-            // alert
-              var that = this;
-          try{
-            if ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
-                  let alert = this.alertCtrl.create({
+                // ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
+                let alert = this.alertCtrl.create({
                     //title: 'Please confirm',
                     subTitle: 'I have read this statement and confirm that I understand the terms for participating in this audit.',
                     buttons: ['CONFIRM'] 
@@ -221,4 +234,3 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
     }
 
 }
-
