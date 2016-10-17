@@ -107,8 +107,8 @@ export class Volunteerservice {
         for (var i = 0; i < this.volunteerListInMemory.length; i++){
             if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
                 this.volunteerListInMemory[i] = passedVolunteer;
-                console.log(passedVolunteer.volunteerKey + " matches " + this.volunteerListInMemory[i].volunteerKey);
-            } else { console.log(passedVolunteer.volunteerKey + " is not " + this.volunteerListInMemory[i].volunteerKey);
+                //console.log(passedVolunteer.volunteerKey + " matches " + this.volunteerListInMemory[i].volunteerKey);
+            } else { //console.log(passedVolunteer.volunteerKey + " is not " + this.volunteerListInMemory[i].volunteerKey);
             
         }
         } 

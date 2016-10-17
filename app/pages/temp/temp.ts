@@ -54,7 +54,7 @@ export class TempPage {
             emailAddress: 'email@email.com',
             exposeEmail: true,
             phoneNumber: '6024539544',
-            age: 123,
+            age: 23,
             sex: 'Female',
             partyAffiliation: 'Other Party',
             shifts:'Late Morning, Early Evening, Early Morning, Late Evening', //'Late Morning, Early Evening'
@@ -226,6 +226,7 @@ askSex(){
                     handler: () => {
                         this.volunteerservice.clearShifts()
                         this.printedShifts = "None";
+                       
                         console.log('Agree clicked' + this.currentTempVolunteer.shifts);
                         
                     }
@@ -256,9 +257,10 @@ askSex(){
             this.currentTempVolunteer.phoneNumber = value.phoneNumberCtrl;
             this.currentTempVolunteer.sex = value.sexCtrl;
             this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
-            this.currentTempVolunteer.passcode = value.passcode;
-
+            this.currentTempVolunteer.passcode = value.passcodeCtrl;
+            this.wasTouched = false;
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
+            if(this.printedShifts = "None"){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             //console.log(this.volunteerservice.getVolunteers);
         }
 
