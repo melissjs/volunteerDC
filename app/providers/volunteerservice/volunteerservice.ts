@@ -86,13 +86,34 @@ export class Volunteerservice {
     }
     
 
-    addCurrentVolunteerToList(value){
-        
+    addCurrentVolunteerToList(passedVolunteer){
+        this.volunteerListInMemory.push(passedVolunteer);
     }
 
-    deleteCurrentVolunteerFromList(value){
-        
+    deleteCurrentVolunteerFromList(passedVolunteer){
+        for (var i = 0; i < this.volunteerListInMemory.length; i++){
+            if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
+                this.volunteerListInMemory.splice(i,1);
+            } else { console.log("The volunteer was not in the list.")}
+        } 
     }
+
+
+
+
+
+
+    overWriteChangesToVolunteer(passedVolunteer){
+        for (var i = 0; i < this.volunteerListInMemory.length; i++){
+            if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
+                this.volunteerListInMemory[i] = passedVolunteer;
+                console.log(passedVolunteer.volunteerKey + " matches " + this.volunteerListInMemory[i].volunteerKey);
+            } else { console.log(passedVolunteer.volunteerKey + " is not " + this.volunteerListInMemory[i].volunteerKey);
+            
+        }
+        } 
+    }
+
 
     isEmailExposed(passedVolunteer){
         this.currentVolunteer = passedVolunteer;
@@ -134,6 +155,13 @@ export class Volunteerservice {
             this.associatedVolunteerArray.push(this.tempVolunteer);
         }
         return this.associatedVolunteerArray;
+    }
+
+    printVolunteerKeysFromList(){
+         for ( var i=0; i < this.volunteerListInMemory.length; i++){
+             console.log(this.volunteerListInMemory[i].fullName);
+             console.log(this.volunteerListInMemory[i].volunteerKey);
+         }
     }
 
     // begin shifts

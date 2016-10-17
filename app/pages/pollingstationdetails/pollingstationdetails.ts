@@ -146,7 +146,7 @@ export class PollingstationdetailsPage {
     onSubmit(){
 
         //clear shifts
-        
+        console.log(this.volunteerservice.printVolunteerKeysFromList());
         
         // this.volunteerservice.currentVolunteer.shifts.splice(0, this.volunteerservice.currentVolunteer.shifts.length);
         this.volunteerservice.clearShifts();

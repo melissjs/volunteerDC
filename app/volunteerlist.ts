@@ -69,4 +69,20 @@ export var VOLUNTEERS: Volunteer[] = [{
         "totalVoteRecords": 5,
         "totalAnomalyRecords": 0,
         "totalAmendmentRecords": 1
-      }]
+        }, {
+        "volunteerKey": "v5",
+        "fullName": "Raya Hammond",
+        "emailAddress": "email@email.com",
+        "exposeEmail": true,
+        "phoneNumber": "6024535544",
+        "age": 23,
+        "sex": "Female",
+        "partyAffiliation": "Other Party",
+        "shifts":"Late Morning, Early Evening, Early Morning, Late Evening",
+        "passcode": 'passcodestring',
+        "associatedPollingStationKey":"ps1", 
+        "totalRecords": 0,
+        "totalVoteRecords": 0,
+        "totalAnomalyRecords": 0,
+        "totalAmendmentRecords": 0,
+        } ]

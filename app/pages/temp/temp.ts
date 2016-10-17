@@ -11,13 +11,17 @@ import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstati
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+import * as globals from '../../globals';
+
+//import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 @Component({
   templateUrl: 'build/pages/temp/temp.html',
   inputs: ['pollingstation', 'volunteer'],
   directives: [PollingstationComponent],
+
 })
 export class TempPage {
 changeForm: FormGroup;
@@ -33,6 +37,7 @@ fullVolunteerKeyList: string[];
 fullVolunteerList: Volunteer[];
 wasTouched: boolean;
 
+
   constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController) {
       this.navCtrl = navCtrl;
       this.volunteerservice = volunteerservice; 
@@ -41,13 +46,14 @@ wasTouched: boolean;
       this.currentVolunteer = volunteerservice.getNewVolunteer();
         }
 
+//for Testing only
 this.currentTempVolunteer = {
 volunteerKey: 'v5',
 fullName: 'Raya Hammond',
 emailAddress: 'email@email.com',
 exposeEmail: true,
-phoneNumber: '602-453-5544',
-age: 23,
+phoneNumber: '6024539544',
+age: 123,
 sex: 'Female',
 partyAffiliation: 'Other Party',
 shifts:'Late Morning, Early Evening, Early Morning, Late Evening', //'Late Morning, Early Evening'
@@ -59,20 +65,28 @@ totalAnomalyRecords: 0,
 totalAmendmentRecords: 0,
 } 
 
+
+
     //form stuff
     var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
-    var regExPhone: string = '*';
+    var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
+    var regExAge: string = '[1]*[0-9]?[0-9]';
+
 this.changeForm = fb.group({  
     'fullNameCtrl': [this.currentTempVolunteer.fullName, Validators.compose([Validators.required])],
     'emailAddressCtrl': [this.currentTempVolunteer.emailAddress, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
     'exposeEmailCtrl': [this.currentTempVolunteer.exposeEmail, Validators.required],
-    'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.required],
-    'ageCtrl': [this.currentTempVolunteer.phoneNumber, Validators.required],
+    'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
+    'ageCtrl': [this.currentTempVolunteer.phoneNumber, Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
     'sexCtrl': [this.currentTempVolunteer.sex, Validators.required],
     'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
     'shiftsCtrl': [this.currentTempVolunteer.shifts, Validators.required],
     'passcodeCtrl': [this.currentTempVolunteer.passcode, Validators.required],
+
     });
+
+    //this.changeForm.reset(); ('fullNameCtrl')
+
 
   
   //end form stuff
@@ -101,6 +115,13 @@ this.changeForm = fb.group({
 
 //end constructor
   }
+
+/*  onchangeName(fullNameCtrl){
+  this.currentTempVolunteer.fullName = this.changeForm.form;
+  console.log(fullNameCtrl.value);
+  }
+*/
+
 
   askExpose(){
      let confirm = this.alertCtrl.create({
@@ -143,17 +164,17 @@ presentConfirm() {
       inputs: [
         { 
           name : 'options', 
-          value: 'Female', 
+          value: globals.FEMALE, 
           label: 'Female', 
           type: 'radio' 
         }, { 
           name : 'options', 
-          value: 'Male', 
+          value: globals.MALE, 
           label: 'Male', 
           type: 'radio' 
         },{ 
           name : 'options', 
-          value: 'noAnwser', 
+          value: globals.NO_ANSWER, 
           label: 'No Answer', 
           type: 'radio' 
         },
@@ -169,7 +190,9 @@ presentConfirm() {
         {
           text: 'Ok',
           handler: data => {
-            console.log(data);
+            this.currentTempVolunteer.sex = data;
+            //console.log(data);
+            //console.log(this.currentTempVolunteer.sex);
           }
         }
       ]
@@ -180,6 +203,7 @@ presentConfirm() {
 
 
 askSex(){
+  this.volunteerservice.printVolunteerKeysFromList()
   this.presentConfirm();
 }
 
@@ -189,13 +213,13 @@ askShifts(){
                 message: 'If you want to change times or stations, head over to the polling station pages. Get to the station you are currently signed up for by clicking on the address above.',
                 buttons: [
                     {
-                    text: 'No',
+                    text: 'Cancel',
                     handler: () => {
                         console.log('Disagree clicked' + this.currentTempVolunteer.shifts);
                     }
                     },
                     {
-                    text: 'Yes',
+                    text: 'Delete',
                     handler: () => {
                         this.volunteerservice.clearShifts()
                         this.printedShifts = "None";
@@ -211,6 +235,7 @@ askShifts(){
 
       wasThisTouched(){
         this.wasTouched = true;
+         
       }
 
 
@@ -223,6 +248,8 @@ askShifts(){
 
         if(this.changeForm.valid) {
             console.log('Submitted value: ', value);
+            this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
+            //console.log(this.volunteerservice.getVolunteers);
         }
 
 

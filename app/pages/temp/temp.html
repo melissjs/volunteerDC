@@ -57,45 +57,45 @@
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input  type="text" formControlName="emailAddressCtrl" value="{{currentTempVolunteer.emailAddress}}"></ion-input>
+    <ion-input  (click)="wasThisTouched()" type="text" formControlName="emailAddressCtrl" value="{{currentTempVolunteer.emailAddress}}"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Email Exposed:</ion-label>
-    <ion-input  type="text" formControlName="exposeEmailCtrl" value="{{exposedYesOrNo}}" (click)="askExpose()"></ion-input>
+    <ion-input  (click)="wasThisTouched()" type="text" formControlName="exposeEmailCtrl" value="{{exposedYesOrNo}}" (click)="askExpose()"></ion-input>
   </ion-item>
 
 
     <ion-item>
     <ion-label stacked>Cell Phone Number:</ion-label>
-    <ion-input type="text" formControlName="phoneNumberCtrl" value="{{currentTempVolunteer.phoneNumber}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="phoneNumberCtrl" value="{{currentTempVolunteer.phoneNumber}}"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Age:</ion-label>
-    <ion-input type="text" formControlName="ageCtrl" value="{{currentTempVolunteer.age}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="ageCtrl" value="{{currentTempVolunteer.age}}"></ion-input>
   </ion-item>
 
 
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-    <ion-input type="text" formControlName="sexCtrl" (click)="askSex()"></ion-input>
+    <ion-input type="text" formControlName="sexCtrl" (click)="askSex(); wasThisTouched();" value="{{currentTempVolunteer.sex}}"></ion-input>
   </ion-item>
   
 
     <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
-    <ion-input type="text" formControlName="partyAffiliationCtrl" value="{{currentTempVolunteer.partyAffiliation}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="partyAffiliationCtrl" value="{{currentTempVolunteer.partyAffiliation}}"></ion-input>
   </ion-item>
 
     <ion-item (click)="askShifts()">
     <ion-label stacked>Registered Shifts:</ion-label>
-    <ion-textarea readonly type="text" formControlName="shiftsCtrl" value="{{printedShifts}}"></ion-textarea>
+    <ion-textarea (click)="wasThisTouched()" readonly type="text" formControlName="shiftsCtrl" value="{{printedShifts}}"></ion-textarea>
     </ion-item>
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
-    <ion-input type="password" formControlName="passcodeCtrl" value="{{currentTempVolunteer.passcode}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="password" formControlName="passcodeCtrl" value="{{currentTempVolunteer.passcode}}"></ion-input>
   </ion-item>
 
 </ion-list>
@@ -107,7 +107,7 @@
 
 
 
-  <button *ngIf="wasTouched" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit()" block large>
+  <button *ngIf="wasTouched" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit(changeForm.value)" block large>
     Submit
   </button>
 
