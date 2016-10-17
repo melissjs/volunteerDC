@@ -12,72 +12,90 @@
                
         <ion-content padding>
 
-        <ion-card padding *ngIf="currentVolunteer && volunteerservice.hasPollingStation(currentVolunteer)">
-          <ion-list>
-            <ion-list-header>
+
+        <ion-card *ngIf="currentTempVolunteer.associatedPollingStationKey">
+        <ion-list text-wrap>
+
+            <ion-list-header >
               Polling Station Team Information
             </ion-list-header>
-            <ion-item>Polling Station</ion-item>
-            <ion-item>Volunteer List</ion-item>
-          </ion-list>
+
+
+   <ion-item style="cursor:pointer" (click)="goToStationDetails();">
+  <pollingstationcomponent [passedStations]=thisTempStation> </pollingstationcomponent> 
+   </ion-item>
+
+
+        
+
+      <div padding>
+      <h2 style="margin-bottom:10px">Volunteer List:</h2>
+      <p *ngFor="let item of (fullVolunteerList)"> 
+        <span >{{item.fullName}}</span> <span style="float: right" *ngIf="item.exposeEmail">{{item.emailAddress}}</span>
+      </p>
+      </div>
+    
+
+        </ion-list>
         </ion-card>
 
 
-<ion-card padding *ngIf!="currentVolunteer">
+
+<ion-card padding *ngIf="currentTempVolunteer">
   Register to generate account settings.
 </ion-card>
 
 
-        <ion-card padding *ngIf="currentVolunteer">
-            <form name="signinnewvolunteer" novalidate>
-<ion-list>
+        <ion-card *ngIf="currentTempVolunteer && currentTempVolunteer.fullName">
+            <form [formGroup]="changeForm"  (ngSubmit)="onSubmit(changeForm.value)" novalidate>
+              <ion-list text-wrap>
 <ion-list-header>Account Settings</ion-list-header>
   <ion-item>
     <ion-label stacked>Full Name:</ion-label>
-    <ion-input readonly type="text" placeholder="{{currentVolunteer.fullName}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="fullNameCtrl" ></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input  type="email" placeholder="{{currentVolunteer.emailAddress}}"></ion-input>
+    <ion-input  (click)="wasThisTouched()" type="text" formControlName="emailAddressCtrl"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Email Exposed:</ion-label>
-    <ion-input  type="text" placeholder="{{exposedYesOrNo}}"></ion-input>
+    <ion-input  (click)="wasThisTouched()" type="text" formControlName="exposeEmailCtrl"  (click)="askExpose()" value="{{exposedYesOrNo}}"></ion-input>
   </ion-item>
 
 
     <ion-item>
     <ion-label stacked>Cell Phone Number:</ion-label>
-    <ion-input type="text" placeholder="{{currentVolunteer.phoneNumber}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="phoneNumberCtrl" ></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Age:</ion-label>
-    <ion-input type="text" placeholder="{{currentVolunteer.age}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="ageCtrl" ></ion-input>
   </ion-item>
 
 
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-    <ion-input type="text" placeholder="{{currentVolunteer.sex}}"></ion-input>
+    <ion-input type="text" formControlName="sexCtrl" (click)="askSex(); wasThisTouched();" ></ion-input>
   </ion-item>
   
 
     <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
-    <ion-input type="text" placeholder="{{currentVolunteer.partyAffiliation}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="text" formControlName="partyAffiliationCtrl" ></ion-input>
   </ion-item>
 
-    <ion-item>
-    <ion-label stacked>Shift(s):</ion-label>
-    <ion-input type="text" placeholder="{{currentVolunteer.shifts}}"></ion-input>
-  </ion-item>
+    <ion-item (click)="askShifts()">
+    <ion-label stacked>Registered Shifts:</ion-label>
+    <ion-textarea (click)="wasThisTouched()" readonly type="text" formControlName="shiftsCtrl" value="{{printedShifts}}" ></ion-textarea>
+    </ion-item>
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
-    <ion-input type="password" placeholder="{{currentVolunteer.passcode}}"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="password" formControlName="passcodeCtrl"></ion-input>
   </ion-item>
 
 </ion-list>
@@ -89,8 +107,12 @@
 
 
 
-  <button *ngIf="currentVolunteer" type="submit" (click)="onSubmit()" block large>
-    Edit
+  <button *ngIf="wasTouched" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit(changeForm.value)" block large>
+    Submit
   </button>
+
+
+ <!-- <p>Form: {{ changeForm.value | json }}</p>
+<p>Form Status: {{ changeForm.status }}</p> -->
 
       </ion-content>
