@@ -49,7 +49,7 @@ export class AccountsettingsPage {
 
 
  //for Testing only
- /*
+ 
       this.currentTempVolunteer = {
             volunteerKey: 'v5',
             fullName: 'Raya Hammond',
@@ -68,7 +68,7 @@ export class AccountsettingsPage {
             totalAmendmentRecords: 0,
         } 
 
-*/
+
 
 
         // if no volunteer, begin instance thats blank
@@ -242,8 +242,7 @@ if (!this.currentTempVolunteer){
                     handler: data => {
                         this.currentTempVolunteer.sex = data;
                         //console.log(data);
-                        //console.log(this.currentTempVolunteer.sex);
-                    }
+                        console.log(this.currentTempVolunteer.sex);                    }
                 }
             ]
         };
@@ -252,13 +251,13 @@ if (!this.currentTempVolunteer){
     }
 
 
-
 askSex(){
-  console.log(this.currentTempVolunteer.fullName);
   this.presentConfirm();
+  
 }
 
     askShifts(){
+            var that = this;        
         let confirm = this.alertCtrl.create({
             title: 'Would you like to cancel your shifts?',
             message: 'If you want to change times or stations, head over to the polling station pages. Get to the station you are currently signed up for by clicking on the address above.',
@@ -272,8 +271,10 @@ askSex(){
                 {
                     text: 'Delete',
                     handler: () => {
-                        this.volunteerservice.clearShifts()
-                        this.printedShifts = "None";
+                        
+                        //this.volunteerservice.clearShifts()
+                        that.currentTempVolunteer.shifts = '';
+                        that.printedShifts = "None";
                         console.log('Agree clicked' + this.currentTempVolunteer.shifts);
                         
                     }
@@ -281,6 +282,7 @@ askSex(){
             ]
         });
         confirm.present();
+         this.currentTempVolunteer.shifts =  that.currentTempVolunteer.shifts;
     }
 
 
@@ -307,7 +309,7 @@ askSex(){
             this.currentTempVolunteer.passcode = value.passcodeCtrl;
             this.wasTouched = false;
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
-            if(this.printedShifts = "None"){ this.currentTempVolunteer.associatedPollingStationKey = null;}
+            if(this.currentTempVolunteer.shifts = ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             //console.log(this.volunteerservice.getVolunteers);
         }
 

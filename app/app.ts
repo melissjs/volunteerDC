@@ -41,7 +41,7 @@ class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   //set back to HomePage after using TempPage
-  rootPage: any = HomePage;
+  rootPage: any = TempPage;
   pages: Array<{title: string, component: any}>;
   //userDataSvc: UserDataService;
   pollingStationService: Pollingstationservice;

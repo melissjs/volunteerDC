@@ -41,7 +41,7 @@
 
 
 
-<ion-card padding *ngIf="currentTempVolunteer">
+<ion-card padding *ngIf="currentTempVolunteer.fullName==null">
   Register to generate account settings.
 </ion-card>
 
@@ -79,7 +79,7 @@
 
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-    <ion-input type="text" formControlName="sexCtrl" (click)="askSex(); wasThisTouched();" ></ion-input>
+    <ion-input type="text" formControlName="sexCtrl" (click)="askSex(); wasThisTouched();" value="{{currentTempVolunteer.sex}}" ></ion-input>
   </ion-item>
   
 
