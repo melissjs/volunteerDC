@@ -85,8 +85,9 @@ this.changeForm = fb.group({
 
     });
 
-    //this.changeForm.reset(); ('fullNameCtrl')
-
+    this.changeForm.reset(); ('fullNameCtrl');
+    this.changeForm.get('fullNameCtrl');
+    this.changeForm.patchValue('fullNameCtrl');
 
   
   //end form stuff
