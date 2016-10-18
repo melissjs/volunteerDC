@@ -40,7 +40,7 @@ currentVolunteerHere: Volunteer;
 volunteerservice: Volunteerservice;
 addPollingLocationForm: FormGroup;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder) {
   this.navCtrl = navCtrl;
   this.pollingStationService = pollingStationService;
   this.stations = pollingStationService.getStations();
@@ -198,19 +198,18 @@ onChangeZip(value){
             let alert = this.alertCtrl.create({
                         title: 'Addition Successful',
                         subTitle: 'Congratulations you have successfully initiated a new audit! This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.',
-                        buttons: ['OK'] 
+		buttons: [ 'OK' ]
                     });
                     alert.present();
+		try {
+		    that.navCtrl.push(PollingstationdetailsPage, {});
+		} catch (EE) {
+		    console.log('error in Submitting, exc='+ EE.toString())
+		}
+
             }
 
 
-            try {
-                that.navCtrl.push(PollingstationdetailsPage, {});
-                } catch (EE) {
-                console.log('error in Submitting, exc='+ EE.toString())
-                }
          }
-        
-
 
 }
