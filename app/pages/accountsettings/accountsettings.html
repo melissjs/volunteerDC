@@ -81,7 +81,7 @@
 
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-         <ion-select text-wrap [(ngModel)]="sex" formControlName="sexCtrl"  >
+         <ion-select text-wrap [(ngModel)]="currentTempVolunteer.sex" name="sex" formControlName="sexCtrl"  >
             <ion-option value="Female">Female</ion-option>
             <ion-option value="Male">Male</ion-option>
             <ion-option value="NoAnswer">No Answer</ion-option>
