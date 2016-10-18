@@ -63,7 +63,35 @@ export class PollingstationdetailsPage {
         //var passedStations = this.pollingStationService.selectedStation;
 
         //console.log(pollingStationService.selectedStation.associatedVolunteerList[1].exposeEmail);
+        
+        //ATTEMP TO FIX PROBLEM
+if (!this.currentVolunteerHere){
+
+        this.currentVolunteerHere = {
+            volunteerKey: null,
+            fullName: null,
+            emailAddress: null,
+            exposeEmail: false,
+            phoneNumber: null,
+            age:null,
+            sex: null,
+            partyAffiliation: null,
+            shifts:'', 
+            passcode: null,
+            associatedPollingStationKey:null, 
+            totalRecords:null,
+            totalVoteRecords:null,
+            totalAnomalyRecords: null,
+            totalAmendmentRecords: null,
+        }
+        volunteerservice.setNewVolunteer(this.currentVolunteerHere);
+
+}
+
+
+
         this.setShifts();
+        
     }
 
 

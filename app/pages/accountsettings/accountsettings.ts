@@ -49,7 +49,7 @@ export class AccountsettingsPage {
 
 
  //for Testing only
- 
+ /*
       this.currentTempVolunteer = {
             volunteerKey: 'v5',
             fullName: 'Raya Hammond',
@@ -68,7 +68,7 @@ export class AccountsettingsPage {
             totalAmendmentRecords: 0,
         } 
 
-
+*/
 
 
         // if no volunteer, begin instance thats blank
@@ -262,9 +262,9 @@ onChangePartyAffiliationFromList(passedValue){
             if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
             
-            this.volunteerservice.printVolunteer(this.currentTempVolunteer);
-             this.volunteerservice.printVolunteer(this.volunteerservice.currentVolunteer);
-            console.log('temp ' + this.currentTempVolunteer.shifts);
+            //this.volunteerservice.printVolunteer(this.currentTempVolunteer);
+             //this.volunteerservice.printVolunteer(this.volunteerservice.currentVolunteer);
+            //console.log('temp ' + this.currentTempVolunteer.shifts);
            // console.log('vservice ' + this.volunteerservice.currentVolunteer.shifts);
         }
 

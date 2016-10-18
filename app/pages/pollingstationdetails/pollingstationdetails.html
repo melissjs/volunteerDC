@@ -111,12 +111,12 @@
 </ion-card>
 
             <!-- for  reg -->
-            <button type="submit" (click)="onSubmit()" block large *ngIf="currentVolunteerHere">
+            <button type="submit" (click)="onSubmit()" block large *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null">
   			    Submit
            </button>
 
            <!-- for non reg -->
-           <button type="submit" (click)="onSubmit()" block large *ngIf!="currentVolunteerHere" disabled>
+           <button type="submit" (click)="onSubmit()" block large *ngIf!="currentVolunteerHere || currentVolunteerHere.fullName==null" disabled>
   			    Register to sign up for shifts
            </button>
       

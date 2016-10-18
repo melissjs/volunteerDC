@@ -68,12 +68,12 @@
         </ion-card>  
 
 <!--for  registered-->
-  <button *ngIf!="currentVolunteerHere" type="submit" (click)="onSubmit()" block large disabled >
+  <button *ngIf!="currentVolunteerHere || currentVolunteerHere.fullName==null" type="submit" (click)="onSubmit()" block large disabled >
     Register to add a location
   </button>
 
 <!--for non registered-->
-  <button *ngIf="currentVolunteerHere" type="submit" (click)="onSubmit()" block large >
+  <button *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null" type="submit" (click)="onSubmit()" block large >
     Add Location 
   </button>
 
