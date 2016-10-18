@@ -56,8 +56,48 @@ addPollingLocationForm: FormGroup;
   this.totalNeededVolunteers = null;
   this.totalRemainingShiftsToFill = null;
   this.volunteerservice = volunteerservice;
+   if(volunteerservice.currentVolunteer!==null){
   this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
+   }else{
 
+        this.currentVolunteerHere = {
+            volunteerKey: null,
+            fullName: null,
+            emailAddress: null,
+            exposeEmail: false,
+            phoneNumber: null,
+            age:null,
+            sex: null,
+            partyAffiliation: null,
+            shifts:'', 
+            passcode: null,
+            associatedPollingStationKey:this.pollingStationKey, 
+            totalRecords:null,
+            totalVoteRecords:null,
+            totalAnomalyRecords: null,
+            totalAmendmentRecords: null,
+        }
+        volunteerservice.setNewVolunteer(this.currentVolunteerHere);
+
+}
+
+// instantuite blank station
+this.newPollingStation = {
+          pollingStationKey: this.pollingStationKey,
+          precinctNumber: '',
+          streetAddress: '',
+          unitNumber: '',
+          roomNumber: '',
+          city: '',
+          state: '',
+          zip: null,
+          associatedVolunteerKeyList: []
+
+}
+
+
+
+   
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
         var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
@@ -84,31 +124,32 @@ addPollingLocationForm: FormGroup;
 
 
 onChangePrecinctNumber(value){
-  this.precinctNumber = value;
+  //this.precinctNumber = value;
+  //console.log('from function: ' + this.precinctNumber);
 }
 
 onChangeStreetAddress(value){
-  this.streetAddress = value;
+ // this.streetAddress = value;
 }
 
 onChangeUnitNumber(value){
-  this.unitNumber = value;
+  //this.unitNumber = value;
 }
 
 onChangeRoomNumber(value){
-  this.roomNumber = value;
+  //this.roomNumber = value;
 }
 
 onChangeCity(value){
-  this.city = value;
+ // this.city = value;
 }
 
 onChangeState(value){
-  this.state = value;
+ // this.state = value;
 }
 
 onChangeZip(value){
-  this.zip = value;
+  //this.zip = value;
 }
 
 
@@ -116,27 +157,30 @@ onChangeZip(value){
 
 
       onSubmit(value: any): void {
-         if(this.addPollingLocationForm.valid){
+
+
 
         // instantiate new station
+//console.log('from value: ' + value.enterPrecinctNumber);
+
         this.newPollingStation = {
           pollingStationKey: this.pollingStationKey,
-          precinctNumber: this.precinctNumber,
-          streetAddress: this.streetAddress,
-          unitNumber: this.unitNumber,
-          roomNumber: this.roomNumber,
-          city: this.city,
-          state: this.state,
-          zip: this.zip,
+          precinctNumber: value.enterPrecinctNumber,
+          streetAddress: value.enterStreetAddress,
+          unitNumber: value.enterUnitNumber,
+          roomNumber: value.enterRoomNumber,
+          city: value.enterCity,
+          state: value.enterState,
+          zip: value.enterZip,
           associatedVolunteerKeyList: []
         }
 
-        console.log(this.newPollingStation);
+        //console.log('new one: ' + this.newPollingStation.precinctNumber);
 
 
       // add new station to list
       this.stations.push(this.newPollingStation);
-      console.log(this.stations);
+      //console.log(this.stations);
 
       // set station for details pages
       this.pollingStationService.setStation(this.newPollingStation);
@@ -164,7 +208,7 @@ onChangeZip(value){
                 console.log('error in Submitting, exc='+ EE.toString())
                 }
          }
-        }
+        
 
 
 }

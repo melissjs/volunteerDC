@@ -23,7 +23,7 @@
 </ion-card>
 
         <ion-card>
-      <form [formGroup]="addPollingLocationForm"  (ngSubmit)="onSubmit(addPollingLocation.value)" novalidate>      
+      <form [formGroup]="addPollingLocationForm"  (ngSubmit)="onSubmit(addPollingLocationForm.value)" novalidate>      
 <ion-list>
 
   <ion-item>
@@ -75,9 +75,12 @@
   </button>-->
 
 <!--for  registered *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null"-->
-  <button  type="submit" (click)="onSubmit()" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
+  <button *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null" type="submit" (click)="onSubmit()" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
     Add Location 
   </button>
+
+    <p>Form: {{ addPollingLocationForm.value | json }}</p> 
+<p>Form Status: {{ addPollingLocationForm.status }}</p> 
 
 
 </ion-content>
