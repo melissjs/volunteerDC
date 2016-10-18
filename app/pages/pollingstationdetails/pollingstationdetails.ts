@@ -246,9 +246,9 @@ if (!this.currentVolunteerHere){
 
                 // ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
                 let alert = this.alertCtrl.create({
-                    //title: 'Please confirm',
-                    subTitle: 'I have read this statement and confirm that I understand the terms for participating in this audit.',
-                    buttons: ['CONFIRM'] 
+                    title: 'Independently Validate Location Address',
+                    subTitle: 'Please keep in mind anyone can enter a polling location address and we cannot check the validity of every single one; make sure to confirm this polling location is legitimate for yourself.',
+                    buttons: ['OK'] 
                 });
                 alert.present();
             } else {
