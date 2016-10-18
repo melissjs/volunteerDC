@@ -76,6 +76,11 @@ export class Volunteerservice {
         }
     }
 
+    printVolunteer(passedVolunteer){
+    console.log('Name: ' + passedVolunteer.fullName + ' Email: ' + passedVolunteer.emailAddress + ' Exposed: ' + passedVolunteer.exposeEmail + ' Cell: ' + passedVolunteer.phoneNumber + ' Age: ' + passedVolunteer.age + ' Sex: ' + passedVolunteer.sex + ' Party: ' + passedVolunteer.partyAffiliation + ' Shifts: ' + passedVolunteer.shifts+ ' Code: ' + passedVolunteer.passcode);
+    }
+
+
     printShifts(passedVolunteer){
         if (this.currentVolunteer.shifts != '') {
             return this.currentVolunteer.shifts;

@@ -70,7 +70,7 @@
       </ion-item>
 
     <ion-item>
-    <ion-label stacked>Cell Phone Number (numbers only):</ion-label>
+    <ion-label stacked>Cell Phone Number:</ion-label>
     <ion-input (click)="wasThisTouched()" type="text" formControlName="phoneNumberCtrl" ></ion-input>
   </ion-item>
 
@@ -83,7 +83,7 @@
 
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-         <ion-select text-wrap [(ngModel)]="currentTempVolunteer.sex" formControlName="sexCtrl"  >
+         <ion-select text-wrap [(ngModel)]="currentTempVolunteer.sex" name="sex" formControlName="sexCtrl" (change)="onChangeSex(sex)" (click)="wasThisTouched()" >
             <ion-option value="Female">Female</ion-option>
             <ion-option value="Male">Male</ion-option>
             <ion-option value="NoAnswer">No Answer</ion-option>
@@ -95,22 +95,17 @@
      <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
          <ion-select text-wrap [(ngModel)]="currentTempVolunteer.partyAffiliation" name="enterPartyAffiliationFromList" formControlName="partyAffiliationCtrl" (change)="onChangePartyAffiliationFromList(enterPartyAffiliationFromList)" (click)="wasThisTouched()">
-            <ion-option value="No Party Preference">No Party Preference</ion-option>
-            <ion-option value="Democratic Party"C>Democratic Party</ion-option>
-            <ion-option value="Green Party">Green Party</ion-option>
-            <ion-option value="Republican Party">Republican Party</ion-option>
-            <ion-option value="Other Party">Other Party</ion-option>
+            <ion-option value="noParty">No Party Preference</ion-option>
+            <ion-option value="democrat">Democratic Party</ion-option>
+            <ion-option value="green">Green Party</ion-option>
+            <ion-option value="republican">Republican Party</ion-option>
+            <ion-option value="other">Other Party</ion-option>
           </ion-select> 
   </ion-item>
 
 
 
         <ion-item>
-        <ion-label stacked>Registered Shifts:</ion-label>
-        <ion-textarea readonly [(ngModel)]="printedShifts" name="shift" formControlName="shiftsCtrl" (click)="askShifts(); wasThisTouched()"></ion-textarea>
-        </ion-item>
-
-        <!-- <ion-item>
         <ion-label stacked>Registered Shifts:</ion-label>
          <ion-select  multiple="true" text-wrap [(ngModel)]="currentTempVolunteer.shifts" name="shift" formControlName="shiftsCtrl" (change)="onChangeShifts(shift)" (click)="wasThisTouched()" >
             <ion-option value="Early Morning">Early Morning</ion-option>
@@ -120,7 +115,7 @@
             <ion-option value="Early Evening">Early Evening</ion-option>
             <ion-option value="Late Evening">Late Evening</ion-option>
           </ion-select> 
-        </ion-item> -->
+        </ion-item>
 
 
 
@@ -144,7 +139,7 @@
   </button>
 
 
- <!--  <p>Form: {{ changeForm.value | json }}</p> 
-<p>Form Status: {{ changeForm.status }}</p> -->
+  <p>Form: {{ changeForm.value | json }}
+<p>Form Status: {{ changeForm.status }}</p> 
 
       </ion-content>
