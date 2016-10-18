@@ -185,7 +185,7 @@ if (!this.currentTempVolunteer){
     askShifts(){
         let confirm = this.alertCtrl.create({
             title: 'Would you like to cancel your shifts?',
-            message: 'If you want to change times or stations, head over to the polling station pages. Get to the station you are currently signed up for by clicking on the address above.',
+            message: 'If you want to change times or stations, head over to the polling station pages.',
             buttons: [
                 {
                     text: 'Cancel',
@@ -259,7 +259,7 @@ onChangePartyAffiliationFromList(passedValue){
             //this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
             this.currentTempVolunteer.passcode = value.passcodeCtrl;
             this.wasTouched = false;
-            if(this.currentTempVolunteer.shifts = ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
+            if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
             
             this.volunteerservice.printVolunteer(this.currentTempVolunteer);
