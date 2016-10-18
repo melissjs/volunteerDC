@@ -283,6 +283,7 @@ askSex(){
         });
         confirm.present();
          this.currentTempVolunteer.shifts =  that.currentTempVolunteer.shifts;
+         console.log("1 " + this.currentTempVolunteer.shifts)
     }
 
 
@@ -297,7 +298,7 @@ askSex(){
 
     onSubmit(value: any): void {
         var that = this;
-
+        console.log("2 " + this.currentTempVolunteer.shifts)
 
         if(this.changeForm.valid) {
             console.log('Submitted value: ', value);
