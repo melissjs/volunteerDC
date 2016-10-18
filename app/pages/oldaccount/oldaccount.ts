@@ -18,12 +18,12 @@ import * as globals from '../../globals';
 //import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 @Component({
-  templateUrl: 'build/pages/accountsettings/accountsettings.html',
+  templateUrl: 'build/pages/oldaccount/oldaccount.html',
   inputs: ['pollingstation', 'volunteer'],
   directives: [PollingstationComponent],
 
 })
-export class AccountsettingsPage {
+export class OldaccountPage {
     changeForm: FormGroup;
     currentVolunteer: Volunteer; 
     exposedYesOrNo: string;
@@ -58,7 +58,7 @@ export class AccountsettingsPage {
             phoneNumber: '6024539544',
             age: 23,
             sex: 'Female',
-            partyAffiliation: "Other Party",
+            partyAffiliation: 'Other Party',
             shifts:'Late Morning, Early Evening, Early Morning, Late Evening', //'Late Morning, Early Evening'
             passcode: 'passcodestring',
             associatedPollingStationKey:'ps1', 
@@ -121,7 +121,7 @@ if (!this.currentTempVolunteer){
 
         
         //setVolunteer to be erased
-        volunteerservice.setNewVolunteer(this.currentTempVolunteer);
+        //volunteerservice.setNewVolunteer(this.currentTempVolunteer);
         
 
  
@@ -176,45 +176,9 @@ if (!this.currentTempVolunteer){
 
 
 // CHANGE SHIFTS
-
-/*onChangeShifts(shift){
+onChangeShifts(shift){
     this.currentTempVolunteer.shifts = shift;
-}*/
-  
-  
-    askShifts(){
-        let confirm = this.alertCtrl.create({
-            title: 'Would you like to cancel your shifts?',
-            message: 'If you want to change times or stations, head over to the polling station pages. Get to the station you are currently signed up for by clicking on the address above.',
-            buttons: [
-                {
-                    text: 'Cancel',
-                    handler: () => {
-                        console.log('Disagree clicked' + this.currentTempVolunteer.shifts);
-                    }
-                },
-                {
-                    text: 'Delete',
-                    handler: () => {
-                        
-                        //this.volunteerservice.clearShifts()
-                        this.currentTempVolunteer.shifts = '';
-                        this.printedShifts = "None";
-                        console.log('Agree clicked' + this.currentTempVolunteer.shifts);
-                        
-                    }
-                }
-            ]
-        });
-        confirm.present();
-    }
-
-
- 
-
-
-
-
+}
 
 // CHANGE PARTY AFFILIATION
 onChangePartyAffiliationFromList(passedValue){
