@@ -77,9 +77,18 @@
   </ion-item>
 
 
+<!-- (click)="askSex(); wasThisTouched();"  -->
+
     <ion-item>
     <ion-label stacked>Sex:</ion-label>
-    <ion-input type="text" formControlName="sexCtrl" (click)="askSex(); wasThisTouched();" value="{{currentTempVolunteer.sex}}" ></ion-input>
+         <ion-select text-wrap [(ngModel)]="sex" formControlName="sexCtrl"  >
+            <ion-option value="Female">Female</ion-option>
+            <ion-option value="Male">Male</ion-option>
+            <ion-option value="NoAnswer">No Answer</ion-option>
+          </ion-select> 
+<!--
+    <ion-input type="text" formControlName="sexCtrl" value="{{currentTempVolunteer.sex}}" ></ion-input> 
+-->
   </ion-item>
   
 
