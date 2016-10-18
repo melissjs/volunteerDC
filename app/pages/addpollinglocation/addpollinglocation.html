@@ -23,57 +23,59 @@
 </ion-card>
 
         <ion-card>
-            
+      <form [formGroup]="addPollingLocationForm"  (ngSubmit)="onSubmit(addPollingLocation.value)" novalidate>      
 <ion-list>
 
   <ion-item>
     <ion-label stacked>Precinct Number(s):</ion-label>
-    <ion-input type="text" [(ngModel)]="enterPrecinctNumber" (change)="onChangePrecinctNumber(enterPrecinctNumber)"></ion-input>
+    <ion-input type="text" formControlName="enterPrecinctNumber" (change)="onChangePrecinctNumber(enterPrecinctNumber)"></ion-input>
   </ion-item>
+
+  
 
   <ion-item>
     <ion-label stacked>Street Address:</ion-label>
-    <ion-input type="text" [(ngModel)]="enterStreetAddress" (change)="onChangeStreetAddress(enterStreetAddress)"></ion-input>
+    <ion-input type="text" formControlName="enterStreetAddress" (change)="onChangeStreetAddress(enterStreetAddress)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Unit Number (if applicable):</ion-label>
-    <ion-input type="text" [(ngModel)]="enterUnitNumber" (change)="onChangeUnitNumber(enterUnitNumber)"></ion-input>
+    <ion-input type="text" formControlName="enterUnitNumber" (change)="onChangeUnitNumber(enterUnitNumber)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Room Number (if applicable):</ion-label>
-    <ion-input type="text" [(ngModel)]="enterRoomNumber" (change)="onChangeRoomNumber(enterRoomNumber)"></ion-input>
+    <ion-input type="text" formControlName="enterRoomNumber" (change)="onChangeRoomNumber(enterRoomNumber)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>City:</ion-label>
-    <ion-input type="text" [(ngModel)]="enterCity" (change)="onChangeCity(enterCity)"></ion-input>
+    <ion-input type="text" formControlName="enterCity" (change)="onChangeCity(enterCity)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>State:</ion-label>
-    <ion-input type="text" [(ngModel)]="enterState" (change)="onChangeState(enterState)"></ion-input>
+    <ion-input type="text" formControlName="enterState" (change)="onChangeState(enterState)"></ion-input>
   </ion-item>
 
     <ion-item>
     <ion-label stacked>Zip:</ion-label>
-    <ion-input type="text" [(ngModel)]="enterZip" (change)="onChangeZip(enterZip)"></ion-input>
+    <ion-input type="text" formControlName="enterZip" (change)="onChangeZip(enterZip)"></ion-input>
   </ion-item>
 
 
 
 </ion-list>
-             
+      </form>    
         </ion-card>  
 
-<!--for  registered-->
+<!--for  non registered
   <button *ngIf!="currentVolunteerHere || currentVolunteerHere.fullName==null" type="submit" (click)="onSubmit()" block large disabled >
     Register to add a location
-  </button>
+  </button>-->
 
-<!--for non registered-->
-  <button *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null" type="submit" (click)="onSubmit()" block large >
+<!--for  registered *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null"-->
+  <button  type="submit" (click)="onSubmit()" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
     Add Location 
   </button>
 

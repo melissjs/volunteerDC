@@ -120,7 +120,7 @@ if (!this.currentTempVolunteer){
         
 
         
-        //setVolunteer to be erased
+        //setVolunteer 
         volunteerservice.setNewVolunteer(this.currentTempVolunteer);
         
 
