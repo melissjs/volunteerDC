@@ -75,7 +75,7 @@ export class AccountsettingsPage {
 
 
 //ATTEMP TO FIX PROBLEM
-if (!this.currentTempVolunteer){
+if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
         this.currentTempVolunteer = {
             volunteerKey: null,
@@ -262,7 +262,7 @@ onChangePartyAffiliationFromList(passedValue){
             if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
             
-            //this.volunteerservice.printVolunteer(this.currentTempVolunteer);
+            this.volunteerservice.printVolunteer(this.currentTempVolunteer);
              //this.volunteerservice.printVolunteer(this.volunteerservice.currentVolunteer);
             //console.log('temp ' + this.currentTempVolunteer.shifts);
            // console.log('vservice ' + this.volunteerservice.currentVolunteer.shifts);

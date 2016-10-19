@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 
 //to nav to
 import {PollingstationdetailsPage} from '../pollingstationdetails/pollingstationdetails';
+import {DuplicatepollingstationPage} from '../duplicatepollingstation/duplicatepollingstation';
 
 // interfaces
 import { PollingStation } from '../../pollingstation';
@@ -71,13 +72,14 @@ addPollingLocationForm: FormGroup;
             partyAffiliation: null,
             shifts:'', 
             passcode: null,
-            associatedPollingStationKey:this.pollingStationKey, 
+            associatedPollingStationKey: null, 
             totalRecords:null,
             totalVoteRecords:null,
             totalAnomalyRecords: null,
             totalAmendmentRecords: null,
         }
         volunteerservice.setNewVolunteer(this.currentVolunteerHere);
+        console.log(this.currentVolunteerHere); 
 
 }
 
@@ -151,6 +153,29 @@ onChangeState(value){
 onChangeZip(value){
   //this.zip = value;
 }
+
+
+// Compare precint number and zip for navigating to duplicate station pages
+onComparePrecintAndZip(){
+  if(this.newPollingStation.precinctNumber && this.newPollingStation.zip){
+    if(this.pollingStationService.duplicateStationSearch(this.newPollingStation.precinctNumber, this.newPollingStation.zip)){
+     // call alert popup
+		try {
+		    this.navCtrl.push(DuplicatepollingstationPage, {});
+		} catch (EE) {
+		    console.log('error in Submitting, exc='+ EE.toString())
+		}    }
+  }
+}
+
+
+
+
+
+
+
+
+
 
 
 

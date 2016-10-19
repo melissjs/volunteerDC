@@ -69,18 +69,18 @@
       </form>    
         </ion-card>  
 
-<!--for  non registered
+<!-- for  non registered -->
   <button *ngIf!="currentVolunteerHere || currentVolunteerHere.fullName==null" type="submit" (click)="onSubmit()" block large disabled >
     Register to add a location
-  </button>-->
+  </button>
 
 <!--for  registered *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null"-->
   <button *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null" type="submit" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
     Add Location 
   </button>
 
-    <p>Form: {{ addPollingLocationForm.value | json }}</p> 
+   <!-- <p>Form: {{ addPollingLocationForm.value | json }}</p> 
 <p>Form Status: {{ addPollingLocationForm.status }}</p> 
-
+-->
 
 </ion-content>
