@@ -25,6 +25,7 @@ export class Pollingstationservice {
 
     constructor(){
         this.stationListInMemory = this.getStations();
+        this.matchingPrecinctAndZipList = [];
     }
 
     getStations() { return STATIONS;  }
@@ -108,7 +109,7 @@ export class Pollingstationservice {
 
 
     // Compare precint number and zip for navigating to duplicate station pages
-duplicateStationSearch(passedPrecint, passedZip){
+duplicateStationSearch(passedPrecint: string, passedZip: number){
       // GET ALL STATIONS WITH THAT PRECINT
       for (var i=0; i < this.stationListInMemory.length; i++){
           if(this.stationListInMemory[i].precinctNumber == passedPrecint){
@@ -118,7 +119,9 @@ duplicateStationSearch(passedPrecint, passedZip){
               }
           }
       }
-    if (this.matchingPrecinctAndZipList!=[]){
+    if (this.matchingPrecinctAndZipList[0]){
+                  console.log("list" + this.matchingPrecinctAndZipList);
+
         return true
     } else {
     return false;

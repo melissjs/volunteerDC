@@ -160,11 +160,10 @@ onComparePrecintAndZip(){
   if(this.newPollingStation.precinctNumber && this.newPollingStation.zip){
     if(this.pollingStationService.duplicateStationSearch(this.newPollingStation.precinctNumber, this.newPollingStation.zip)){
      // call alert popup
-		try {
-		    this.navCtrl.push(DuplicatepollingstationPage, {});
-		} catch (EE) {
-		    console.log('error in Submitting, exc='+ EE.toString())
-		}    }
+		return true
+  }
+  } else {
+    return false
   }
 }
 
@@ -200,20 +199,27 @@ onComparePrecintAndZip(){
           associatedVolunteerKeyList: []
         }
 
-        
+
+     // set station for details pages (MUST NOT ADD TO LIST IF CONFIRMED DUPLICATE)
+      this.pollingStationService.setStation(this.newPollingStation);
+
+
+        if(this.onComparePrecintAndZip()){
+          	try {
+		    this.navCtrl.push(DuplicatepollingstationPage, {});
+		} catch (EE) {
+		    console.log('error in Submitting, exc='+ EE.toString())
+		}
+
+        } else {
 
         //console.log('new one: ' + this.newPollingStation.precinctNumber);
 
 
       // add new station to list
       this.stations.push(this.newPollingStation);
+      
       //console.log(this.stations);
-
-      // set station for details pages
-      this.pollingStationService.setStation(this.newPollingStation);
-
-
-
 
 
 
@@ -236,5 +242,6 @@ onComparePrecintAndZip(){
 
 
          }
+      }
 
 }
