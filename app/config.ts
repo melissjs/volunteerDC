@@ -9,6 +9,8 @@
 // Specify in E.164 format, e.g. "+16519998877"
 //export var twilioNumber = process.env.TWILIO_NUMBER;
 
-export var MT_HOST  = 'http://localhost:8088';
+//For Testing locally, uncomment the following.
+//export var MT_HOST  = 'http://localhost:8088';
+export var MT_HOST  = '';
 export var AUTHY_VER_URL = MT_HOST + '/api/verificationinit/';
 export var AUTHY_CHK_URL = MT_HOST + '/api/verificationcheck/';

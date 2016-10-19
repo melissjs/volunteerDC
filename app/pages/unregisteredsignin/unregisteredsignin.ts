@@ -364,7 +364,8 @@ export class UnregisteredsigninPage {
                     }
                 }, err => {
                     console.log('error occurred ' + err.toString());
-                    if (err.toString().startsWith("Response with status: 0")) {
+                    if ((err.toString().startsWith("Response with status: 0")) ||
+                        (err.toString().startsWith("Response with status: 404"))) {
                         that.properties = "Unknown Error!";
                         this.successForward(false);
                         return;
