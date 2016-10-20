@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import * as config from '../../config';
+import { Volunteer} from '../../volunteer';
 
 let authyURL = config.AUTHY_VER_URL;
 
@@ -20,8 +21,8 @@ export class RestService {
 
     constructor(private http: Http) {
         // generate values
-        this.jsessionid = this.generateUUID();
-        this.csrf_token = this.generateUUID();
+        this.jsessionid = null;// this.generateUUID();
+        this.csrf_token = null;// this.generateUUID();
     }
 
     generateUUID(){
@@ -39,19 +40,23 @@ export class RestService {
 
     sendAuthyRequest(via: string, cellPhone: string) {
 
-        // let options = new RequestOptions({ headers: headers });
+	// let options = new RequestOptions({ headers: null, withCredentials: true});
         var url = config.AUTHY_VER_URL + cellPhone + '?via=' + via;
 
         // var retval1 = this.http.post(url, params, { headers: headers });
         var retval1 = this.http.get(url);
         
         // body, options
+	var that = this;
+        /* var retval1b = retval1.subscribe((res) => {
+            that.csrf_token = res.headers.get('CSRF-TOKEN');
+        });*/
 
         var retval2 = retval1.map(
             res => res.json()
         );
         return retval2;
-	    // .catch(this.handleError);
+            // .catch(this.handleError);
     }
     
     sendAuthyVerify(cellPhone: string, code: string) {
@@ -68,9 +73,46 @@ export class RestService {
             res => res.json()
         );
         return retval2;
-	    // .catch(this.handleError);
+            // .catch(this.handleError);
     }
     
+    cacheBuster() {
+        var now = new Date().getTime();
+        var retval = '?cacheBuster=' + now;
+        return retval;
+    }
+
+    registerUser(nv: Volunteer) {
+        var blankIdx = nv.fullName.indexOf(" ");
+        var firstName = null;
+        var lastName = null;
+        if (blankIdx < 1) {
+            // no last name specified..
+            firstName = nv.fullName;
+        } else {
+            firstName = nv.fullName.substring(0,blankIdx);
+            lastName = nv.fullName.substring(blankIdx+1);
+        }
+        var property = 
+            { "login": nv.phoneNumber, "firstName": firstName, "lastName": lastName,
+              "email": nv.emailAddress, "password": nv.passcode, "langKey": "en" };
+        var json = JSON.stringify(property);
+        var params = /* 'json=' +  */ json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+	let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/register' + this.cacheBuster();
+        var retval1 = this.http.post(url, params, options);
+        // body, options
+        var retval2 = retval1.map(res => res.json());
+        return retval2;
+    }
+
     handleError(error) {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error' + error.toString());
