@@ -228,7 +228,7 @@ dbPartyAffiliation: string;
 
         try {
             
-                this.navCtrl.push(RegistrationsuccessPage, {
+                this.navCtrl.setRoot(RegistrationsuccessPage, {
                 });
             
         } catch (EE) {
