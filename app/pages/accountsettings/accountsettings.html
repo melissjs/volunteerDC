@@ -91,7 +91,7 @@
   </ion-item>
   
 
-
+<!-- letting them only write in 
      <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
          <ion-select text-wrap [(ngModel)]="currentTempVolunteer.partyAffiliation" name="enterPartyAffiliationFromList" formControlName="partyAffiliationCtrl" (change)="onChangePartyAffiliationFromList(enterPartyAffiliationFromList)" (click)="wasThisTouched()">
@@ -102,7 +102,14 @@
             <ion-option value="Other Party">Other Party</ion-option>
           </ion-select> 
   </ion-item>
+  -->
 
+   
+        <ion-item>
+        <ion-label stacked>Party Affiliation:</ion-label>
+        <ion-input type="text" [(ngModel)]="currentTempVolunteer.partyAffiliation"  formControlName="partyAffiliationCtrl" (click)="wasThisTouched()"></ion-input>
+        </ion-item> 
+  
 
 
         <ion-item>

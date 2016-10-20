@@ -111,7 +111,8 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
             'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
             'ageCtrl': [this.currentTempVolunteer.age, Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': [this.currentTempVolunteer.sex],
-            'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
+            'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
+           // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
             'shiftsCtrl': [this.currentTempVolunteer.shifts],
             'passcodeCtrl': [this.currentTempVolunteer.passcode, Validators.required],
 
@@ -255,6 +256,7 @@ onChangePartyAffiliationFromList(passedValue){
             this.currentTempVolunteer.fullName = value.fullNameCtrl;
             this.currentTempVolunteer.emailAddress = value.emailAddressCtrl;
             this.currentTempVolunteer.phoneNumber = value.phoneNumberCtrl;
+            this.currentTempVolunteer.age = value.ageCtrl;
             //this.currentTempVolunteer.sex = value.sexCtrl;
             //this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
             this.currentTempVolunteer.passcode = value.passcodeCtrl;

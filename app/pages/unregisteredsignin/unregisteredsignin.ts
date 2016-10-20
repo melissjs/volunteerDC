@@ -7,6 +7,10 @@ import { Volunteer} from '../../volunteer';
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice'
 //import { VOLUNTEERS} from '../../volunteerlist.ts';
 
+import * as globals from '../../globals';
+
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+
 @Component({
   templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
 })
@@ -33,8 +37,13 @@ enterOtherPartyAffiliation: string;
 volunteerservice: Volunteerservice;
 party: string;
 volunteers: Volunteer[];
+registerForm: FormGroup;
+dbSex: string;
+dbPartyAffiliation: string;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, volunteerservice: Volunteerservice) {
+
+
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, volunteerservice: Volunteerservice) {
   this.navCtrl = navCtrl;
   this.newVolunteer = null;
   this.volunteerKey = null;
@@ -57,91 +66,53 @@ volunteers: Volunteer[];
   this.enterOtherPartyAffiliation = null;
   this.volunteerservice = volunteerservice;
   this.volunteers = this.volunteerservice.getVolunteers();
-  }
+
+  
+        //form stuff
+        var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
+        var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
+        var regExAge: string = '[1]*[0-9]?[0-9]';
+
+        this.registerForm = fb.group({  
+            'enterFullName': ['', Validators.compose([Validators.required])],
+            'enterEmailAddress': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
+            //'exposeEmailCtrl': [this.newVolunteer.exposeEmail],
+            'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
+            'enterAge': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
+            'sexCtrl': ['' , Validators.required],
+            'partyAffiliationCtrl': ['' , Validators.required],
+           // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
+            //'shiftsCtrl': [this.newVolunteer.shifts],
+            'enterOtherPartyAffiliation':[''],
+            'enterPasscode1': ['', Validators.required],
+            'enterPasscode2': ['', Validators.required],
+
+        });
 
 
-    onSubmit() {
-        var that = this;
-        // first party logic
-        if (this.enterPartyAffiliationFromList!=="other"){
-               this.enterOtherPartyAffiliation=null;
-               this.enterPartyAffiliation=this.enterPartyAffiliationFromList;
-           }
 
-           if (this.enterPartyAffiliationFromList=="other" && this.enterOtherPartyAffiliation!==null){
-                this.enterPartyAffiliation=this.enterOtherPartyAffiliation;
-            }
-        
-            //generate key for new volunteer
-             this.volunteerKey = this.volunteerservice.generateVolunteerKey();
 
-        //then fill object
+//ATTEMP TO FIX PROBLEM
 
-                    this.newVolunteer =
-                    {
-                        volunteerKey: this.volunteerKey,
-                        fullName: this.enterFullName,
-                        emailAddress: this.enterEmailAddress,
-                        exposeEmail: this.enterExposeEmail,
-                        phoneNumber: this.enterPhoneNumber,
-                        age: this.enterAge,
-                        sex: this.enterSex,
-                        partyAffiliation: this.enterPartyAffiliation,
-                        shifts: this.enterShifts,
-                        passcode: this.enterPasscode,
-                        associatedPollingStationKey: null,
-                        totalRecords: null,
-                        totalVoteRecords: null,
-                        totalAnomalyRecords: null,
-                        totalAmendmentRecords: null
-                    } 
-                    
-
-                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
-
-                     console.log('hello ' + this.newVolunteer.fullName);
-
-                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
-                     this.volunteers.push(this.newVolunteer);
-                     console.log(this.volunteers);
-        
-            
-        // then
-                    if (this.newVolunteer.fullName !== null){
-                    let alert = this.alertCtrl.create({
-                    title: 'Registration Successful',
-                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-                    buttons: ['OK'] 
-                });
-                alert.present();
-
-                    
-         }
-    
-// then
-
-        try {
-            
-                that.navCtrl.push(RegistrationsuccessPage, {
-                });
-            
-        } catch (EE) {
-                console.log('error in Submitting, exc='+ EE.toString())
+        this.newVolunteer = {
+            volunteerKey: null,
+            fullName: null,
+            emailAddress: null,
+            exposeEmail: false,
+            phoneNumber: null,
+            age:null,
+            sex: null,
+            partyAffiliation: null,
+            shifts:'', 
+            passcode: null,
+            associatedPollingStationKey:null, 
+            totalRecords:null,
+            totalVoteRecords:null,
+            totalAnomalyRecords: null,
+            totalAmendmentRecords: null,
         }
-               
-    }
-    
+}
 
-
-
-            onChangeFullName(value){
-            this.enterFullName = value;
-            }
-
-           onChangeEmail(value){
-           this.enterEmailAddress = value;
-
-           }
 
         askToExposeEmail(){
 
@@ -168,57 +139,104 @@ volunteers: Volunteer[];
                 ]
                 });
                 confirm.present();
-            
-            
-        /*if (this.enterEmailAddress !== null){
-                    let alert = this.alertCtrl.create({
-                    title: 'Expose Email to Team?',
-                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-                    buttons: ['OK'] 
-                });
-                alert.present();}*/
         }
 
 
-           onChangePhoneNumber(value){
-           this.enterPhoneNumber = value;
-           }
 
-            onChangeAge(value){
-            this.enterAge = value;
+
+
+    onSubmit(value: any): void {
+
+            if(value.enterPasscode1 == value.enterPasscode2){
+            this.newVolunteer.passcode = value.enterPasscode1;
+            } else {
+
+                let pcalert = this.alertCtrl.create({
+                    title: 'Passwords do not match',
+                    subTitle: 'Please re-enter your passcodes.',
+                    buttons: ['OK'] 
+                });
+                pcalert.present();
+                return;
             }
 
-            onChangeSex(value){
-            this.enterSex = value;
+
+
+
+// SET VALUES FROM TEXT INPUTS
+        //if(this.registerForm.valid) {
+            //console.log('Submitted value: ', value);
+            this.newVolunteer.fullName = value.enterFullName;
+            this.newVolunteer.emailAddress = value.enterEmailAddress;
+            this.newVolunteer.phoneNumber = value.enterPhoneNumber;
+            this.newVolunteer.age = value.enterAge;
+            this.newVolunteer.sex = this.enterSex;
+
+            if (this.enterPartyAffiliationFromList!="Other Party"){
+             this.newVolunteer.partyAffiliation = this.enterPartyAffiliationFromList;
+            } else if (this.enterPartyAffiliationFromList=="Other Party" && value.enterOtherPartyAffiliation){
+            this.newVolunteer.partyAffiliation = value.enterOtherPartyAffiliation;
             }
 
-           onChangePartyAffiliationFromList(value){
-           this.enterPartyAffiliationFromList = value;
-           /*if (this.enterPartyAffiliationFromList!=="other"){
-               this.enterOtherPartyAffiliation=null;
-               this.enterPartyAffiliation=this.enterPartyAffiliationFromList;
-           }*/
-           }
+            //this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
 
-            onChangeOtherPartyAffiliation(value){
-            this.enterOtherPartyAffiliation = value;
-             /*if (this.enterPartyAffiliationFromList=="other" && this.enterOtherPartyAffiliation!==null){
-                this.enterPartyAffiliation=this.enterOtherPartyAffiliation;
-            }*/
-            }
+        
 
-            onChangePasscode1(value){
-           this.enterPasscode1 = value;
-           }
+            
+            this.volunteerservice.printVolunteer(this.newVolunteer);
+             
+        
 
-           onChangePasscode2(value){
-           this.enterPasscode2 = value;
-           if (this.enterPasscode1==this.enterPasscode2){
-                this.enterPasscode=this.enterPasscode1;
-           }
-           }
+        
+            //generate key for new volunteer
+             this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
 
+             //expose emailAddress
+             this.newVolunteer.exposeEmail = this.enterExposeEmail;
+
+                this.newVolunteer.associatedPollingStationKey = '';
+                this.newVolunteer.totalRecords = 0;
+                this.newVolunteer.totalVoteRecords = 0;
+                this.newVolunteer.totalAnomalyRecords = 0;
+                this.newVolunteer.totalAmendmentRecords = 0;
+
+        
+                    
+// set new volunteer
+                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
+
+                    // console.log('hello ' + this.newVolunteer.fullName);
+
+                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
+                     this.volunteers.push(this.newVolunteer);
+                     //console.log(this.volunteers);
+        
+            
+        // then
+                    //if (this.newVolunteer.fullName !== null){
+                    let alert = this.alertCtrl.create({
+                    title: 'Registration Successful',
+                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+                    buttons: ['OK'] 
+                });
+                alert.present();
+
+                    
+         
+    
+// then
+
+        try {
+            
+                this.navCtrl.push(RegistrationsuccessPage, {
+                });
+            
+        } catch (EE) {
+                console.log('error in Submitting, exc='+ EE.toString())
+        }
+               
+   // }
+    
+
+    }
 }
-
-/* Thank you for registering to volunteer on election day! Now all you need to do is find a polling location near you and sign up for one or more shifts. 
-*/  
