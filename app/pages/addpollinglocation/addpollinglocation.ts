@@ -203,6 +203,18 @@ onComparePrecintAndZip(){
      // set station for details pages (MUST NOT ADD TO LIST IF CONFIRMED DUPLICATE)
       this.pollingStationService.setStation(this.newPollingStation);
 
+/*
+      //reset form not working so manual reset
+      //this.addPollingLocationForm.reset();
+        this.addPollingLocationForm = this.fb.group({  
+            'enterPrecinctNumber': [''],
+            'enterStreetAddress': [''],
+            'enterUnitNumber': [''],
+            'enterRoomNumber': [''],
+            'enterCity': [''],
+            'enterState': [''],
+            'enterZip': [''],
+        });*/
 
         if(this.onComparePrecintAndZip()){
           	try {

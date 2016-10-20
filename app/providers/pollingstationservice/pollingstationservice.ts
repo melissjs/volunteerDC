@@ -21,11 +21,13 @@ export class Pollingstationservice {
     stationListInMemory: PollingStation[];
     associatedVolunteerKeyList: string[];
     matchingPrecinctAndZipList: PollingStation[];
+    duplicateYesOrNo: boolean;
     //searchpipe: Searchpipe;
 
     constructor(){
         this.stationListInMemory = this.getStations();
         this.matchingPrecinctAndZipList = [];
+        this.duplicateYesOrNo = false;
     }
 
     getStations() { return STATIONS;  }
@@ -110,20 +112,24 @@ export class Pollingstationservice {
 
     // Compare precint number and zip for navigating to duplicate station pages
 duplicateStationSearch(passedPrecint: string, passedZip: number){
+    // starting with clear comparison array 
+    this.matchingPrecinctAndZipList = [];
+    this.duplicateYesOrNo = false;
       // GET ALL STATIONS WITH THAT PRECINT
       for (var i=0; i < this.stationListInMemory.length; i++){
           if(this.stationListInMemory[i].precinctNumber == passedPrecint){
               // fill array will all those stations with matching precints
               if(this.stationListInMemory[i].zip == passedZip){
                   this.matchingPrecinctAndZipList.push(this.stationListInMemory[i]);
+                  this.duplicateYesOrNo =  true;
               }
           }
       }
-    if (this.matchingPrecinctAndZipList[0]){
-                  console.log("list" + this.matchingPrecinctAndZipList);
-
-        return true
+    if (this.duplicateYesOrNo == true){
+                  //console.log(this.matchingPrecinctAndZipList[0]);
+        return true;
     } else {
+    this.duplicateYesOrNo = false;
     return false;
     }
 }

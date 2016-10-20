@@ -12,13 +12,16 @@
 
         
       
+      <div id="searchDiv">
+      <ion-searchbar style="margin-bottom:0px; padding-bottom:0px; width:100%" [(ngModel)]="query"></ion-searchbar> 
+      </div>
 
-      <ion-searchbar [(ngModel)]="query"></ion-searchbar> 
+      <div style="margin-top:60px">
        <ion-card padding style="cursor:pointer" (click)="showStationDetails(item);" *ngFor="let item of (stations | searchpipe:query)">
   <!--       <ion-card padding style="cursor:pointer" (click)="showStationDetails(item);" *ngFor="let item of (stations)">  -->
        <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
        </ion-card>
-      
+      </div>
      
 
 

@@ -1,18 +1,49 @@
-<!--
-  Generated template for the DuplicatepollingstationPage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>duplicatepollingstation</ion-title>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Possible Duplicate Location</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
+
+
+    <ion-card padding>
+      <p>{{alertMsg}}</p>
+    </ion-card>
+        
+      
+
+      
+       <ion-card>
+         <ion-list-header>Station you Entered</ion-list-header>
+         <ion-item>
+           <p>Precinct Number: {{pollingStationService.selectedStation.precinctNumber}}</p>
+            <p>{{pollingStationService.selectedStation.streetAddress}}</p>
+            <p>{{pollingStationService.selectedStation.city}}, {{pollingStationService.selectedStation.state}} {{pollingStationService.selectedStation.zip}}</p> 
+                  <ion-buttons end>
+                    <button small item-right (click)="onCancel()">Cancel</button>
+                  <button small item-right (click)="onAdd()">Add</button>
+                  </ion-buttons> 
+         </ion-item>
+       </ion-card>
+
+        <ion-card>
+         <ion-list-header>{{alertMsgHeading}}</ion-list-header>
+         <ion-list>
+          <ion-item style="cursor:pointer" (click)="showStationDetails(item);" *ngFor="let item of pollingStationService.matchingPrecinctAndZipList">
+          <pollingstationcomponent [passedStations]=item> </pollingstationcomponent>
+          </ion-item>
+         </ion-list>
+          </ion-card>
+      
+     
+
+
+
+
 
 </ion-content>

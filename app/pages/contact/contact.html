@@ -38,7 +38,7 @@
    
   
 
- <button type="submit" [disabled]="!contactForm.valid" block>Submit</button>
+ <button type="submit" [disabled]="!contactForm.valid" (click)="onSubmit(contactForm.value)" block>Submit</button>
 
 <!-- <p>Form: {{ contactForm.value | json }}</p>
 <p>Form Status: {{ contactForm.status }}</p>
