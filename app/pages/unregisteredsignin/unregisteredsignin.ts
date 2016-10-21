@@ -261,78 +261,12 @@ properties: any;
             }
 
 
-                    // ERICS PART OF ON SUBMIT
-        if ((this.newVolunteer.fullName == null) || /*
-            (this.newVolunteer.emailAddress == null) || */
-            (this.newVolunteer.phoneNumber == null) /* ||
-            (this.newVolunteer.passCode == null) ||      
-            (this.newVolunteer.passCheck == null) ||
-            (this.newVolunteer.enterShift == null) */ ) {
-            var reqFields = "";
-            var first = true;
-            /* if (this.newVolunteer.fullName == null) {
-                reqFields += "Full Name";
-                first = false;
-            }
-            if (this.newVolunteer.emailAddress == null) {
-                if (!first) {
-                    reqFields += ", ";
-                }
-                reqFields += "Email Address";
-                first = false;
-            } */
-            if (this.newVolunteer.phoneNumber == null) {
-                if (!first) {
-                    reqFields += ", ";
-                }
-                reqFields += "Cell Phone";
-                first = false;
-            } /*
-            if (this.newVolunteer.passCode == null) {
-                if (!first) {
-                    reqFields += ", ";
-                }
-                reqFields += "Passcode";
-                first = false;
-            }
-            if (this.newVolunteer.passCheck == null) {
-                if (!first) {
-                    reqFields += ", ";
-                }
-                reqFields += "Re-entered Passcode";
-                first = false;
-            }
-            */
-
-            let alert = this.alertCtrl.create({
-                title: reqFields + ' field(s) required.',
-                subTitle: 'Please fill in all required fields.',
-                buttons: ['OK']
-            });
-            alert.present();
-        } else {
-
-            /* if (that.passCode != that.passCheck) {
-                let alert = this.alertCtrl.create({
-                    title: 'Passcodes do not match',
-                    subTitle: 'Please re-enter passcodes.',
-                    buttons: ['OK']
-                });
-                alert.present();
-            } else */ {
-
-                this.presentVerificationInit();
-            }
-        }
-
-        //END ERICS ONSUBMITCODE
+ 
 
 
 
 
-// SET VALUES FROM TEXT INPUTS
-        //if(this.registerForm.valid) {
-            //console.log('Submitted value: ', value);
+            // SET VALUES FROM TEXT INPUTS
             this.newVolunteer.fullName = value.enterFullName;
             this.newVolunteer.emailAddress = value.enterEmailAddress;
             this.newVolunteer.phoneNumber = value.enterPhoneNumber;
@@ -345,7 +279,68 @@ properties: any;
             this.newVolunteer.partyAffiliation = value.enterOtherPartyAffiliation;
             }
 
-            //this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
+            //generate key for new volunteer
+             this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
+
+             //expose emailAddress
+             this.newVolunteer.exposeEmail = this.enterExposeEmail;
+
+                this.newVolunteer.associatedPollingStationKey = '';
+                this.newVolunteer.totalRecords = 0;
+                this.newVolunteer.totalVoteRecords = 0;
+                this.newVolunteer.totalAnomalyRecords = 0;
+                this.newVolunteer.totalAmendmentRecords = 0;
+
+        
+                    
+                    // set new volunteer
+                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
+
+                    // console.log('hello ' + this.newVolunteer.fullName);
+
+                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
+                     this.volunteers.push(this.newVolunteer);
+                     //console.log(this.volunteers);
+        
+            
+
+
+                     // ERICS Call
+                     this.presentVerificationInit();
+
+                    /*
+                     comment out mine
+                    // then
+                    //if (this.newVolunteer.fullName !== null){
+                    let alert = this.alertCtrl.create({
+                    title: 'Registration Successful',
+                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+                    buttons: ['OK'] 
+                    });
+                    alert.present();
+
+                    
+         
+    
+                    // then
+
+                    try {
+                        
+                            this.navCtrl.setRoot(RegistrationsuccessPage, {
+                            });
+                        
+                    } catch (EE) {
+                            console.log('error in Submitting, exc='+ EE.toString())
+                    }
+                    */
+                        
+   
+
+
+    }
+
+    //end onsubmit
+
 
         
     presentVerificationCheck(subtitle:string) {
@@ -586,61 +581,4 @@ properties: any;
     }
 
             
-            this.volunteerservice.printVolunteer(this.newVolunteer);
-             
-        
-
-        
-            //generate key for new volunteer
-             this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
-
-             //expose emailAddress
-             this.newVolunteer.exposeEmail = this.enterExposeEmail;
-
-                this.newVolunteer.associatedPollingStationKey = '';
-                this.newVolunteer.totalRecords = 0;
-                this.newVolunteer.totalVoteRecords = 0;
-                this.newVolunteer.totalAnomalyRecords = 0;
-                this.newVolunteer.totalAmendmentRecords = 0;
-
-        
-                    
-// set new volunteer
-                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
-
-                    // console.log('hello ' + this.newVolunteer.fullName);
-
-                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
-                     this.volunteers.push(this.newVolunteer);
-                     //console.log(this.volunteers);
-        
-            
-        // then
-                    //if (this.newVolunteer.fullName !== null){
-                    let alert = this.alertCtrl.create({
-                    title: 'Registration Successful',
-                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-                    buttons: ['OK'] 
-                });
-                alert.present();
-
-                    
-         
-    
-// then
-
-        try {
-            
-                this.navCtrl.setRoot(RegistrationsuccessPage, {
-                });
-            
-        } catch (EE) {
-                console.log('error in Submitting, exc='+ EE.toString())
-        }
-               
-   // }
-    
-
-    }
 }
-
