@@ -65,7 +65,7 @@ class MyApp {
        { title: 'Participate', component: ParticipatePage },
        { title: 'Educate', component: EducatePage },
        { title: 'Promote', component: PromotePage },
-       { title: 'Contact', component: ContactPage },
+       { title: 'Contact Us', component: ContactPage },
        { title: 'Account', component: AccountsettingsPage },
        
     ];

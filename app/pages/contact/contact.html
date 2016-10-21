@@ -3,12 +3,12 @@
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Contact</ion-title>
+    <ion-title>Contact Us</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="backgroundColor" padding>
 
 
   
@@ -38,7 +38,7 @@
    
   
 
- <button type="submit" [disabled]="!contactForm.valid" (click)="onSubmit(contactForm.value)" block>Submit</button>
+ <button type="submit" [disabled]="!contactForm.valid" (click)="onSubmit(contactForm.value)" large block>Submit</button>
 
 <!-- <p>Form: {{ contactForm.value | json }}</p>
 <p>Form Status: {{ contactForm.status }}</p>
