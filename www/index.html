@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html class="no-js">
 <head>
   <title>Ionic</title>
   <meta charset="UTF-8">
@@ -18,13 +18,18 @@
     }
   </script>-->
 
+  <!-- build:css content/css/main.css -->
   <link ios-href="build/css/app.ios.css" rel="stylesheet">
   <link md-href="build/css/app.md.css" rel="stylesheet">
   <link wp-href="build/css/app.wp.css" rel="stylesheet">
+  <!-- endbuild -->
 </head>
 
 <body>
   <ion-app></ion-app>
+
+  <!-- build:js app/bundle.js -->
+  <!-- inject:js -->
 
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
@@ -35,6 +40,10 @@
   <script src="build/js/zone.js"></script>
   <!-- the bundle which is built from the app's source code -->
   <script src="build/js/app.bundle.js"></script>
+
+  <!-- endinject -->
+  <!-- endbuild -->
+
 </body>
 
 </html>
