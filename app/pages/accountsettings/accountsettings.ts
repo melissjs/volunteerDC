@@ -167,12 +167,12 @@ onLogout(){
 
 onConfirmOldPasscode(promptPWD){
     let prompt = this.alertCtrl.create({
-      //title: 'Passcode ',
-      message: "Enter your old passcode to modify this field.",
+      title: 'Verification Required  ',
+      message: "Enter your old passcode to verify this change.",
       inputs: [
         {
           name: 'title',
-          placeholder: 'Title'
+         // placeholder: 'Old Password'
         },
       ],
       buttons: [
@@ -180,6 +180,7 @@ onConfirmOldPasscode(promptPWD){
           text: 'Cancel',
           handler: data => {
             console.log('Cancel clicked');
+            this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
           }
         },
         {
