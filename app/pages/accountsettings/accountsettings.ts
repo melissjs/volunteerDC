@@ -164,10 +164,8 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
         //get associate volunteer keys
         if(this.currentTempVolunteer.associatedPollingStationKey!==null){
-        this.fullVolunteerKeyList = this.pollingstationservice.getAssociatedVolunteerKeyList(this.currentTempVolunteer.associatedPollingStationKey);
-        //make array of associated volunteerservices
-        //this.fullVolunteerKeyList = [];// zero out
-        this.fullVolunteerList = this.volunteerservice.getVolunteerArrayByKeyList(this.fullVolunteerKeyList);
+        
+      //TODO########  this.fullVolunteerList = 
         }
 
 

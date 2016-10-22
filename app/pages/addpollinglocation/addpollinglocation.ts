@@ -94,8 +94,6 @@ this.newPollingStation = {
           city: '',
           state: '',
           zip: null,
-          associatedVolunteerKeyList: []
-
 }
 
 
@@ -207,7 +205,6 @@ onComparePrecintAndZip(){
           city: value.enterCity,
           state: value.enterState,
           zip: value.enterZip,
-          associatedVolunteerKeyList: []
         }
 
 

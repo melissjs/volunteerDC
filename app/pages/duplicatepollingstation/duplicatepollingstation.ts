@@ -60,8 +60,6 @@ this.pollingStationService.selectedStation = {
           city: '',
           state: '',
           zip: null,
-          associatedVolunteerKeyList: []
-
 }
    try {
                 this.navCtrl.setRoot(FindpollinglocationPage, {});            

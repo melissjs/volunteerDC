@@ -24,6 +24,7 @@ export class RestService {
         // generate values
         this.jsessionid = null;// this.generateUUID();
         this.csrf_token = null;// this.generateUUID();
+        this.loggedIn = false;
     }
 
     setLoggedIn(passedLoginValue){
