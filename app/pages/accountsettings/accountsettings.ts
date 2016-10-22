@@ -16,13 +16,15 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
 import * as globals from '../../globals';
 
 import { Logincomponent } from '../logincomponent/logincomponent';
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
+import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
 
 //import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 @Component({
   templateUrl: 'build/pages/accountsettings/accountsettings.html',
   inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent, Logincomponent],
+  directives: [PollingstationComponent, Logincomponent, Changepasswordcomponent],
 
 })
 export class AccountsettingsPage {
@@ -38,12 +40,16 @@ export class AccountsettingsPage {
     fullVolunteerKeyList: string[];
     fullVolunteerList: Volunteer[];
     wasTouched: boolean;
+    resetPasscode: boolean;
+    loggedIn: boolean;
 
 
     constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController) {
         this.navCtrl = navCtrl;
         this.volunteerservice = volunteerservice; 
         this.pollingstationservice = pollingstationservice;
+        this.resetPasscode = false;
+        this.loggedIn = false;
         if(volunteerservice.currentVolunteer!==null){
             this.currentTempVolunteer = volunteerservice.getNewVolunteer();
             console.log(this.currentTempVolunteer);
@@ -161,6 +167,23 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
         //end constructor
     }
 
+
+onClickRegister(){
+        var that = this;
+        try {
+            
+            this.navCtrl.push(UnregisteredsigninPage, {
+            });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+            
+        }
+}
+
+onClickReset(){
+this.resetPasscode = true;
+}
 
 
 // CHANGE EXPOSE EMAIL

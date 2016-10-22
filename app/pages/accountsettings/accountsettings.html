@@ -41,13 +41,18 @@
 
 
 <!-- Login -->
-<ion-card padding *ngIf="currentTempVolunteer.fullName==null">
+<ion-card padding *ngIf="currentTempVolunteer.fullName==null&& !resetPasscode">
 <logincomponent></logincomponent>
 </ion-card>
 
 <!-- note for unreg -->
-<ion-card padding *ngIf="currentTempVolunteer.fullName==null">
- Login to your account or register <span style="color:#1c396d; cursor:pointer" (click)="onClickRegister">here</span> if you don't have an account yet. If you have forgotten your password, reset it <span style="color:#1c396d; cursor:pointer" (click)="onClickReset">here</span>. 
+<ion-card padding *ngIf="currentTempVolunteer.fullName==null && !resetPasscode">
+ Login to your account or register <span style="color:#1c396d; cursor:pointer" (click)="onClickRegister()">here</span> if you don't have an account yet. If you have forgotten your password, reset it <span style="color:#1c396d; cursor:pointer" (click)="onClickReset()">here</span>. 
+</ion-card>
+
+<!-- reset password -->
+<ion-card padding *ngIf="resetPasscode">
+<changepasswordcomponent></changepasswordcomponent>
 </ion-card>
 
 
