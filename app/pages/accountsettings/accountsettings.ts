@@ -15,12 +15,14 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
 
 import * as globals from '../../globals';
 
+import { Logincomponent } from '../logincomponent/logincomponent';
+
 //import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 @Component({
   templateUrl: 'build/pages/accountsettings/accountsettings.html',
   inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent],
+  directives: [PollingstationComponent, Logincomponent],
 
 })
 export class AccountsettingsPage {

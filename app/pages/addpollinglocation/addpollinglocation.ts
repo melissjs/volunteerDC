@@ -16,6 +16,7 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 // forms
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
 @Component({
   templateUrl: 'build/pages/addpollinglocation/addpollinglocation.html',
@@ -153,6 +154,16 @@ onChangeState(value){
 onChangeZip(value){
   //this.zip = value;
 }
+
+    onRegister(){
+        var that = this;
+      try {that.navCtrl.setRoot(UnregisteredsigninPage, {});
+            
+
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        } 
+    }
 
 
 // Compare precint number and zip for navigating to duplicate station pages

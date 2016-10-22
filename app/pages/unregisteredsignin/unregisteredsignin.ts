@@ -12,10 +12,12 @@ import * as globals from '../../globals';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+
+
  
 @Component({
     templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
-    providers: [RestService]
+    providers: [RestService],
 })
 export class UnregisteredsigninPage {
 newVolunteer: Volunteer;
@@ -82,7 +84,7 @@ properties: any;
         this.registerForm = fb.group({  
             'enterFullName': ['', Validators.compose([Validators.required])],
             'enterEmailAddress': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
-            //'exposeEmailCtrl': [this.newVolunteer.exposeEmail],
+            'enterExposeEmailCtrl': ['',  Validators.required],
             'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
             'enterAge': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': ['' , Validators.required],
@@ -132,6 +134,7 @@ properties: any;
 
     }
 
+/*
     askToExposeEmail(){
 
         
@@ -160,15 +163,14 @@ properties: any;
         confirm.present();
         
         
-        /*if (this.enterEmailAddress !== null){
-          let alert = this.alertCtrl.create({
-          title: 'Expose Email to Team?',
-          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-          buttons: ['OK'] 
-          });
-          alert.present();}*/
     }
+*/
 
+    onChangeExposeEmail(value){
+         var newval = !value;
+    console.log('signature selected:' + newval);
+    this.enterExposeEmail = newval;
+    }
 
     onChangePhoneNumber(value){
         this.enterPhoneNumber = value;

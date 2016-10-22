@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 
 // to nav to
 import { ConfirmationPage } from '../confirmation/confirmation';
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
@@ -170,6 +171,15 @@ if (!this.currentVolunteerHere){
         // console.log(this.volunteerservice.getVolunteersByStation(this.currentStation));
     }
 
+    onRegister(){
+        var that = this;
+      try {that.navCtrl.setRoot(UnregisteredsigninPage, {});
+            
+
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        } 
+    }
 
     onSubmit(){
 
