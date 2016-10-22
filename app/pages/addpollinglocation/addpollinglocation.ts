@@ -18,6 +18,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
 
 import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
+import {RestService} from '../../providers/rest-service/rest-service';
+
+
 @Component({
   templateUrl: 'build/pages/addpollinglocation/addpollinglocation.html',
   inputs: ['pollingstation', 'volunteer'],
@@ -41,9 +44,11 @@ totalRemainingShiftsToFill: number;
 currentVolunteerHere: Volunteer;
 volunteerservice: Volunteerservice;
 addPollingLocationForm: FormGroup;
+loggedIn: boolean;
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder, private restSvc: RestService) {
   this.navCtrl = navCtrl;
+  this.restSvc = restSvc;
   this.pollingStationService = pollingStationService;
   this.stations = pollingStationService.getStations();
   this.pollingStationKey = this.pollingStationService.generatePollingStationKey();
@@ -58,6 +63,18 @@ addPollingLocationForm: FormGroup;
   this.totalNeededVolunteers = null;
   this.totalRemainingShiftsToFill = null;
   this.volunteerservice = volunteerservice;
+  this.loggedIn = false;
+
+   if(this.restSvc.getLoggedIn()){
+            this.loggedIn = true;
+        }
+
+        this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
+
+
+
+/* old way
+
    if(volunteerservice.currentVolunteer!==null){
   this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
    }else{
@@ -82,9 +99,9 @@ addPollingLocationForm: FormGroup;
         volunteerservice.setNewVolunteer(this.currentVolunteerHere);
         console.log(this.currentVolunteerHere); 
 
-}
+} */
 
-// instantuite blank station
+// instantiate blank station
 this.newPollingStation = {
           pollingStationKey: this.pollingStationKey,
           precinctNumber: '',
