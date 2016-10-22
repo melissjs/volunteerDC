@@ -101,7 +101,7 @@ if (!this.currentVolunteerHere){
 
         this.setShifts();
         
-    }
+    } // end const
 
 
     setShifts() {
@@ -192,7 +192,7 @@ if (!this.currentVolunteerHere){
     onSubmit(){
 
         //clear shifts
-        console.log(this.volunteerservice.printVolunteerKeysFromList());
+        //console.log(this.volunteerservice.printVolunteerKeysFromList());
         
         // this.volunteerservice.currentVolunteer.shifts.splice(0, this.volunteerservice.currentVolunteer.shifts.length);
         this.volunteerservice.clearShifts();
@@ -241,13 +241,7 @@ if (!this.currentVolunteerHere){
             this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
             console.log(this.currentVolunteerHere);
 
-            // add volunteer to associatedVolunteerList in station object
-            /*if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
-                this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
-            }
-            console.log(this.currentStation.associatedVolunteerKeyList);*/
-
-            // ###### left to do: push station and volunteer obejcts to appropriate arrays??
+          
         }
 
 

@@ -54,6 +54,7 @@ export class AccountsettingsPage {
         this.restSvc = restSvc;
         this.resetPasscode = false;
         this.loggedIn = false;
+        this.volunteerservice.associatedVolunteerArray = [];
 
         if(this.restSvc.getLoggedIn()){
             this.loggedIn = true;
@@ -63,18 +64,14 @@ export class AccountsettingsPage {
 
 
 
-        /*this.loggedIn = this.restSvc.getLoggedIn();
-        if (this.loggedIn==false){
-        console.log('false ' + this.loggedIn)
-        this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
-        } else if(this.loggedIn==true){
-            this.currentTempVolunteer = volunteerservice.getNewVolunteer();
-            console.log(this.currentTempVolunteer);
-        }*/
+
 
 
  //for Testing only
+
 /*
+      this.loggedIn = true;
+
       this.currentTempVolunteer = {
             volunteerKey: 'v5',
             fullName: 'Raya Hammond',
@@ -92,43 +89,7 @@ export class AccountsettingsPage {
             totalAnomalyRecords: 0,
             totalAmendmentRecords: 0,
         } 
-*/
-
-
-
-        // if no volunteer, begin instance thats blank
-
-
-//ATTEMP TO FIX PROBLEM
-/*
-if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
-
-        this.currentTempVolunteer = {
-            volunteerKey: null,
-            fullName: null,
-            emailAddress: null,
-            exposeEmail: false,
-            phoneNumber: null,
-            age:null,
-            sex: null,
-            partyAffiliation: null,
-            shifts:'', 
-            passcode: null,
-            associatedPollingStationKey:null, 
-            totalRecords:null,
-            totalVoteRecords:null,
-            totalAnomalyRecords: null,
-            totalAmendmentRecords: null,
-        }
-        volunteerservice.setNewVolunteer(this.currentTempVolunteer);
-
-}*/
-
-        //set vol to void if needed
-       /*if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
-            this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
-        }*/
-
+         */          
 
 
 
@@ -153,16 +114,6 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
         
 
-        
-
- 
-
-
-        //get shift printout
-        /*if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
-        this.printedShifts = this.volunteerservice.printShifts(this.currentTempVolunteer);
-        }*/
-
        if(this.currentTempVolunteer.associatedPollingStationKey!==null){
         this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentTempVolunteer.associatedPollingStationKey)
         this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
@@ -170,14 +121,13 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
         //get associate volunteer keys
         if(this.currentTempVolunteer.associatedPollingStationKey!==null){
-        
-      //TODO########  this.fullVolunteerList = 
-        }
+             this.fullVolunteerList = this.volunteerservice.getTeamVolunteersByPollKey(this.currentTempVolunteer.associatedPollingStationKey)
+            }
 
 
 
 
-
+ 
 
 
         //end constructor
@@ -247,6 +197,8 @@ onLogout(){
                         //this.volunteerservice.clearShifts()
                         this.currentTempVolunteer.shifts = '';
                         this.printedShifts = "None";
+                        this.currentTempVolunteer.associatedPollingStationKey = null;
+                        this.volunteerservice.associatedVolunteerArray = [];
                         console.log('Agree clicked' + this.currentTempVolunteer.shifts);
                         
                     }

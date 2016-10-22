@@ -83,7 +83,7 @@
 
       <ion-item>
       <ion-label stacked>Email Exposed:</ion-label>
-         <ion-select [(ngModel)]="currentTempVolunteer.exposeEmail" name="exposeEmail" formControlName="exposeEmailCtrl" (change)="onChangeExposeEmail(exposeEmail)" (click)="wasThisTouched()" >
+         <ion-select [(ngModel)]="currentTempVolunteer.exposeEmail" name="exposeEmail" formControlName="exposeEmailCtrl" (change)="onChangeExposeEmail(exposeEmail)" >
             <ion-option value=true>Yes</ion-option>
             <ion-option value=false>No</ion-option>
           </ion-select> 
@@ -134,7 +134,7 @@
 
         <ion-item *ngIf="currentTempVolunteer.shifts!=''">
         <ion-label stacked>Registered Shifts:</ion-label>
-        <ion-textarea readonly [(ngModel)]="currentTempVolunteer.shifts" name="shift" formControlName="shiftsCtrl" (click)="askShifts(); wasThisTouched()"></ion-textarea>
+        <ion-textarea readonly [(ngModel)]="currentTempVolunteer.shifts" name="shift" formControlName="shiftsCtrl" (click)="askShifts()"></ion-textarea>
         </ion-item>
 
         <!-- <ion-item>

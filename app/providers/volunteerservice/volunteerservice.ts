@@ -27,6 +27,7 @@ export class Volunteerservice {
     volunteersByStation: Volunteer[];
     buildString: string;
     notRegistered: string;
+    teamKeyList: string[];
     associatedVolunteerArray: Volunteer[];
     tempVolunteer: Volunteer;
     restSvc: RestService;
@@ -171,11 +172,26 @@ export class Volunteerservice {
         return this.associatedVolunteerArray;
     }
 
-    printVolunteerKeysFromList(){
+   /* printVolunteerKeysFromList(){
          for ( var i=0; i < this.volunteerListInMemory.length; i++){
              console.log(this.volunteerListInMemory[i].fullName);
              console.log(this.volunteerListInMemory[i].volunteerKey);
          }
+    }*/
+
+    getTeamKeyList(passedPollKey){
+        this.teamKeyList = []; // zero out to mitigate duplicates
+        for (var i = 0; i < this.volunteerListInMemory.length; i++){
+            if (this.volunteerListInMemory[i].associatedPollingStationKey == passedPollKey){
+                this.teamKeyList.push(this.volunteerListInMemory[i].volunteerKey)
+            }
+        }
+        return this.teamKeyList;
+    }
+
+    getTeamVolunteersByPollKey(passedPollKey){
+        return this.getVolunteerArrayByKeyList(this.getTeamKeyList(passedPollKey));
+
     }
 
     // begin shifts
