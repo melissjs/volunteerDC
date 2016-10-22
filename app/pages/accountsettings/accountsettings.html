@@ -42,12 +42,12 @@
 
 <!-- Login -->
 <!-- <ion-card padding *ngIf="currentTempVolunteer.fullName==null && !resetPasscode"> -->
-  <ion-card padding *ngIf="!restSvc.loggedIn && !resetPasscode">
+  <ion-card padding *ngIf="!loggedIn && !resetPasscode">
 <logincomponent></logincomponent>
 </ion-card>
 
 <!-- note for unreg -->
-<ion-card padding *ngIf="!restSvc.loggedIn && !resetPasscode">
+<ion-card padding *ngIf="!loggedIn && !resetPasscode">
  Login to your account or register <span style="color:#1c396d; cursor:pointer" (click)="onClickRegister()">here</span> if you don't have an account yet. If you have forgotten your password, reset it <span style="color:#1c396d; cursor:pointer" (click)="onClickReset()">here</span>. 
 </ion-card>
 
@@ -58,7 +58,7 @@
 
 
        <!--  <ion-card *ngIf="currentTempVolunteer && currentTempVolunteer.fullName"> -->
-         <ion-card *ngIf="restSvc.loggedIn">
+         <ion-card *ngIf="loggedIn">
             <form [formGroup]="changeForm"  (ngSubmit)="onSubmit(changeForm.value)" novalidate>
               <ion-list text-wrap>
 
@@ -166,7 +166,7 @@
 
 
 <!-- currentTempVolunteer.fullName!=null -->
-  <button *ngIf="wasTouched && restSvc.loggedIn" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit(changeForm.value)" block large>
+  <button *ngIf="wasTouched && loggedIn" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit(changeForm.value)" block large>
     Submit
   </button>
 

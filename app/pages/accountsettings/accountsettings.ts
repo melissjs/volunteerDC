@@ -55,7 +55,13 @@ export class AccountsettingsPage {
         this.resetPasscode = false;
         this.loggedIn = false;
 
+        if(this.restSvc.getLoggedIn()){
+            this.loggedIn = true;
+        }
+
         this.currentTempVolunteer = this.volunteerservice.getNewVolunteer();
+
+
 
         /*this.loggedIn = this.restSvc.getLoggedIn();
         if (this.loggedIn==false){

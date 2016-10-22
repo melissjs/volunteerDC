@@ -307,7 +307,7 @@ loggedIn: boolean;
                      this.volunteerservice.setNewVolunteer(this.newVolunteer);
                      this.loggedIn = true;
                      this.restSvc.setLoggedIn(this.loggedIn);
-                     //console.log(this.volunteers);
+                     console.log(this.loggedIn + '' + this.restSvc.loggedIn);
         
             
 
