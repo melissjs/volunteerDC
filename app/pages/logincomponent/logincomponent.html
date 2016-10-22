@@ -16,3 +16,5 @@
     <button type="submit" [disabled]="!loginForm.valid" (click)="onSubmit(loginForm.value)" block large>
     Log In
     </button>
+
+    <P style="color:red" *ngIf="error">{{errorMessage}}</P>

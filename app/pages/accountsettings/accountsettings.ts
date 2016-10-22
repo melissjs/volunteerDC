@@ -163,6 +163,41 @@ onLogout(){
     }
 
 
+// CHANGE PWD
+
+onConfirmOldPasscode(promptPWD){
+    let prompt = this.alertCtrl.create({
+      //title: 'Passcode ',
+      message: "Enter your old passcode to modify this field.",
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'Title'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+              if (promptPWD == this.currentTempVolunteer.passcode){
+                  this.currentTempVolunteer.passcode = data;
+                 } else {
+                     this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
+                 }
+            console.log('Saved clicked');
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
 
 
 

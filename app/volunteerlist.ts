@@ -41,7 +41,7 @@ export var VOLUNTEERS: Volunteer[] = [{
         "fullName":"Janice Row",
         "emailAddress":"melissjs@gmail.com",
         "exposeEmail": false,
-        "phoneNumber":"602-524-5453",
+        "phoneNumber":"6025245453",
         "age": 35,
         "sex": "Female",
         "partyAffiliation": "No Party Preference",    

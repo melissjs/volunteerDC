@@ -4,6 +4,8 @@ import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import {RestService} from '../../providers/rest-service/rest-service';
+import { AccountsettingsPage } from '../accountsettings/accountsettings';
+
 
 
 /*
@@ -23,6 +25,8 @@ regExPhone: string;
 volunteerservice: Volunteerservice;
 volunteerHere: Volunteer;
 loggedIn: boolean;
+errorMessage: string;
+error: boolean;
   
   constructor(private navCtrl: NavController, public fb: FormBuilder, volunteerservice: Volunteerservice, private restSvc: RestService ) {
   this.navCtrl = navCtrl;
@@ -45,15 +49,28 @@ loggedIn: boolean;
 
     this.volunteerHere = this.volunteerservice.getVolunteerbyPhoneNumber(value.enterPhoneNumber);
 
-
-    console.log(value.enterPhoneNumber + ' ' + this.volunteerHere + ' ' + this.volunteerservice.getVolunteerbyPhoneNumber(value.enterPhoneNumber));
+    if (!this.volunteerHere){
+      this.error = true;
+    this.errorMessage = 'We could not find your number in the system. Remember to enter only numbers (10 digits).'
+    return;
+    };
 
     if (this.volunteerHere.passcode==value.enterPasscode){
       this.loggedIn = true;
       this.restSvc.setLoggedIn(this.loggedIn);
       this.volunteerservice.setNewVolunteer(this.volunteerHere);
+               try {
+            
+                this.navCtrl.push(AccountsettingsPage, {
+                  });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+  
+    }
     } else {
-      console.log('error with login');
+      this.error = true;
+      this.errorMessage = 'Incorrect password.';
     }
 
 

@@ -154,7 +154,7 @@
 
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
-    <ion-input (click)="wasThisTouched()" type="password" formControlName="passcodeCtrl"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="password" formControlName="passcodeCtrl" [ngModel]="promptPWD" name=pp (change)="onConfirmOldPasscode(promptPWD)"></ion-input>
   </ion-item>
 
 </ion-list>
