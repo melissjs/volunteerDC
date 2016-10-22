@@ -41,12 +41,13 @@
 
 
 <!-- Login -->
-<ion-card padding *ngIf="currentTempVolunteer.fullName==null&& !resetPasscode">
+<!-- <ion-card padding *ngIf="currentTempVolunteer.fullName==null && !resetPasscode"> -->
+  <ion-card padding *ngIf="!restSvc.loggedIn && !resetPasscode">
 <logincomponent></logincomponent>
 </ion-card>
 
 <!-- note for unreg -->
-<ion-card padding *ngIf="currentTempVolunteer.fullName==null && !resetPasscode">
+<ion-card padding *ngIf="!restSvc.loggedIn && !resetPasscode">
  Login to your account or register <span style="color:#1c396d; cursor:pointer" (click)="onClickRegister()">here</span> if you don't have an account yet. If you have forgotten your password, reset it <span style="color:#1c396d; cursor:pointer" (click)="onClickReset()">here</span>. 
 </ion-card>
 
@@ -56,10 +57,19 @@
 </ion-card>
 
 
-        <ion-card *ngIf="currentTempVolunteer && currentTempVolunteer.fullName">
+       <!--  <ion-card *ngIf="currentTempVolunteer && currentTempVolunteer.fullName"> -->
+         <ion-card *ngIf="restSvc.loggedIn">
             <form [formGroup]="changeForm"  (ngSubmit)="onSubmit(changeForm.value)" novalidate>
               <ion-list text-wrap>
-<ion-list-header>Account Settings</ion-list-header>
+
+<ion-list-header>
+  Account Settings 
+     <button (click)="onLogout()" ion-button item-right icon-left>
+      <ion-icon name="close"></ion-icon>
+      Log Out
+    </button>
+  </ion-list-header>
+
   <ion-item>
     <ion-label stacked>Full Name:</ion-label>
     <ion-input (click)="wasThisTouched()" type="text" formControlName="fullNameCtrl" ></ion-input>
@@ -122,9 +132,9 @@
   
 
 
-        <ion-item>
+        <ion-item *ngIf="currentTempVolunteer.shifts!=''">
         <ion-label stacked>Registered Shifts:</ion-label>
-        <ion-textarea readonly [(ngModel)]="printedShifts" name="shift" formControlName="shiftsCtrl" (click)="askShifts(); wasThisTouched()"></ion-textarea>
+        <ion-textarea readonly [(ngModel)]="currentTempVolunteer.shifts" name="shift" formControlName="shiftsCtrl" (click)="askShifts(); wasThisTouched()"></ion-textarea>
         </ion-item>
 
         <!-- <ion-item>
@@ -155,10 +165,11 @@
 
 
 
-
-  <button *ngIf="wasTouched" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit(changeForm.value)" block large>
+<!-- currentTempVolunteer.fullName!=null -->
+  <button *ngIf="wasTouched && restSvc.loggedIn" type="submit" [disabled]="!changeForm.valid" (click)="onSubmit(changeForm.value)" block large>
     Submit
   </button>
+
 
 
  <!--  <p>Form: {{ changeForm.value | json }}</p> 

@@ -17,7 +17,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
  
 @Component({
     templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
-    providers: [RestService],
+    //providers: [RestService],
 })
 export class UnregisteredsigninPage {
 newVolunteer: Volunteer;
@@ -46,6 +46,7 @@ registerForm: FormGroup;
 dbSex: string;
 dbPartyAffiliation: string;
 properties: any;
+loggedIn: boolean;
 
 
 
@@ -74,6 +75,7 @@ properties: any;
   this.volunteers = this.volunteerservice.getVolunteers();
   this.restSvc = restSvc;
   this.properties = null;
+  this.loggedIn = false;
 
   
         //form stuff
@@ -302,6 +304,9 @@ properties: any;
 
                      //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
                      this.volunteers.push(this.newVolunteer);
+                     this.volunteerservice.setNewVolunteer(this.newVolunteer);
+                     this.loggedIn = true;
+                     this.restSvc.setLoggedIn(this.loggedIn);
                      //console.log(this.volunteers);
         
             

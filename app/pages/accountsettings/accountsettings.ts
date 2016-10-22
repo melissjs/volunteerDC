@@ -19,10 +19,13 @@ import { Logincomponent } from '../logincomponent/logincomponent';
 import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
 
+import {RestService} from '../../providers/rest-service/rest-service';
+
 //import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 @Component({
   templateUrl: 'build/pages/accountsettings/accountsettings.html',
+  //providers: [RestService],
   inputs: ['pollingstation', 'volunteer'],
   directives: [PollingstationComponent, Logincomponent, Changepasswordcomponent],
 
@@ -44,20 +47,28 @@ export class AccountsettingsPage {
     loggedIn: boolean;
 
 
-    constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController) {
+    constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController, private restSvc: RestService) {
         this.navCtrl = navCtrl;
         this.volunteerservice = volunteerservice; 
         this.pollingstationservice = pollingstationservice;
+        this.restSvc = restSvc;
         this.resetPasscode = false;
         this.loggedIn = false;
-        if(volunteerservice.currentVolunteer!==null){
+
+        this.currentTempVolunteer = this.volunteerservice.getNewVolunteer();
+
+        /*this.loggedIn = this.restSvc.getLoggedIn();
+        if (this.loggedIn==false){
+        console.log('false ' + this.loggedIn)
+        this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
+        } else if(this.loggedIn==true){
             this.currentTempVolunteer = volunteerservice.getNewVolunteer();
             console.log(this.currentTempVolunteer);
-        }
+        }*/
 
 
  //for Testing only
- /*
+/*
       this.currentTempVolunteer = {
             volunteerKey: 'v5',
             fullName: 'Raya Hammond',
@@ -75,14 +86,15 @@ export class AccountsettingsPage {
             totalAnomalyRecords: 0,
             totalAmendmentRecords: 0,
         } 
-
 */
+
 
 
         // if no volunteer, begin instance thats blank
 
 
 //ATTEMP TO FIX PROBLEM
+/*
 if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
         this.currentTempVolunteer = {
@@ -104,7 +116,14 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
         }
         volunteerservice.setNewVolunteer(this.currentTempVolunteer);
 
-}
+}*/
+
+        //set vol to void if needed
+       /*if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
+            this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
+        }*/
+
+
 
 
         //form stuff
@@ -129,32 +148,25 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
         
 
         
-        //setVolunteer 
-        volunteerservice.setNewVolunteer(this.currentTempVolunteer);
-        
 
  
 
-        // get exposed value
-        
-           // this.exposedYesOrNo = this.volunteerservice.isEmailExposed(this.currentTempVolunteer);
-        
-
 
         //get shift printout
-        if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
+        /*if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
         this.printedShifts = this.volunteerservice.printShifts(this.currentTempVolunteer);
-        }
+        }*/
 
-       if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
+       if(this.currentTempVolunteer.associatedPollingStationKey!==null){
         this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentTempVolunteer.associatedPollingStationKey)
         this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
        }
 
         //get associate volunteer keys
-        if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
+        if(this.currentTempVolunteer.associatedPollingStationKey!==null){
         this.fullVolunteerKeyList = this.pollingstationservice.getAssociatedVolunteerKeyList(this.currentTempVolunteer.associatedPollingStationKey);
         //make array of associated volunteerservices
+        //this.fullVolunteerKeyList = [];// zero out
         this.fullVolunteerList = this.volunteerservice.getVolunteerArrayByKeyList(this.fullVolunteerKeyList);
         }
 
@@ -185,6 +197,11 @@ onClickReset(){
 this.resetPasscode = true;
 }
 
+
+onLogout(){
+    this.loggedIn = false;
+    this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
+}
 
 // CHANGE EXPOSE EMAIL
     onChangeExposeEmail(passedValue){

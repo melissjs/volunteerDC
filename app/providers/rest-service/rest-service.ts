@@ -18,12 +18,22 @@ export class RestService {
 
     jsessionid: string;
     csrf_token: string;
+    loggedIn: boolean;
 
     constructor(private http: Http) {
         // generate values
         this.jsessionid = null;// this.generateUUID();
         this.csrf_token = null;// this.generateUUID();
     }
+
+    setLoggedIn(passedLoginValue){
+        this.loggedIn = passedLoginValue;
+    }
+
+    getLoggedIn(){
+        return this.loggedIn;
+    }
+
 
     generateUUID(){
         var d = new Date().getTime();

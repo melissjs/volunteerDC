@@ -13,6 +13,8 @@ import * as globals from '../../globals';
 //other service
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
+import {RestService} from '../../providers/rest-service/rest-service';
+
 
 
 @Injectable()
@@ -27,13 +29,20 @@ export class Volunteerservice {
     notRegistered: string;
     associatedVolunteerArray: Volunteer[];
     tempVolunteer: Volunteer;
+    restSvc: RestService;
 
-    constructor(pollingstationservice: Pollingstationservice) {
+    constructor(pollingstationservice: Pollingstationservice, restSvc: RestService) {
         this.currentVolunteer = null;
         this.pollingstationservice = pollingstationservice;
+        this.restSvc = restSvc;
         this.volunteerListInMemory = VOLUNTEERS;
         this.notRegistered = "None";
         this.associatedVolunteerArray = [];
+
+        // if no one is logged in creat void volunteer 
+        if (!this.restSvc.getLoggedIn()){
+        this.currentVolunteer = this.setToVoidVolunteer();
+        }
     }
     
     
@@ -195,6 +204,31 @@ export class Volunteerservice {
     checkLateEvening(passedShifts){
         return (passedShifts.includes(globals.LATE_EVENING));
     }
+
+
+    setToVoidVolunteer(){
+            this.currentVolunteer = {
+            volunteerKey: '',
+            fullName: '',
+            emailAddress: '',
+            exposeEmail: false,
+            phoneNumber: '',
+            age: null,
+            sex: '',
+            partyAffiliation: '',
+            shifts:'', 
+            passcode: '',
+            associatedPollingStationKey: null, 
+            totalRecords: 0,
+            totalVoteRecords:0,
+            totalAnomalyRecords: 0,
+            totalAmendmentRecords: 0,
+        }
+        return this.currentVolunteer;
+    }
+
+
+
 }
 
 
