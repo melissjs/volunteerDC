@@ -18,62 +18,62 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
     providers: [RestService]
 })
 export class UnregisteredsigninPage {
-newVolunteer: Volunteer;
-volunteerKey: string;
-enterFullName: string;
-enterEmailAddress: string;
-enterExposeEmail: boolean;
-enterPhoneNumber: string;
-enterAge: number;
-enterSex: string;
-enterPartyAffiliation: string;
-enterShifts: string;
-enterPasscode: string;
-enterPasscode1: string;
-enterPasscode2: string;
-enterTotalRecords: number;
-enterTotalVoteRecords: number;
-enterTotalAnomalyRecords: number;
-enterTotalAmendmentRecords: number;
-enterPartyAffiliationFromList: string;
-enterOtherPartyAffiliation: string;
-volunteerservice: Volunteerservice;
-party: string;
-volunteers: Volunteer[];
-registerForm: FormGroup;
-dbSex: string;
-dbPartyAffiliation: string;
-properties: any;
+    newVolunteer: Volunteer;
+    volunteerKey: string;
+    enterFullName: string;
+    enterEmailAddress: string;
+    enterExposeEmail: boolean;
+    enterPhoneNumber: string;
+    enterAge: number;
+    enterSex: string;
+    enterPartyAffiliation: string;
+    enterShifts: string;
+    enterPasscode: string;
+    enterPasscode1: string;
+    enterPasscode2: string;
+    enterTotalRecords: number;
+    enterTotalVoteRecords: number;
+    enterTotalAnomalyRecords: number;
+    enterTotalAmendmentRecords: number;
+    enterPartyAffiliationFromList: string;
+    enterOtherPartyAffiliation: string;
+    volunteerservice: Volunteerservice;
+    party: string;
+    volunteers: Volunteer[];
+    registerForm: FormGroup;
+    dbSex: string;
+    dbPartyAffiliation: string;
+    properties: any;
 
 
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
-  this.navCtrl = navCtrl;
-  this.newVolunteer = null;
-  this.volunteerKey = null;
-  this.enterFullName = null;
-  this.enterEmailAddress = null;
-  this.enterExposeEmail = false;
-  this.enterPhoneNumber = null;
-  this.enterAge = null;
-  this.enterSex = null;
-  this.enterPartyAffiliation = null;
-  this.enterPartyAffiliationFromList = null;
-  this.enterShifts = '';
-  this.enterPasscode = null;
-  this.enterPasscode1 = null;
-  this.enterPasscode2 = null;
-  this.enterTotalRecords = null;
-  this.enterTotalVoteRecords = null;
-  this.enterTotalAnomalyRecords = null;
-  this.enterTotalAmendmentRecords = null;
-  this.enterOtherPartyAffiliation = null;
-  this.volunteerservice = volunteerservice;
-  this.volunteers = this.volunteerservice.getVolunteers();
-  this.restSvc = restSvc;
-  this.properties = null;
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
+        this.navCtrl = navCtrl;
+        this.newVolunteer = null;
+        this.volunteerKey = null;
+        this.enterFullName = null;
+        this.enterEmailAddress = null;
+        this.enterExposeEmail = false;
+        this.enterPhoneNumber = null;
+        this.enterAge = null;
+        this.enterSex = null;
+        this.enterPartyAffiliation = null;
+        this.enterPartyAffiliationFromList = null;
+        this.enterShifts = '';
+        this.enterPasscode = null;
+        this.enterPasscode1 = null;
+        this.enterPasscode2 = null;
+        this.enterTotalRecords = null;
+        this.enterTotalVoteRecords = null;
+        this.enterTotalAnomalyRecords = null;
+        this.enterTotalAmendmentRecords = null;
+        this.enterOtherPartyAffiliation = null;
+        this.volunteerservice = volunteerservice;
+        this.volunteers = this.volunteerservice.getVolunteers();
+        this.restSvc = restSvc;
+        this.properties = null;
 
-  
+        
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
         var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
@@ -87,7 +87,7 @@ properties: any;
             'enterAge': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': ['' , Validators.required],
             'partyAffiliationCtrl': ['' , Validators.required],
-           // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
+            // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
             //'shiftsCtrl': [this.newVolunteer.shifts],
             'enterOtherPartyAffiliation':[''],
             'enterPasscode1': ['', Validators.required],
@@ -98,7 +98,7 @@ properties: any;
 
 
 
-//ATTEMP TO FIX PROBLEM
+        //ATTEMP TO FIX PROBLEM
 
         this.newVolunteer = {
             volunteerKey: null,
@@ -117,7 +117,7 @@ properties: any;
             totalAnomalyRecords: null,
             totalAmendmentRecords: null,
         }
-}
+    }
 
 
 
@@ -247,94 +247,94 @@ properties: any;
 
     onSubmit(value: any): void {
 
-            if(value.enterPasscode1 == value.enterPasscode2){
+        if(value.enterPasscode1 == value.enterPasscode2){
             this.newVolunteer.passcode = value.enterPasscode1;
-            } else {
+        } else {
 
-                let pcalert = this.alertCtrl.create({
-                    title: 'Passwords do not match',
-                    subTitle: 'Please re-enter your passcodes.',
-                    buttons: ['OK'] 
-                });
-                pcalert.present();
-                return;
-            }
-
-
- 
+            let pcalert = this.alertCtrl.create({
+                title: 'Passwords do not match',
+                subTitle: 'Please re-enter your passcodes.',
+                buttons: ['OK'] 
+            });
+            pcalert.present();
+            return;
+        }
 
 
+        
 
 
-            // SET VALUES FROM TEXT INPUTS
-            this.newVolunteer.fullName = value.enterFullName;
-            this.newVolunteer.emailAddress = value.enterEmailAddress;
-            this.newVolunteer.phoneNumber = value.enterPhoneNumber;
-            this.newVolunteer.age = value.enterAge;
-            this.newVolunteer.sex = this.enterSex;
 
-            if (this.enterPartyAffiliationFromList!="Other Party"){
-             this.newVolunteer.partyAffiliation = this.enterPartyAffiliationFromList;
-            } else if (this.enterPartyAffiliationFromList=="Other Party" && value.enterOtherPartyAffiliation){
+
+        // SET VALUES FROM TEXT INPUTS
+        this.newVolunteer.fullName = value.enterFullName;
+        this.newVolunteer.emailAddress = value.enterEmailAddress;
+        this.newVolunteer.phoneNumber = value.enterPhoneNumber;
+        this.newVolunteer.age = value.enterAge;
+        this.newVolunteer.sex = this.enterSex;
+
+        if (this.enterPartyAffiliationFromList!="Other Party"){
+            this.newVolunteer.partyAffiliation = this.enterPartyAffiliationFromList;
+        } else if (this.enterPartyAffiliationFromList=="Other Party" && value.enterOtherPartyAffiliation){
             this.newVolunteer.partyAffiliation = value.enterOtherPartyAffiliation;
-            }
+        }
 
-            //generate key for new volunteer
-             this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
+        //generate key for new volunteer
+        this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
 
-             //expose emailAddress
-             this.newVolunteer.exposeEmail = this.enterExposeEmail;
+        //expose emailAddress
+        this.newVolunteer.exposeEmail = this.enterExposeEmail;
 
-                this.newVolunteer.associatedPollingStationKey = '';
-                this.newVolunteer.totalRecords = 0;
-                this.newVolunteer.totalVoteRecords = 0;
-                this.newVolunteer.totalAnomalyRecords = 0;
-                this.newVolunteer.totalAmendmentRecords = 0;
+        this.newVolunteer.associatedPollingStationKey = '';
+        this.newVolunteer.totalRecords = 0;
+        this.newVolunteer.totalVoteRecords = 0;
+        this.newVolunteer.totalAnomalyRecords = 0;
+        this.newVolunteer.totalAmendmentRecords = 0;
 
         
-                    
-                    // set new volunteer
-                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
-
-                    // console.log('hello ' + this.newVolunteer.fullName);
-
-                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
-                     this.volunteers.push(this.newVolunteer);
-                     //console.log(this.volunteers);
         
-            
+        // set new volunteer
+        this.volunteerservice.setNewVolunteer(this.newVolunteer);
+
+        // console.log('hello ' + this.newVolunteer.fullName);
+
+        //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
+        this.volunteers.push(this.newVolunteer);
+        //console.log(this.volunteers);
+        
+        
 
 
-                     // ERICS Call
-                     this.presentVerificationInit();
+        // ERICS Call
+        this.presentVerificationInit();
 
-                    /*
-                     comment out mine
-                    // then
-                    //if (this.newVolunteer.fullName !== null){
-                    let alert = this.alertCtrl.create({
-                    title: 'Registration Successful',
-                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-                    buttons: ['OK'] 
-                    });
-                    alert.present();
+        /*
+          comment out mine
+          // then
+          //if (this.newVolunteer.fullName !== null){
+          let alert = this.alertCtrl.create({
+          title: 'Registration Successful',
+          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+          buttons: ['OK'] 
+          });
+          alert.present();
 
-                    
-         
-    
-                    // then
+          
+          
+          
+          // then
 
-                    try {
-                        
-                            this.navCtrl.setRoot(RegistrationsuccessPage, {
-                            });
-                        
-                    } catch (EE) {
-                            console.log('error in Submitting, exc='+ EE.toString())
-                    }
-                    */
-                        
-   
+          try {
+          
+          this.navCtrl.setRoot(RegistrationsuccessPage, {
+          });
+          
+          } catch (EE) {
+          console.log('error in Submitting, exc='+ EE.toString())
+          }
+        */
+        
+        
 
 
     }
@@ -342,7 +342,7 @@ properties: any;
     //end onsubmit
 
 
-        
+    
     presentVerificationCheck(subtitle:string) {
         var that = this;
         let alertpvc = this.alertCtrl.create({
@@ -580,5 +580,5 @@ properties: any;
         this.successForward(false);
     }
 
-            
+    
 }
