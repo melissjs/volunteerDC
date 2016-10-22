@@ -63,7 +63,7 @@ class MyApp {
        { title: 'Volunteer', component: VolunteerPage },
        { title: 'Donate', component: DonatePage },
        { title: 'Participate', component: ParticipatePage },
-       { title: 'Educate', component: EducatePage },
+       { title: 'Audit Training', component: EducatePage },
        { title: 'Promote', component: PromotePage },
        { title: 'Contact Us', component: ContactPage },
        { title: 'Account', component: AccountsettingsPage },

@@ -287,7 +287,7 @@ properties: any;
              //expose emailAddress
              this.newVolunteer.exposeEmail = this.enterExposeEmail;
 
-                this.newVolunteer.associatedPollingStationKey = '';
+                this.newVolunteer.associatedPollingStationKey = null;
                 this.newVolunteer.totalRecords = 0;
                 this.newVolunteer.totalVoteRecords = 0;
                 this.newVolunteer.totalAnomalyRecords = 0;

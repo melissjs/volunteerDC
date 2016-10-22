@@ -142,9 +142,9 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
 
         //get shift printout
-         
+        if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
         this.printedShifts = this.volunteerservice.printShifts(this.currentTempVolunteer);
-         
+        }
 
        if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
         this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentTempVolunteer.associatedPollingStationKey)
