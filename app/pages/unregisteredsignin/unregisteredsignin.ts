@@ -47,7 +47,8 @@ export class UnregisteredsigninPage {
 
 
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController,
+                public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
         this.navCtrl = navCtrl;
         this.newVolunteer = null;
         this.volunteerKey = null;
@@ -153,7 +154,6 @@ export class UnregisteredsigninPage {
                         console.log('Agree clicked' + this.enterExposeEmail);
                         
                     }
-
                 }
             ]
         });
@@ -242,9 +242,6 @@ export class UnregisteredsigninPage {
         },500);
     }
 
-
-
-
     onSubmit(value: any): void {
 
         if(value.enterPasscode1 == value.enterPasscode2){
@@ -259,12 +256,6 @@ export class UnregisteredsigninPage {
             pcalert.present();
             return;
         }
-
-
-        
-
-
-
 
         // SET VALUES FROM TEXT INPUTS
         this.newVolunteer.fullName = value.enterFullName;
@@ -291,20 +282,14 @@ export class UnregisteredsigninPage {
         this.newVolunteer.totalAnomalyRecords = 0;
         this.newVolunteer.totalAmendmentRecords = 0;
 
-        
-        
         // set new volunteer
         this.volunteerservice.setNewVolunteer(this.newVolunteer);
-
-        // console.log('hello ' + this.newVolunteer.fullName);
 
         //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
         this.volunteers.push(this.newVolunteer);
         //console.log(this.volunteers);
         
         
-
-
         // ERICS Call
         this.presentVerificationInit();
 
@@ -334,14 +319,9 @@ export class UnregisteredsigninPage {
           }
         */
         
-        
-
-
     }
 
     //end onsubmit
-
-
     
     presentVerificationCheck(subtitle:string) {
         var that = this;
@@ -394,7 +374,11 @@ export class UnregisteredsigninPage {
                     that.properties = data;
                     console.log('successful call:' + that.properties);
                     if (that.properties.success) {
-                        this.presentVerificationCheck('Enter the 4 digit code');
+                        var csrfToken = data._csrf;
+                        if (csrfToken != null) {
+                            that.restSvc.setCsrfToken(csrfToken[0]);
+                        }
+                        that.presentVerificationCheck('Enter the 4 digit code');
                     } else {
                         let alert = that.alertCtrl.create({
                             title: 'Error Verifying Phone',
@@ -580,5 +564,4 @@ export class UnregisteredsigninPage {
         this.successForward(false);
     }
 
-    
 }

@@ -59,6 +59,10 @@ export class RestService {
         // .catch(this.handleError);
     }
     
+    setCsrfToken(value: string) {
+        this.csrf_token = value;
+    }
+
     sendAuthyVerify(cellPhone: string, code: string) {
 
         // let options = new RequestOptions({ headers: headers });
