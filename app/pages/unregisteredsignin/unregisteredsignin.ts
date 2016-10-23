@@ -77,7 +77,6 @@ loggedIn: boolean;
   this.properties = null;
   this.loggedIn = false;
 
-  
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
         var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
@@ -91,7 +90,7 @@ loggedIn: boolean;
             'enterAge': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': ['' , Validators.required],
             'partyAffiliationCtrl': ['' , Validators.required],
-           // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
+            // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
             //'shiftsCtrl': [this.newVolunteer.shifts],
             'enterOtherPartyAffiliation':[''],
             'enterPasscode1': ['', Validators.required],
@@ -102,7 +101,7 @@ loggedIn: boolean;
 
 
 
-//ATTEMP TO FIX PROBLEM
+        //ATTEMP TO FIX PROBLEM
 
         this.newVolunteer = {
             volunteerKey: null,
@@ -121,7 +120,7 @@ loggedIn: boolean;
             totalAnomalyRecords: null,
             totalAmendmentRecords: null,
         }
-}
+    }
 
 
 
@@ -158,7 +157,6 @@ loggedIn: boolean;
                         console.log('Agree clicked' + this.enterExposeEmail);
                         
                     }
-
                 }
             ]
         });
@@ -246,61 +244,52 @@ loggedIn: boolean;
         },500);
     }
 
-
-
-
     onSubmit(value: any): void {
 
-            if(value.enterPasscode1 == value.enterPasscode2){
+        if(value.enterPasscode1 == value.enterPasscode2){
             this.newVolunteer.passcode = value.enterPasscode1;
-            } else {
+        } else {
 
-                let pcalert = this.alertCtrl.create({
-                    title: 'Passwords do not match',
-                    subTitle: 'Please re-enter your passcodes.',
-                    buttons: ['OK'] 
-                });
-                pcalert.present();
-                return;
-            }
+            let pcalert = this.alertCtrl.create({
+                title: 'Passwords do not match',
+                subTitle: 'Please re-enter your passcodes.',
+                buttons: ['OK'] 
+            });
+            pcalert.present();
+            return;
+        }
 
+        // SET VALUES FROM TEXT INPUTS
+        this.newVolunteer.fullName = value.enterFullName;
+        this.newVolunteer.emailAddress = value.enterEmailAddress;
+        this.newVolunteer.phoneNumber = value.enterPhoneNumber;
+        this.newVolunteer.age = value.enterAge;
+        this.newVolunteer.sex = this.enterSex;
 
- 
-
-
-
-
-            // SET VALUES FROM TEXT INPUTS
-            this.newVolunteer.fullName = value.enterFullName;
-            this.newVolunteer.emailAddress = value.enterEmailAddress;
-            this.newVolunteer.phoneNumber = value.enterPhoneNumber;
-            this.newVolunteer.age = value.enterAge;
-            this.newVolunteer.sex = this.enterSex;
-
-            if (this.enterPartyAffiliationFromList!="Other Party"){
-             this.newVolunteer.partyAffiliation = this.enterPartyAffiliationFromList;
-            } else if (this.enterPartyAffiliationFromList=="Other Party" && value.enterOtherPartyAffiliation){
+        if (this.enterPartyAffiliationFromList!="Other Party"){
+            this.newVolunteer.partyAffiliation = this.enterPartyAffiliationFromList;
+        } else if (this.enterPartyAffiliationFromList=="Other Party" && value.enterOtherPartyAffiliation){
             this.newVolunteer.partyAffiliation = value.enterOtherPartyAffiliation;
-            }
+        }
 
-            //generate key for new volunteer
-             this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
+        //generate key for new volunteer
+        this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
 
-             //expose emailAddress
-             this.newVolunteer.exposeEmail = this.enterExposeEmail;
+               //expose emailAddress
+        this.newVolunteer.exposeEmail = this.enterExposeEmail;
 
                 this.newVolunteer.associatedPollingStationKey = null;
                 this.newVolunteer.totalRecords = 0;
                 this.newVolunteer.totalVoteRecords = 0;
                 this.newVolunteer.totalAnomalyRecords = 0;
                 this.newVolunteer.totalAmendmentRecords = 0;
+      
+ 
 
-        
-                    
-                    // set new volunteer
-                    this.volunteerservice.setNewVolunteer(this.newVolunteer);
+     
 
-                    // console.log('hello ' + this.newVolunteer.fullName);
+        // set new volunteer
+        this.volunteerservice.setNewVolunteer(this.newVolunteer);
 
                      //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
                      this.volunteers.push(this.newVolunteer);
@@ -329,6 +318,32 @@ loggedIn: boolean;
           
           
           // then
+=======
+        //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
+        this.volunteers.push(this.newVolunteer);
+        //console.log(this.volunteers);
+        
+        
+        // ERICS Call
+        this.presentVerificationInit();
+
+        /*
+          comment out mine
+          // then
+          //if (this.newVolunteer.fullName !== null){
+          let alert = this.alertCtrl.create({
+          title: 'Registration Successful',
+          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+          buttons: ['OK'] 
+          });
+          alert.present();
+
+          
+          
+          
+          // then
+
+>>>>>>> 370733e63c0e11074b34e49a5a78650fe71cbf67
           try {
           
           this.navCtrl.setRoot(RegistrationsuccessPage, {

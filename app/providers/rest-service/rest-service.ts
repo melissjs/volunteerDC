@@ -51,29 +51,33 @@ export class RestService {
 
     sendAuthyRequest(via: string, cellPhone: string) {
 
-	// let options = new RequestOptions({ headers: null, withCredentials: true});
+        // let options = new RequestOptions({ headers: null, withCredentials: true});
         var url = config.AUTHY_VER_URL + cellPhone + '?via=' + via;
 
         // var retval1 = this.http.post(url, params, { headers: headers });
         var retval1 = this.http.get(url);
         
         // body, options
-	var that = this;
+        var that = this;
         /* var retval1b = retval1.subscribe((res) => {
-            that.csrf_token = res.headers.get('CSRF-TOKEN');
-        });*/
+           that.csrf_token = res.headers.get('CSRF-TOKEN');
+           });*/
 
         var retval2 = retval1.map(
             res => res.json()
         );
         return retval2;
-            // .catch(this.handleError);
+        // .catch(this.handleError);
     }
 
         setCsrfToken(value: string) {
         this.csrf_token = value;
     }
     
+    setCsrfToken(value: string) {
+        this.csrf_token = value;
+    }
+
     sendAuthyVerify(cellPhone: string, code: string) {
 
         // let options = new RequestOptions({ headers: headers });
@@ -88,7 +92,7 @@ export class RestService {
             res => res.json()
         );
         return retval2;
-            // .catch(this.handleError);
+        // .catch(this.handleError);
     }
     
     cacheBuster() {
@@ -119,7 +123,7 @@ export class RestService {
             headers.append('X-CSRF-TOKEN', this.csrf_token);
         }
         headers.append('Content-Type', 'application/json;charset=UTF-8');
-	let options = new RequestOptions({ headers: headers, withCredentials: true});
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
 
         var url = config.MT_HOST + '/api/register' + this.cacheBuster();
         var retval1 = this.http.post(url, params, options);
@@ -136,13 +140,13 @@ export class RestService {
     anonSignin() {
         var property = 
             { "withCredentials": "true", "j_username": "anon", "j_password": "anon", "remember-me" : "true"
-             };
+            };
         var json = JSON.stringify(property);
         var params = /* 'json=' +  */ json;
         let headers = new Headers();
         /* headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+           headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+           headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
         */
         headers.append('Content-Type', 'application/json');
 
