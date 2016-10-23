@@ -151,6 +151,15 @@ export class Volunteerservice {
         return null;
     }
 
+    getVolunteerByEmail(passedEmail){
+        for (var i = 0; i < this.volunteerListInMemory.length; i++){
+            if (this.volunteerListInMemory[i].emailAddress == passedEmail){
+                return this.volunteerListInMemory[i]
+            }
+        }
+        return null;
+    }
+
         getVolunteerbyPhoneNumber(passedPhoneNumber){ 
         for (var i = 0; i < this.volunteerListInMemory.length; i++){
             if (this.volunteerListInMemory[i].phoneNumber == passedPhoneNumber){

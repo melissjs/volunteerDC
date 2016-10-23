@@ -7,6 +7,7 @@ import { PollingStation} from '../../pollingstation';
 
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstationdetails';
+import { ResetpasswordPage } from '../resetpassword/resetpassword'
 
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
@@ -152,7 +153,16 @@ onClickRegister(){
 }
 
 onClickReset(){
-this.resetPasscode = true;
+//this.resetPasscode = true;
+        try {
+            
+            this.navCtrl.push(ResetpasswordPage, {
+            });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+            
+        }
 }
 
 
