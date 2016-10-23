@@ -21,7 +21,12 @@
 
   <ion-item>
     <ion-label stacked>Email:</ion-label>
-    <ion-input type="email" formControlName="enterEmailAddress"  (blur)="askToExposeEmail()"></ion-input>
+    <ion-input type="email" formControlName="enterEmailAddress"></ion-input>
+  </ion-item>
+
+  <ion-item text-wrap>
+    <ion-label style="margin-bottom: 15px" stacked>Would you like to expose your email to your team members when you join an audit? This will help you organize with each other before and on election day. You can change this setting later in your account.</ion-label>
+    <ion-checkbox [(ngModel)]="exposeYesOrNo" formControlName="enterExposeEmailCtrl" (click)="onChangeExposeEmail(exposeYesOrNo)" ></ion-checkbox>
   </ion-item>
 
     <ion-item>
@@ -78,12 +83,12 @@
 
 
   <ion-item>
-    <ion-label stacked>Passcode:</ion-label>
+    <ion-label stacked>Create Passcode:</ion-label>
     <ion-input type="password" formControlName="enterPasscode1"></ion-input>
   </ion-item>
 
     <ion-item>
-    <ion-label stacked>Re-enter Passcode:</ion-label>
+    <ion-label stacked>Confirm Passcode:</ion-label>
     <ion-input type="password" formControlName="enterPasscode2" ></ion-input>
   </ion-item>
 

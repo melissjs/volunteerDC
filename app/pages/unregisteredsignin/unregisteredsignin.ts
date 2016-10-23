@@ -12,69 +12,71 @@ import * as globals from '../../globals';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+
+
  
 @Component({
     templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
-    providers: [RestService]
+    //providers: [RestService],
 })
 export class UnregisteredsigninPage {
-    newVolunteer: Volunteer;
-    volunteerKey: string;
-    enterFullName: string;
-    enterEmailAddress: string;
-    enterExposeEmail: boolean;
-    enterPhoneNumber: string;
-    enterAge: number;
-    enterSex: string;
-    enterPartyAffiliation: string;
-    enterShifts: string;
-    enterPasscode: string;
-    enterPasscode1: string;
-    enterPasscode2: string;
-    enterTotalRecords: number;
-    enterTotalVoteRecords: number;
-    enterTotalAnomalyRecords: number;
-    enterTotalAmendmentRecords: number;
-    enterPartyAffiliationFromList: string;
-    enterOtherPartyAffiliation: string;
-    volunteerservice: Volunteerservice;
-    party: string;
-    volunteers: Volunteer[];
-    registerForm: FormGroup;
-    dbSex: string;
-    dbPartyAffiliation: string;
-    properties: any;
+newVolunteer: Volunteer;
+volunteerKey: string;
+enterFullName: string;
+enterEmailAddress: string;
+enterExposeEmail: boolean;
+enterPhoneNumber: string;
+enterAge: number;
+enterSex: string;
+enterPartyAffiliation: string;
+enterShifts: string;
+enterPasscode: string;
+enterPasscode1: string;
+enterPasscode2: string;
+enterTotalRecords: number;
+enterTotalVoteRecords: number;
+enterTotalAnomalyRecords: number;
+enterTotalAmendmentRecords: number;
+enterPartyAffiliationFromList: string;
+enterOtherPartyAffiliation: string;
+volunteerservice: Volunteerservice;
+party: string;
+volunteers: Volunteer[];
+registerForm: FormGroup;
+dbSex: string;
+dbPartyAffiliation: string;
+properties: any;
+loggedIn: boolean;
 
 
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController,
-                public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
-        this.navCtrl = navCtrl;
-        this.newVolunteer = null;
-        this.volunteerKey = null;
-        this.enterFullName = null;
-        this.enterEmailAddress = null;
-        this.enterExposeEmail = false;
-        this.enterPhoneNumber = null;
-        this.enterAge = null;
-        this.enterSex = null;
-        this.enterPartyAffiliation = null;
-        this.enterPartyAffiliationFromList = null;
-        this.enterShifts = '';
-        this.enterPasscode = null;
-        this.enterPasscode1 = null;
-        this.enterPasscode2 = null;
-        this.enterTotalRecords = null;
-        this.enterTotalVoteRecords = null;
-        this.enterTotalAnomalyRecords = null;
-        this.enterTotalAmendmentRecords = null;
-        this.enterOtherPartyAffiliation = null;
-        this.volunteerservice = volunteerservice;
-        this.volunteers = this.volunteerservice.getVolunteers();
-        this.restSvc = restSvc;
-        this.properties = null;
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
+  this.navCtrl = navCtrl;
+  this.newVolunteer = null;
+  this.volunteerKey = null;
+  this.enterFullName = null;
+  this.enterEmailAddress = null;
+  this.enterExposeEmail = false;
+  this.enterPhoneNumber = null;
+  this.enterAge = null;
+  this.enterSex = null;
+  this.enterPartyAffiliation = null;
+  this.enterPartyAffiliationFromList = null;
+  this.enterShifts = '';
+  this.enterPasscode = null;
+  this.enterPasscode1 = null;
+  this.enterPasscode2 = null;
+  this.enterTotalRecords = null;
+  this.enterTotalVoteRecords = null;
+  this.enterTotalAnomalyRecords = null;
+  this.enterTotalAmendmentRecords = null;
+  this.enterOtherPartyAffiliation = null;
+  this.volunteerservice = volunteerservice;
+  this.volunteers = this.volunteerservice.getVolunteers();
+  this.restSvc = restSvc;
+  this.properties = null;
+  this.loggedIn = false;
 
-        
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
         var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
@@ -83,7 +85,7 @@ export class UnregisteredsigninPage {
         this.registerForm = fb.group({  
             'enterFullName': ['', Validators.compose([Validators.required])],
             'enterEmailAddress': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
-            //'exposeEmailCtrl': [this.newVolunteer.exposeEmail],
+            'enterExposeEmailCtrl': ['',  Validators.required],
             'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
             'enterAge': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': ['' , Validators.required],
@@ -133,6 +135,7 @@ export class UnregisteredsigninPage {
 
     }
 
+/*
     askToExposeEmail(){
 
         
@@ -160,15 +163,14 @@ export class UnregisteredsigninPage {
         confirm.present();
         
         
-        /*if (this.enterEmailAddress !== null){
-          let alert = this.alertCtrl.create({
-          title: 'Expose Email to Team?',
-          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-          buttons: ['OK'] 
-          });
-          alert.present();}*/
     }
+*/
 
+    onChangeExposeEmail(value){
+         var newval = !value;
+    console.log('signature selected:' + newval);
+    this.enterExposeEmail = newval;
+    }
 
     onChangePhoneNumber(value){
         this.enterPhoneNumber = value;
@@ -273,18 +275,50 @@ export class UnregisteredsigninPage {
         //generate key for new volunteer
         this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
 
-        //expose emailAddress
+               //expose emailAddress
         this.newVolunteer.exposeEmail = this.enterExposeEmail;
 
-        this.newVolunteer.associatedPollingStationKey = '';
-        this.newVolunteer.totalRecords = 0;
-        this.newVolunteer.totalVoteRecords = 0;
-        this.newVolunteer.totalAnomalyRecords = 0;
-        this.newVolunteer.totalAmendmentRecords = 0;
+                this.newVolunteer.associatedPollingStationKey = null;
+                this.newVolunteer.totalRecords = 0;
+                this.newVolunteer.totalVoteRecords = 0;
+                this.newVolunteer.totalAnomalyRecords = 0;
+                this.newVolunteer.totalAmendmentRecords = 0;
+      
+ 
+
+     
 
         // set new volunteer
         this.volunteerservice.setNewVolunteer(this.newVolunteer);
 
+                     //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
+                     this.volunteers.push(this.newVolunteer);
+                     this.volunteerservice.setNewVolunteer(this.newVolunteer);
+                     this.loggedIn = true;
+                     this.restSvc.setLoggedIn(this.loggedIn);
+                     console.log(this.loggedIn + '' + this.restSvc.loggedIn);
+        
+            
+
+
+                     // ERICS Call
+        this.presentVerificationInit();
+
+        /*
+          comment out mine
+          // then
+          //if (this.newVolunteer.fullName !== null){
+          let alert = this.alertCtrl.create({
+          title: 'Registration Successful',
+          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+          buttons: ['OK'] 
+          });
+          alert.present();
+          
+          
+          
+          // then
+=======
         //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
         this.volunteers.push(this.newVolunteer);
         //console.log(this.volunteers);
@@ -309,6 +343,7 @@ export class UnregisteredsigninPage {
           
           // then
 
+>>>>>>> 370733e63c0e11074b34e49a5a78650fe71cbf67
           try {
           
           this.navCtrl.setRoot(RegistrationsuccessPage, {

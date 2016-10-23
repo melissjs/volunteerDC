@@ -18,12 +18,23 @@ export class RestService {
 
     jsessionid: string;
     csrf_token: string;
+    loggedIn: boolean;
 
     constructor(private http: Http) {
         // generate values
         this.jsessionid = null;// this.generateUUID();
         this.csrf_token = null;// this.generateUUID();
+        this.loggedIn = false;
     }
+
+    setLoggedIn(passedLoginValue){
+        this.loggedIn = passedLoginValue;
+    }
+
+    getLoggedIn(){
+        return this.loggedIn;
+    }
+
 
     generateUUID(){
         var d = new Date().getTime();
@@ -57,6 +68,10 @@ export class RestService {
         );
         return retval2;
         // .catch(this.handleError);
+    }
+
+        setCsrfToken(value: string) {
+        this.csrf_token = value;
     }
     
     setCsrfToken(value: string) {

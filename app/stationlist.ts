@@ -10,9 +10,7 @@ export var STATIONS: PollingStation[] = [{
         "roomNumber": "3",
         "city": "Los Angeles",
         "state": "California",
-        "zip": 90025,
-        "associatedVolunteerKeyList": ["v1","v4"]
-        
+        "zip": 90025,        
       },    
       
       
@@ -25,7 +23,6 @@ export var STATIONS: PollingStation[] = [{
         "city": "Los Angeles",
         "state": "California",
         "zip": 90025,
-        "associatedVolunteerKeyList": ["v3","v2"]
       },     
       
       
@@ -38,6 +35,4 @@ export var STATIONS: PollingStation[] = [{
         "city": "Marina Del Rey",
         "state": "California",
         "zip": 90025,
-        "associatedVolunteerKeyList": [],
-
       }]

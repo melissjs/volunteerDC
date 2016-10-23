@@ -49,6 +49,11 @@
 </ion-item>
 
 <ion-item>
+<ion-label stacked>Your Email Addess:</ion-label>
+<ion-input type="text" [(ngModel)]=resetContact name="contact" formControlName="enterContact"></ion-input>
+</ion-item>
+
+<ion-item>
 <ion-label stacked>Area(s) of Expertise:</ion-label>
 <ion-textarea [(ngModel)]=resetAreasOfExpertise name="areasOfExpertise" formControlName="enterAreasOfExpertise"></ion-textarea>
 </ion-item>
@@ -63,10 +68,7 @@
 <ion-textarea [(ngModel)]=resetRelevantLinks name="relevantLinks" formControlName="enterRelevantLinks"></ion-textarea>
 </ion-item>
 
-<ion-item>
-<ion-label stacked>Best Way to Contact You:</ion-label>
-<ion-input type="text" [(ngModel)]=resetContact name="contact" formControlName="enterContact"></ion-input>
-</ion-item>
+
 
 </ion-list>
 </form>

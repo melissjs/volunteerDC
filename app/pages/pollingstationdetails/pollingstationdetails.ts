@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 
 // to nav to
 import { ConfirmationPage } from '../confirmation/confirmation';
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
 //import { Pollingstationdetailscomponent } from '../pollingstationdetailscomponent/pollingstationdetailscomponent';
@@ -14,6 +15,8 @@ import { Pollingstationservice } from '../../providers/pollingstationservice/pol
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 
 import * as globals from '../../globals';
+
+import {RestService} from '../../providers/rest-service/rest-service';
 
 
 @Component({
@@ -29,6 +32,7 @@ export class PollingstationdetailsPage {
     pollingStationService: Pollingstationservice;
     volunteerservice: Volunteerservice;
     currentStation: PollingStation;
+    loggedIn: boolean;
 
     eM: boolean = false;
     lM: boolean = false;
@@ -54,9 +58,14 @@ export class PollingstationdetailsPage {
 
     shiftSelected: boolean = false;
 
-    constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController ) {
+    constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController, private restSvc: RestService ) {
         this.pollingStationService = pollingStationService;
         this.volunteerservice = volunteerservice;
+        this.restSvc = restSvc;
+        this.loggedIn = false;
+        if (this.restSvc.getLoggedIn()){
+        this.loggedIn = true;
+        }
         //this.currentVolunteerHere = null;
         this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
         this.currentStation = this.pollingStationService.getStation();
@@ -92,7 +101,7 @@ if (!this.currentVolunteerHere){
 
         this.setShifts();
         
-    }
+    } // end const
 
 
     setShifts() {
@@ -133,7 +142,7 @@ if (!this.currentVolunteerHere){
 
     onChangeEarlyM(value) {
         var earlyM = !value;
-        console.log('signature selected:' + earlyM);
+        console.log('signature selected:' + earlyM + ' heyyyy ' + this.loggedIn);
         this.eM = earlyM;
     }
 
@@ -170,11 +179,20 @@ if (!this.currentVolunteerHere){
         // console.log(this.volunteerservice.getVolunteersByStation(this.currentStation));
     }
 
+    onRegister(){
+        var that = this;
+      try {that.navCtrl.setRoot(UnregisteredsigninPage, {});
+            
+
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        } 
+    }
 
     onSubmit(){
 
         //clear shifts
-        console.log(this.volunteerservice.printVolunteerKeysFromList());
+        //console.log(this.volunteerservice.printVolunteerKeysFromList());
         
         // this.volunteerservice.currentVolunteer.shifts.splice(0, this.volunteerservice.currentVolunteer.shifts.length);
         this.volunteerservice.clearShifts();
@@ -218,23 +236,12 @@ if (!this.currentVolunteerHere){
         //check for selected station, remove volunteer from old station
         if ((shiftNowSelected) ||
             (this.shiftSelected && !shiftNowSelected)) { // Something changed (all cleared)
-            
-            if(this.currentVolunteerHere.associatedPollingStationKey && this.currentVolunteerHere.associatedPollingStationKey!=this.currentStation.pollingStationKey) {
-                this.pollingStationService.removeVolunteerFromAssociatedVolunteerList(this.currentVolunteerHere, this.currentVolunteerHere.associatedPollingStationKey);   
-                //console.log(this.currentVolunteerHere.pollingStation.associatedVolunteerList);
-            }
-
+         
             //add polling station to volunteer object
             this.volunteerservice.setPollingStationForVolunteer(this.currentStation); 
             console.log(this.currentVolunteerHere);
 
-            // add volunteer to associatedVolunteerList in station object
-            if(this.pollingStationService.isCurrentVolunteerInArray(this.currentVolunteerHere)==false){
-                this.pollingStationService.addVolunteerToAssociatedVolunteerList(this.currentVolunteerHere);
-            }
-            console.log(this.currentStation.associatedVolunteerKeyList);
-
-            // ###### left to do: push station and volunteer obejcts to appropriate arrays??
+          
         }
 
 

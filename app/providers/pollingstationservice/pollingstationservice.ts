@@ -60,7 +60,7 @@ export class Pollingstationservice {
 
 
 
-    isCurrentVolunteerInArray(passedVolunteer){
+   /* isCurrentVolunteerInArray(passedVolunteer){
 
         for (var i = 0; i < this.selectedStation.associatedVolunteerKeyList.length; i++) {
             if (this.selectedStation.associatedVolunteerKeyList[i] == passedVolunteer.volunteerKey){
@@ -70,16 +70,16 @@ export class Pollingstationservice {
             } 
         }
         return false; 
-    } 
+    } */
 
-    removeVolunteerFromAssociatedVolunteerList(passedVolunteer: Volunteer, stationKey: string){
+ /*   removeVolunteerFromAssociatedVolunteerList(passedVolunteer: Volunteer, stationKey: string){
         this.oldStation = this.getPollingStationbyKey(stationKey);
         for (var i = 0; i < this.oldStation.associatedVolunteerKeyList.length; i++) {
             if (this.oldStation.associatedVolunteerKeyList[i] == passedVolunteer.volunteerKey){
                 this.oldStation.associatedVolunteerKeyList.splice(i, 1);
             }
         }
-    }
+    }*/
 
     /*  removeVolunteerFromOldStationAssociatedVolunteerList(passedVolunteer, oldStation){
         for (var i = 0; i < this.oldStation.associatedVolunteerList.length; i++) {
@@ -90,20 +90,20 @@ export class Pollingstationservice {
         }*/
 
 
-    addVolunteerToAssociatedVolunteerList(passedVolunteer){
+   /* addVolunteerToAssociatedVolunteerList(passedVolunteer){
         this.selectedStation.associatedVolunteerKeyList.push(passedVolunteer.volunteerKey);
         //return this.selectedStation;
-    }
+    }*/
 
     printSelectedStation(){
         console.log('from service' + this.selectedStation.streetAddress)
     }
 
     //notchecked
-    getAssociatedVolunteerKeyList(passedStationKey){
+   /* getAssociatedVolunteerKeyList(passedStationKey){
         this.associatedVolunteerKeyList = this.getPollingStationbyKey(passedStationKey).associatedVolunteerKeyList;
         return this.associatedVolunteerKeyList;
-    }
+    }*/
 
     //printSelectedStations(){
     //console.log('from service hello')
