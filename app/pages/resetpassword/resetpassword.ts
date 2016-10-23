@@ -55,7 +55,7 @@ errorTextEmail: string;
 
 
   onSubmitEmailOnly(value: any): void {
-    if (this.volunteerservice.getVolunteerByEmail(value.enterEmailAddress)){
+    if (this.volunteerservice.getVolunteerByEmail(value.enterEmailAddress.toLowerCase())){
   this.volunteerHere = this.volunteerservice.getVolunteerByEmail(value.enterEmailAddress);
   this.emailWasSent = true;
   console.log(this.volunteerHere);
