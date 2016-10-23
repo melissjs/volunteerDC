@@ -91,8 +91,8 @@ export class UnregisteredsigninPage {
             // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
             //'shiftsCtrl': [this.newVolunteer.shifts],
             'enterOtherPartyAffiliation':[''],
-            'enterPasscode1': ['', Validators.required],
-            'enterPasscode2': ['', Validators.required],
+            'enterPasscode1': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+            'enterPasscode2': ['', Validators.compose([Validators.required, Validators.minLength(8)])]
 
         });
 
