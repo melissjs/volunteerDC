@@ -13,11 +13,14 @@
         <ion-content class="backgroundColor" padding>
 
 
-        <ion-card *ngIf="currentTempVolunteer.associatedPollingStationKey">
+        <ion-card *ngIf="currentTempVolunteer.associatedPollingStationKey && !resetPasscode">
         <ion-list text-wrap>
 
             <ion-list-header >
               Polling Station Team Information
+                 <button (click)="askShifts()" ion-button item-right >
+                 Delete Shifts
+                </button>
             </ion-list-header>
 
 
@@ -58,14 +61,18 @@
 
 
        <!--  <ion-card *ngIf="currentTempVolunteer && currentTempVolunteer.fullName"> -->
-         <ion-card *ngIf="loggedIn">
+         <ion-card *ngIf="loggedIn && !resetPasscode">
             <form [formGroup]="changeForm"  (ngSubmit)="onSubmit(changeForm.value)" novalidate>
               <ion-list text-wrap>
 
 <ion-list-header>
   Account Settings 
-     <button (click)="onLogout()" ion-button item-right icon-left>
-      <ion-icon name="close"></ion-icon>
+
+   <button (click)="onConfirmOldPasscode()" ion-button item-right>
+      Change Passcode
+    </button>
+  
+     <button (click)="onLogout()" ion-button item-right>
       Log Out
     </button>
   </ion-list-header>
@@ -131,13 +138,14 @@
         </ion-item> 
   
 
-
+       
         <ion-item *ngIf="currentTempVolunteer.shifts!=''">
         <ion-label stacked>Registered Shifts:</ion-label>
         <ion-textarea readonly [(ngModel)]="currentTempVolunteer.shifts" name="shift" formControlName="shiftsCtrl" (click)="askShifts()"></ion-textarea>
         </ion-item>
-
-        <!-- <ion-item>
+       
+ <!--
+         <ion-item>
         <ion-label stacked>Registered Shifts:</ion-label>
          <ion-select  multiple="true" text-wrap [(ngModel)]="currentTempVolunteer.shifts" name="shift" formControlName="shiftsCtrl" (change)="onChangeShifts(shift)" (click)="wasThisTouched()" >
             <ion-option value="Early Morning">Early Morning</ion-option>
@@ -147,21 +155,20 @@
             <ion-option value="Early Evening">Early Evening</ion-option>
             <ion-option value="Late Evening">Late Evening</ion-option>
           </ion-select> 
-        </ion-item> -->
+        </ion-item> 
 
 
 
-
+<!--
   <ion-item>
     <ion-label stacked>Passcode:</ion-label>
-    <ion-input (click)="wasThisTouched()" type="password" formControlName="passcodeCtrl" [ngModel]="promptPWD" name=pp (change)="onConfirmOldPasscode(promptPWD)"></ion-input>
+    <ion-input (click)="wasThisTouched()" type="password" formControlName="passcodeCtrl" [ngModel]="promptPWD"  (change)="onConfirmOldPasscode(promptPWD)"></ion-input>
   </ion-item>
+  -->
 
-</ion-list>
-
-
+              </ion-list>
              </form>
-        </ion-card>  
+           </ion-card>  
 
 
 

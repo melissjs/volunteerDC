@@ -45,6 +45,8 @@ export class AccountsettingsPage {
     wasTouched: boolean;
     resetPasscode: boolean;
     loggedIn: boolean;
+    passChange: boolean;
+
 
 
     constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController, private restSvc: RestService) {
@@ -54,7 +56,9 @@ export class AccountsettingsPage {
         this.restSvc = restSvc;
         this.resetPasscode = false;
         this.loggedIn = false;
+        this.passChange = false;
         this.volunteerservice.associatedVolunteerArray = [];
+
 
         if(this.restSvc.getLoggedIn()){
             this.loggedIn = true;
@@ -108,7 +112,7 @@ export class AccountsettingsPage {
             'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
            // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
             'shiftsCtrl': [this.currentTempVolunteer.shifts],
-            'passcodeCtrl': [this.currentTempVolunteer.passcode, Validators.required],
+            'passcodeCtrl': [Validators.required],
 
         });
 
@@ -154,6 +158,7 @@ this.resetPasscode = true;
 
 onLogout(){
     this.loggedIn = false;
+    this.restSvc.setLoggedIn(this.loggedIn) 
     this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
 }
 
@@ -163,41 +168,6 @@ onLogout(){
     }
 
 
-// CHANGE PWD
-
-onConfirmOldPasscode(promptPWD){
-    let prompt = this.alertCtrl.create({
-      title: 'Verification Required  ',
-      message: "Enter your old passcode to verify this change.",
-      inputs: [
-        {
-          name: 'title',
-         // placeholder: 'Old Password'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-            this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-              if (promptPWD == this.currentTempVolunteer.passcode){
-                  this.currentTempVolunteer.passcode = data;
-                 } else {
-                     this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
-                 }
-            console.log('Saved clicked');
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
 
 
 
@@ -246,7 +216,60 @@ onConfirmOldPasscode(promptPWD){
 
 
  
+// CHANGE PWD
 
+
+
+onConfirmOldPasscode(){
+    //var errorForThis: string;
+    var that = this;
+    //let 
+    let prompt = this.alertCtrl.create({
+      title: 'Verification Required  ',
+      message: "Enter your old passcode to verify this change. ",
+      inputs: [
+        {
+          name: 'old',
+         placeholder: 'Old Password',
+         type: 'password'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked' + this.currentTempVolunteer.passcode);
+            //this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
+          }
+        },
+        {
+          text: 'Enter',
+          handler: data => {
+              var oldPassEntry = data.old;
+              if (oldPassEntry == this.currentTempVolunteer.passcode){
+                  this.passChange = true;
+                  this.resetPasscode = true;
+                  console.log('from inside ' + this.passChange)
+                 } else {
+                   that.showAlertForOld();
+                 }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+
+
+showAlertForOld() {
+let alert = this.alertCtrl.create({
+ title: 'Incorrect Password',
+ subTitle: 'You must enter your correct password in order to change it. If you have forgotten it, you may reset.',
+ buttons: ['OK']
+ });
+ alert.present();
+  }
 
 
 
@@ -293,7 +316,7 @@ onChangePartyAffiliationFromList(passedValue){
             this.currentTempVolunteer.age = value.ageCtrl;
             //this.currentTempVolunteer.sex = value.sexCtrl;
             //this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
-            this.currentTempVolunteer.passcode = value.passcodeCtrl;
+            //this.currentTempVolunteer.passcode = value.passcodeCtrl;
             this.wasTouched = false;
             if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
@@ -302,6 +325,14 @@ onChangePartyAffiliationFromList(passedValue){
              //this.volunteerservice.printVolunteer(this.volunteerservice.currentVolunteer);
             //console.log('temp ' + this.currentTempVolunteer.shifts);
            // console.log('vservice ' + this.volunteerservice.currentVolunteer.shifts);
+
+            //this.prompt.present();
+          /* if (this.passChange==true) {
+               this.currentTempVolunteer.passcode = value.passcodeCtrl;
+           } */
+           console.log(this.passChange + ' after submit ' + this.currentTempVolunteer.passcode);
+
+           
         }
 
 
