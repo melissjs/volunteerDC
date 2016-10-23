@@ -57,7 +57,7 @@ export class RestService {
         var retval1 = this.http.get(url);
         
         // body, options
-	var that = this;
+        var that = this;
         /* var retval1b = retval1.subscribe((res) => {
             that.csrf_token = res.headers.get('CSRF-TOKEN');
         });*/
@@ -118,12 +118,12 @@ export class RestService {
             headers.append('X-CSRF-TOKEN', this.csrf_token);
         }
         headers.append('Content-Type', 'application/json;charset=UTF-8');
-	let options = new RequestOptions({ headers: headers, withCredentials: true});
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
 
         var url = config.MT_HOST + '/api/register' + this.cacheBuster();
         var retval1 = this.http.post(url, params, options);
         // body, options
-        var retval2 = retval1.map(res => res.json());
+        var retval2 = retval1;
         return retval2;
     }
 

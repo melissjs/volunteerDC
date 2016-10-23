@@ -178,12 +178,17 @@ export class UnregisteredsigninPage {
         this.enterSex = value;
     }
 
-    onChangePartyAffiliationFromList(value){
+    onChangePartyAffiliationFromList(value, otherParty, passcode){
         this.enterPartyAffiliationFromList = value;
         /*if (this.enterPartyAffiliationFromList!=="other"){
           this.enterOtherPartyAffiliation=null;
           this.enterPartyAffiliation=this.enterPartyAffiliationFromList;
           }*/
+        if (value == "Other Party") {
+            otherParty.setFocus();
+        } else {
+            passcode.setFocus();
+        }
     }
 
     onChangeOtherPartyAffiliation(value){
@@ -425,8 +430,8 @@ export class UnregisteredsigninPage {
                     }
                 }, err => {
                     console.log('error occurred ' + err.toString());
-                    if ((err.toString().startsWith("Response with status: 0")) ||
-                        (err.toString().startsWith("Response with status: 404"))) {
+                    if ((err.status == 0) ||
+                        (err.status == 404)) {
                         that.properties = "Unknown Error!";
                         this.testError();
                         return;
@@ -477,7 +482,7 @@ export class UnregisteredsigninPage {
                     }
                 }, err => {
                     console.log('error occurred ' + err.toString());
-                    if (err.toString().startsWith("Response with status: 0")) {
+                    if (err.status == 0) {
                         that.properties = "Unknown Error!";
                     } else {
                         that.properties = err.toString();
@@ -548,18 +553,21 @@ export class UnregisteredsigninPage {
         var that = this;
         try {
             that.restSvc.registerUser(that.newVolunteer)
-                .subscribe( data => {
+                .subscribe( (data) => {
                     that.properties = data;
                     // Expect response created here...
-                    console.log('successful call:' + that.properties);
-                    this.successForward(true);
-                }, err => {
+                    if (data.status == 201) {
+                        console.log('successful call:' + that.properties);
+                        this.successForward(true);
+                    } else {
+                        // ?? shouldn't happen ??
+                        console.log('UNKNOWN STATUS:' + that.properties);
+                        this.successForward(true);              
+                    }
+                } , err => {
                     console.log('error occurred ' + err.toString());
-                    if ((err.toString().startsWith("Response with status: 0")) ||
-                        (err.toString().startsWith("Response with status: 404"))) {
-                        that.properties = "Unknown Error!";
-                        this.testError();
-                        return;
+                    if (err.status == 400) {
+                        that.properties = err._body // toString();
                     } else {
                         that.properties = err.toString();
                     }
@@ -573,12 +581,14 @@ export class UnregisteredsigninPage {
                                 alert.dismiss();
                             }
                         }]
-                    });
+                    }
+                    );
                     //timeout the error to let other modals finish dismissing.
                     setTimeout(()=>{
                         alert.present();
                     },500);
-                }, () => {console.log('registration(register) complete')});
+                }, () => {console.log('registration(register) complete')}
+                );
         } catch (err) {
             console.error(err);
             console.log('error in Submitting, exc='+ err.toString())

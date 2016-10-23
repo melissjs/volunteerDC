@@ -50,7 +50,7 @@
 
    <ion-item>
     <ion-label stacked>Party Affiliation:</ion-label>
-         <ion-select text-wrap [(ngModel)]="enterPartyAffiliationFromList" formControlName="partyAffiliationCtrl" (change)="onChangePartyAffiliationFromList(enterPartyAffiliationFromList)">
+         <ion-select text-wrap [(ngModel)]="enterPartyAffiliationFromList" formControlName="partyAffiliationCtrl" (change)="onChangePartyAffiliationFromList(enterPartyAffiliationFromList,otherParty,passcode)">
             <ion-option value="No Party Preference">No Party Preference</ion-option>
             <ion-option value="Democratic Party">Democratic Party</ion-option>
             <ion-option value="Green Party">Green Party</ion-option>
@@ -62,7 +62,7 @@
   <!-- Show line if they need to write in a party -->
         <ion-item *ngIf="enterPartyAffiliationFromList=='Other Party'">
         <ion-label stacked>Please Write in Party Name:</ion-label>
-        <ion-input type="text" formControlName="enterOtherPartyAffiliation" ></ion-input>
+        <ion-input #otherParty type="text" formControlName="enterOtherPartyAffiliation" ></ion-input>
         </ion-item> 
  <!-- end-->   
 
@@ -84,7 +84,7 @@
 
   <ion-item>
     <ion-label stacked>Create Passcode:</ion-label>
-    <ion-input type="password" formControlName="enterPasscode1"></ion-input>
+    <ion-input #passcode type="password" formControlName="enterPasscode1"></ion-input>
   </ion-item>
 
     <ion-item>
