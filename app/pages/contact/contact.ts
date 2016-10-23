@@ -5,6 +5,7 @@ import { NavController, AlertController } from 'ionic-angular';
 //import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HomePage} from '../home/home';
+import {ContactFormObject} from '../../contactObj'
 
 
 
@@ -16,11 +17,13 @@ import {HomePage} from '../home/home';
 export class ContactPage {
 contactForm: FormGroup;
 email: any;
+contactFormObj: ContactFormObject;
  
 
 
 constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder) {
 this.navCtrl = navCtrl;
+this.contactFormObj = null;
 var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*'
 this.contactForm = fb.group({  
     'fullName': ['', Validators.compose([Validators.required])],
@@ -30,24 +33,7 @@ this.contactForm = fb.group({
     'message': ['', Validators.required],
     });
 
-/*
-this.contactForm.patchValue({
-fullName: 'my name'
-});
-*/
 
-
-
-
-let email = {
-  to: 'melissjs@gmail.com',
-  cc: 'melissjs@gmail.com',
-  bcc: ['melissjs@gmail.com', 'melissjs@gmail.com'],
-  attachments: [],
-  subject: 'Cordova Icons',
-  body: 'How are you? Nice greetings from Leipzig',
-  isHtml: true
-}
   }
 
 
@@ -60,18 +46,15 @@ let email = {
 
 
    onSubmit(value: any): void { 
-   console.log('Submitted value: ', value);
-   //var that = this; 
-
-  EmailComposer.isAvailable().then((available: boolean) =>{
- if(available) {
-   //Now we know we can send
-     EmailComposer.open(this.email);
- }
-});
 
 
+this.contactFormObj ={
+fullName: value.fullName,
+emailAddress: value.emailAddress,
+message: value.message
+} 
 
+console.log(this.contactFormObj);
 
 
 

@@ -4,6 +4,7 @@ import { HomePage} from '../home/home';
 
 // forms
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { CollaborateFormObject} from '../../collaborateObj'; 
 
 
 @Component({
@@ -16,10 +17,11 @@ resetAreasOfExpertise: string;
 resetDesiredContribution: string;
 resetRelevantLinks: string;
 resetContact: string;
+collabFormObj: CollaborateFormObject;
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder) {
       this.navCtrl = navCtrl;
-
+      this.collabFormObj = null;
    
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
@@ -31,10 +33,11 @@ resetContact: string;
 
         this.collaboratorForm = fb.group({  
             'enterFullName': ['', Validators.required],
+            'enterContact': ['', Validators.compose([Validators.required, Validators.pattern(regExEmail)])],
             'enterAreasOfExpertise': ['', Validators.required],
             'enterDesiredContribution': ['', Validators.required],
             'enterRelevantLinks': ['',Validators.required],
-            'enterContact': ['', Validators.required]
+            
 
         });
         
@@ -44,6 +47,18 @@ resetContact: string;
 
 onSubmit(value: any): void {
 
+
+ this.collabFormObj = {
+fullName: value.enterFullName,
+emailAddress: value.enterContact,
+areasOfExpertise: value.enterAreasOfExpertise,
+desiredContribution: value.enterDesiredContribution,
+links: value.enterRelevantLinks
+ }
+
+ //console.log(this.collabFormObj);
+
+ //console.log('hello');
 
   // ask Eric about emailing a form value
 
