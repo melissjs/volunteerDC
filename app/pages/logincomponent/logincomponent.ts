@@ -38,8 +38,8 @@ error: boolean;
       
 
   this.loginForm = fb.group({  
-            'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(this.regExPhone)])],
-            'enterPasscode': ['', Validators.required]
+            'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.pattern(this.regExPhone)])],
+            'enterPasscode': ['', Validators.compose([Validators.required, Validators.minLength(8)])]
         });
   }
 
