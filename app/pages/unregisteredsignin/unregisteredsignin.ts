@@ -160,6 +160,10 @@ export class UnregisteredsigninPage {
       }
     */
 
+    toTitleCase(str){
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
     onChangeExposeEmail(value){
         var newval = !value;
         console.log('signature selected:' + newval);
@@ -259,8 +263,8 @@ export class UnregisteredsigninPage {
         }
 
         // SET VALUES FROM TEXT INPUTS
-        this.newVolunteer.fullName = value.enterFullName;
-        this.newVolunteer.emailAddress = value.enterEmailAddress;
+        this.newVolunteer.fullName = this.toTitleCase(value.enterFullName);
+        this.newVolunteer.emailAddress = value.enterEmailAddress.toLowerCase();
         this.newVolunteer.phoneNumber = value.enterPhoneNumber;
         this.newVolunteer.age = value.enterAge;
         this.newVolunteer.sex = this.enterSex;
@@ -268,7 +272,7 @@ export class UnregisteredsigninPage {
         if (this.enterPartyAffiliationFromList!="Other Party"){
             this.newVolunteer.partyAffiliation = this.enterPartyAffiliationFromList;
         } else if (this.enterPartyAffiliationFromList=="Other Party" && value.enterOtherPartyAffiliation){
-            this.newVolunteer.partyAffiliation = value.enterOtherPartyAffiliation;
+            this.newVolunteer.partyAffiliation = this.toTitleCase(value.enterOtherPartyAffiliation);
         }
 
         //generate key for new volunteer
@@ -605,3 +609,11 @@ export class UnregisteredsigninPage {
 }
 /* Thank you for registering to volunteer on election day! Now all you need to do is find a polling location near you and sign up for one or more shifts. 
      */ 
+
+
+
+
+//function toTitleCase(str)
+//{
+//    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+//}

@@ -268,6 +268,7 @@ onConfirmOldPasscode(){
       ]
     });
     prompt.present();
+    
   }
 
 
@@ -278,7 +279,10 @@ let alert = this.alertCtrl.create({
  subTitle: 'You must enter your correct password in order to change it. If you have forgotten it, you may reset.',
  buttons: ['OK']
  });
- alert.present();
+            setTimeout(()=>{
+            alert.present();
+             },500);
+ //alert.present();
   }
 
 
