@@ -35,8 +35,6 @@ export class RestService {
         return this.loggedIn;
     }
 
-
->>>>>>> 954f010dcd1045a40a4fcce8d1aa4d7bc1d55742
     generateUUID(){
         var d = new Date().getTime();
         if(window.performance && typeof window.performance.now === "function"){

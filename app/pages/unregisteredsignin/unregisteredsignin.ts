@@ -539,54 +539,6 @@ export class UnregisteredsigninPage {
         });
     }
 
-    sendVerificationEmail() {
-        var that = this;
-        try {
-            that.restSvc.registerUser(that.newVolunteer)
-                .subscribe( data => {
-                    that.properties = data;
-                    // Expect response created here...
-                    console.log('successful call:' + that.properties);
-                    this.successForward(true);
-                }, err => {
-                    console.log('error occurred ' + err.toString());
-                    if ((err.toString().startsWith("Response with status: 0")) ||
-                        (err.toString().startsWith("Response with status: 404"))) {
-                        that.properties = "Unknown Error!";
-                        this.testError();
-                        return;
-                    } else {
-                        that.properties = err.toString();
-                    }
-                    // console.log(error.stack());
-                    let alert = that.alertCtrl.create({
-                        title: 'Error Registering Account',
-                        subTitle: that.properties,
-                        buttons: [{
-                            text: 'OK',
-                            handler: () => {
-                                alert.dismiss();
-                            }
-                        }]
-                    });
-                    //timeout the error to let other modals finish dismissing.
-                    setTimeout(()=>{
-                        alert.present();
-                    },500);
-                }, () => {console.log('registration(register) complete')});
-        } catch (err) {
-            console.error(err);
-            console.log('error in Submitting, exc='+ err.toString())
-            let alert2 = that.alertCtrl.create({
-                title: 'Error Authorizing',
-                subTitle: 'There was a problem sending '
-                    + 'your token - sorry :(' + err.toString(),
-                buttons: ['OK']
-            });
-            alert2.present();
-        }
-    }
-
     testError() {
         // Only happens when we don't actually have a real server to talk to..
         this.successForward(false);
