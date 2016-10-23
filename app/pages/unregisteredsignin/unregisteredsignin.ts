@@ -313,43 +313,36 @@ loggedIn: boolean;
 
 
                      // ERICS Call
-                     this.presentVerificationInit();
+        this.presentVerificationInit();
 
-                    /*
-                     comment out mine
-                    // then
-                    //if (this.newVolunteer.fullName !== null){
-                    let alert = this.alertCtrl.create({
-                    title: 'Registration Successful',
-                    subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-                    buttons: ['OK'] 
-                    });
-                    alert.present();
-
-                    
-         
-    
-                    // then
-
-                    try {
-                        
-                            this.navCtrl.setRoot(RegistrationsuccessPage, {
-                            });
-                        
-                    } catch (EE) {
-                            console.log('error in Submitting, exc='+ EE.toString())
-                    }
-                    */
-                        
-   
-
-
+        /*
+          comment out mine
+          // then
+          //if (this.newVolunteer.fullName !== null){
+          let alert = this.alertCtrl.create({
+          title: 'Registration Successful',
+          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
+          buttons: ['OK'] 
+          });
+          alert.present();
+          
+          
+          
+          // then
+          try {
+          
+          this.navCtrl.setRoot(RegistrationsuccessPage, {
+          });
+          
+          } catch (EE) {
+          console.log('error in Submitting, exc='+ EE.toString())
+          }
+        */
+        
     }
 
     //end onsubmit
-
-
-        
+    
     presentVerificationCheck(subtitle:string) {
         var that = this;
         let alertpvc = this.alertCtrl.create({
@@ -401,7 +394,11 @@ loggedIn: boolean;
                     that.properties = data;
                     console.log('successful call:' + that.properties);
                     if (that.properties.success) {
-                        this.presentVerificationCheck('Enter the 4 digit code');
+                        var csrfToken = data._csrf;
+                        if (csrfToken != null) {
+                            that.restSvc.setCsrfToken(csrfToken[0]);
+                        }
+                        that.presentVerificationCheck('Enter the 4 digit code');
                     } else {
                         let alert = that.alertCtrl.create({
                             title: 'Error Verifying Phone',
@@ -587,5 +584,4 @@ loggedIn: boolean;
         this.successForward(false);
     }
 
-            
 }
