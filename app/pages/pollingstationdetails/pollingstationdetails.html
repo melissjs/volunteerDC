@@ -10,7 +10,7 @@
 
 
 
-<ion-content padding>
+<ion-content class="backgroundColor" padding>
 
       <ion-card padding>
     <pollingstationcomponent [passedStations]=pollingStationService.selectedStation> </pollingstationcomponent> 
@@ -111,12 +111,12 @@
 </ion-card>
 
             <!-- for  reg -->
-            <button type="submit" (click)="onSubmit()" block large *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null">
+            <button type="submit" (click)="onSubmit()" block large *ngIf="loggedIn">
   			    Submit
            </button>
 
            <!-- for non reg -->
-           <button type="submit" (click)="onSubmit()" block large *ngIf!="currentVolunteerHere || currentVolunteerHere.fullName==null" disabled>
+           <button (click)="onRegister()" block large *ngIf="!loggedIn" style="background-color:#959eb0; cursor:default">
   			    Register to sign up for shifts
            </button>
       

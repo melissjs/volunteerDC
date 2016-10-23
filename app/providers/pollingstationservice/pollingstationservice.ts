@@ -21,11 +21,13 @@ export class Pollingstationservice {
     stationListInMemory: PollingStation[];
     associatedVolunteerKeyList: string[];
     matchingPrecinctAndZipList: PollingStation[];
+    duplicateYesOrNo: boolean;
     //searchpipe: Searchpipe;
 
     constructor(){
         this.stationListInMemory = this.getStations();
         this.matchingPrecinctAndZipList = [];
+        this.duplicateYesOrNo = false;
     }
 
     getStations() { return STATIONS;  }
@@ -58,7 +60,7 @@ export class Pollingstationservice {
 
 
 
-    isCurrentVolunteerInArray(passedVolunteer){
+   /* isCurrentVolunteerInArray(passedVolunteer){
 
         for (var i = 0; i < this.selectedStation.associatedVolunteerKeyList.length; i++) {
             if (this.selectedStation.associatedVolunteerKeyList[i] == passedVolunteer.volunteerKey){
@@ -68,16 +70,16 @@ export class Pollingstationservice {
             } 
         }
         return false; 
-    } 
+    } */
 
-    removeVolunteerFromAssociatedVolunteerList(passedVolunteer: Volunteer, stationKey: string){
+ /*   removeVolunteerFromAssociatedVolunteerList(passedVolunteer: Volunteer, stationKey: string){
         this.oldStation = this.getPollingStationbyKey(stationKey);
         for (var i = 0; i < this.oldStation.associatedVolunteerKeyList.length; i++) {
             if (this.oldStation.associatedVolunteerKeyList[i] == passedVolunteer.volunteerKey){
                 this.oldStation.associatedVolunteerKeyList.splice(i, 1);
             }
         }
-    }
+    }*/
 
     /*  removeVolunteerFromOldStationAssociatedVolunteerList(passedVolunteer, oldStation){
         for (var i = 0; i < this.oldStation.associatedVolunteerList.length; i++) {
@@ -88,20 +90,20 @@ export class Pollingstationservice {
         }*/
 
 
-    addVolunteerToAssociatedVolunteerList(passedVolunteer){
+   /* addVolunteerToAssociatedVolunteerList(passedVolunteer){
         this.selectedStation.associatedVolunteerKeyList.push(passedVolunteer.volunteerKey);
         //return this.selectedStation;
-    }
+    }*/
 
     printSelectedStation(){
         console.log('from service' + this.selectedStation.streetAddress)
     }
 
     //notchecked
-    getAssociatedVolunteerKeyList(passedStationKey){
+   /* getAssociatedVolunteerKeyList(passedStationKey){
         this.associatedVolunteerKeyList = this.getPollingStationbyKey(passedStationKey).associatedVolunteerKeyList;
         return this.associatedVolunteerKeyList;
-    }
+    }*/
 
     //printSelectedStations(){
     //console.log('from service hello')
@@ -110,20 +112,24 @@ export class Pollingstationservice {
 
     // Compare precint number and zip for navigating to duplicate station pages
 duplicateStationSearch(passedPrecint: string, passedZip: number){
+    // starting with clear comparison array 
+    this.matchingPrecinctAndZipList = [];
+    this.duplicateYesOrNo = false;
       // GET ALL STATIONS WITH THAT PRECINT
       for (var i=0; i < this.stationListInMemory.length; i++){
           if(this.stationListInMemory[i].precinctNumber == passedPrecint){
               // fill array will all those stations with matching precints
               if(this.stationListInMemory[i].zip == passedZip){
                   this.matchingPrecinctAndZipList.push(this.stationListInMemory[i]);
+                  this.duplicateYesOrNo =  true;
               }
           }
       }
-    if (this.matchingPrecinctAndZipList[0]){
-                  console.log("list" + this.matchingPrecinctAndZipList);
-
-        return true
+    if (this.duplicateYesOrNo == true){
+                  //console.log(this.matchingPrecinctAndZipList[0]);
+        return true;
     } else {
+    this.duplicateYesOrNo = false;
     return false;
     }
 }

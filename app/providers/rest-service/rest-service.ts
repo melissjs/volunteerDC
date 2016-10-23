@@ -18,13 +18,25 @@ export class RestService {
 
     jsessionid: string;
     csrf_token: string;
+    loggedIn: boolean;
 
     constructor(private http: Http) {
         // generate values
         this.jsessionid = null;// this.generateUUID();
         this.csrf_token = null;// this.generateUUID();
+        this.loggedIn = false;
     }
 
+    setLoggedIn(passedLoginValue){
+        this.loggedIn = passedLoginValue;
+    }
+
+    getLoggedIn(){
+        return this.loggedIn;
+    }
+
+
+>>>>>>> 954f010dcd1045a40a4fcce8d1aa4d7bc1d55742
     generateUUID(){
         var d = new Date().getTime();
         if(window.performance && typeof window.performance.now === "function"){
@@ -40,7 +52,7 @@ export class RestService {
 
     sendAuthyRequest(via: string, cellPhone: string) {
 
-	// let options = new RequestOptions({ headers: null, withCredentials: true});
+        // let options = new RequestOptions({ headers: null, withCredentials: true});
         var url = config.AUTHY_VER_URL + cellPhone + '?via=' + via;
 
         // var retval1 = this.http.post(url, params, { headers: headers });
@@ -56,9 +68,13 @@ export class RestService {
             res => res.json()
         );
         return retval2;
-            // .catch(this.handleError);
+        // .catch(this.handleError);
     }
-    
+
+    setCsrfToken(value: string) {
+        this.csrf_token = value;
+    }
+
     sendAuthyVerify(cellPhone: string, code: string) {
 
         // let options = new RequestOptions({ headers: headers });
@@ -73,7 +89,7 @@ export class RestService {
             res => res.json()
         );
         return retval2;
-            // .catch(this.handleError);
+        // .catch(this.handleError);
     }
     
     cacheBuster() {
@@ -121,13 +137,13 @@ export class RestService {
     anonSignin() {
         var property = 
             { "withCredentials": "true", "j_username": "anon", "j_password": "anon", "remember-me" : "true"
-             };
+            };
         var json = JSON.stringify(property);
         var params = /* 'json=' +  */ json;
         let headers = new Headers();
         /* headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+           headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+           headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
         */
         headers.append('Content-Type', 'application/json');
 

@@ -8,7 +8,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="backgroundColor" padding>
 
 <ion-card padding>
    Use the form below to add a new polling location to our list and initiate a new audit.
@@ -70,12 +70,12 @@
         </ion-card>  
 
 <!-- for  non registered -->
-  <button *ngIf!="currentVolunteerHere || currentVolunteerHere.fullName==null" type="submit" (click)="onSubmit()" block large disabled >
+  <button *ngIf="!loggedIn" (click)="onRegister()" block large  style="background-color:#959eb0; cursor:default" >
     Register to add a location
   </button>
 
 <!--for  registered *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null"-->
-  <button *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null" type="submit" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
+  <button *ngIf="loggedIn" type="submit" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
     Add Location 
   </button>
 

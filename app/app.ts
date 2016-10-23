@@ -30,12 +30,13 @@ import {TempPage} from './pages/temp/temp';
 //import {UserDataService} from './user-data-service';
 import { Pollingstationservice } from './providers/pollingstationservice/pollingstationservice';
 import { Volunteerservice } from './providers/volunteerservice/volunteerservice';
+import {RestService} from './providers/rest-service/rest-service';
 
 @Component({
   templateUrl: 'build/app.html',
   // config: {}, // http://ionicframework.com/docs/v2/api/config/Config/	  
   //providers: [UserDataService]
-  providers: [Pollingstationservice, Volunteerservice]
+  providers: [Pollingstationservice, Volunteerservice, RestService]
 })
 class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -52,7 +53,7 @@ class MyApp {
       //userDataSvc: UserDataService
       pollingStationService: Pollingstationservice,
       volunteerservice: Volunteerservice
-
+      
   ) {
     this.initializeApp();
 
@@ -63,9 +64,9 @@ class MyApp {
        { title: 'Volunteer', component: VolunteerPage },
        { title: 'Donate', component: DonatePage },
        { title: 'Participate', component: ParticipatePage },
-       { title: 'Educate', component: EducatePage },
+       { title: 'Audit Training', component: EducatePage },
        { title: 'Promote', component: PromotePage },
-       { title: 'Contact', component: ContactPage },
+       { title: 'Contact Us', component: ContactPage },
        { title: 'Account', component: AccountsettingsPage },
        
     ];

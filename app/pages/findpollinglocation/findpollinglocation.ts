@@ -22,7 +22,7 @@ import { Searchpipe } from '../../pipes/searchpipe';
 
 @Component({
   templateUrl: 'build/pages/findpollinglocation/findpollinglocation.html',
-  inputs: ['pollingstation', 'volunteer', 'team'],
+  inputs: ['pollingstation', 'volunteer'],
   pipes: [Searchpipe],
   //providers: [Searchpipe],
   directives: [PollingstationComponent]

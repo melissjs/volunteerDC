@@ -15,12 +15,19 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
 
 import * as globals from '../../globals';
 
+import { Logincomponent } from '../logincomponent/logincomponent';
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
+import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
+
+import {RestService} from '../../providers/rest-service/rest-service';
+
 //import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 @Component({
   templateUrl: 'build/pages/accountsettings/accountsettings.html',
+  //providers: [RestService],
   inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent],
+  directives: [PollingstationComponent, Logincomponent, Changepasswordcomponent],
 
 })
 export class AccountsettingsPage {
@@ -36,20 +43,39 @@ export class AccountsettingsPage {
     fullVolunteerKeyList: string[];
     fullVolunteerList: Volunteer[];
     wasTouched: boolean;
+    resetPasscode: boolean;
+    loggedIn: boolean;
+    passChange: boolean;
 
 
-    constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController) {
+
+    constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController, private restSvc: RestService) {
         this.navCtrl = navCtrl;
         this.volunteerservice = volunteerservice; 
         this.pollingstationservice = pollingstationservice;
-        if(volunteerservice.currentVolunteer!==null){
-            this.currentTempVolunteer = volunteerservice.getNewVolunteer();
-            console.log(this.currentTempVolunteer);
+        this.restSvc = restSvc;
+        this.resetPasscode = false;
+        this.loggedIn = false;
+        this.passChange = false;
+        this.volunteerservice.associatedVolunteerArray = [];
+
+
+        if(this.restSvc.getLoggedIn()){
+            this.loggedIn = true;
         }
+
+        this.currentTempVolunteer = this.volunteerservice.getNewVolunteer();
+
+
+
+
 
 
  //for Testing only
- /*
+
+/*
+      this.loggedIn = true;
+
       this.currentTempVolunteer = {
             volunteerKey: 'v5',
             fullName: 'Raya Hammond',
@@ -67,36 +93,8 @@ export class AccountsettingsPage {
             totalAnomalyRecords: 0,
             totalAmendmentRecords: 0,
         } 
+         */          
 
-*/
-
-
-        // if no volunteer, begin instance thats blank
-
-
-//ATTEMP TO FIX PROBLEM
-if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
-
-        this.currentTempVolunteer = {
-            volunteerKey: null,
-            fullName: null,
-            emailAddress: null,
-            exposeEmail: false,
-            phoneNumber: null,
-            age:null,
-            sex: null,
-            partyAffiliation: null,
-            shifts:'', 
-            passcode: null,
-            associatedPollingStationKey:null, 
-            totalRecords:null,
-            totalVoteRecords:null,
-            totalAnomalyRecords: null,
-            totalAmendmentRecords: null,
-        }
-        volunteerservice.setNewVolunteer(this.currentTempVolunteer);
-
-}
 
 
         //form stuff
@@ -111,59 +109,64 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
             'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
             'ageCtrl': [this.currentTempVolunteer.age, Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': [this.currentTempVolunteer.sex],
-            'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
+            'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
+           // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
             'shiftsCtrl': [this.currentTempVolunteer.shifts],
-            'passcodeCtrl': [this.currentTempVolunteer.passcode, Validators.required],
+            'passcodeCtrl': [Validators.required],
 
         });
 
         
 
-        
-        //setVolunteer 
-        volunteerservice.setNewVolunteer(this.currentTempVolunteer);
-        
-
- 
-
-        // get exposed value
-        
-           // this.exposedYesOrNo = this.volunteerservice.isEmailExposed(this.currentTempVolunteer);
-        
-
-
-        //get shift printout
-         
-        this.printedShifts = this.volunteerservice.printShifts(this.currentTempVolunteer);
-         
-
-       if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
+       if(this.currentTempVolunteer.associatedPollingStationKey!==null){
         this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentTempVolunteer.associatedPollingStationKey)
         this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
        }
 
         //get associate volunteer keys
-        if(volunteerservice.currentVolunteer.associatedPollingStationKey!==null){
-        this.fullVolunteerKeyList = this.pollingstationservice.getAssociatedVolunteerKeyList(this.currentTempVolunteer.associatedPollingStationKey);
-        //make array of associated volunteerservices
-        this.fullVolunteerList = this.volunteerservice.getVolunteerArrayByKeyList(this.fullVolunteerKeyList);
-        }
+        if(this.currentTempVolunteer.associatedPollingStationKey!==null){
+             this.fullVolunteerList = this.volunteerservice.getTeamVolunteersByPollKey(this.currentTempVolunteer.associatedPollingStationKey)
+            }
 
 
 
 
-
+ 
 
 
         //end constructor
     }
 
 
+onClickRegister(){
+        var that = this;
+        try {
+            
+            this.navCtrl.push(UnregisteredsigninPage, {
+            });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+            
+        }
+}
+
+onClickReset(){
+this.resetPasscode = true;
+}
+
+
+onLogout(){
+    this.loggedIn = false;
+    this.restSvc.setLoggedIn(this.loggedIn) 
+    this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
+}
 
 // CHANGE EXPOSE EMAIL
     onChangeExposeEmail(passedValue){
         this.currentTempVolunteer.exposeEmail = passedValue;
     }
+
 
 
 
@@ -200,6 +203,8 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
                         //this.volunteerservice.clearShifts()
                         this.currentTempVolunteer.shifts = '';
                         this.printedShifts = "None";
+                        this.currentTempVolunteer.associatedPollingStationKey = null;
+                        this.volunteerservice.associatedVolunteerArray = [];
                         console.log('Agree clicked' + this.currentTempVolunteer.shifts);
                         
                     }
@@ -211,7 +216,60 @@ if (!this.currentTempVolunteer || this.currentTempVolunteer.fullName==null){
 
 
  
+// CHANGE PWD
 
+
+
+onConfirmOldPasscode(){
+    //var errorForThis: string;
+    var that = this;
+    //let 
+    let prompt = this.alertCtrl.create({
+      title: 'Verification Required  ',
+      message: "Enter your old passcode to verify this change. ",
+      inputs: [
+        {
+          name: 'old',
+         placeholder: 'Old Password',
+         type: 'password'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked' + this.currentTempVolunteer.passcode);
+            //this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
+          }
+        },
+        {
+          text: 'Enter',
+          handler: data => {
+              var oldPassEntry = data.old;
+              if (oldPassEntry == this.currentTempVolunteer.passcode){
+                  this.passChange = true;
+                  this.resetPasscode = true;
+                  console.log('from inside ' + this.passChange)
+                 } else {
+                   that.showAlertForOld();
+                 }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+
+
+showAlertForOld() {
+let alert = this.alertCtrl.create({
+ title: 'Incorrect Password',
+ subTitle: 'You must enter your correct password in order to change it. If you have forgotten it, you may reset.',
+ buttons: ['OK']
+ });
+ alert.present();
+  }
 
 
 
@@ -255,9 +313,10 @@ onChangePartyAffiliationFromList(passedValue){
             this.currentTempVolunteer.fullName = value.fullNameCtrl;
             this.currentTempVolunteer.emailAddress = value.emailAddressCtrl;
             this.currentTempVolunteer.phoneNumber = value.phoneNumberCtrl;
+            this.currentTempVolunteer.age = value.ageCtrl;
             //this.currentTempVolunteer.sex = value.sexCtrl;
             //this.currentTempVolunteer.partyAffiliation = value.partyAffiliationCtrl;
-            this.currentTempVolunteer.passcode = value.passcodeCtrl;
+            //this.currentTempVolunteer.passcode = value.passcodeCtrl;
             this.wasTouched = false;
             if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
             this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
@@ -266,6 +325,14 @@ onChangePartyAffiliationFromList(passedValue){
              //this.volunteerservice.printVolunteer(this.volunteerservice.currentVolunteer);
             //console.log('temp ' + this.currentTempVolunteer.shifts);
            // console.log('vservice ' + this.volunteerservice.currentVolunteer.shifts);
+
+            //this.prompt.present();
+          /* if (this.passChange==true) {
+               this.currentTempVolunteer.passcode = value.passcodeCtrl;
+           } */
+           console.log(this.passChange + ' after submit ' + this.currentTempVolunteer.passcode);
+
+           
         }
 
 

@@ -1,19 +1,95 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
+import { HomePage} from '../home/home';
 
-/*
-  Generated class for the ParticipatePage page.
+// forms
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { CollaborateFormObject} from '../../collaborateObj'; 
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   templateUrl: 'build/pages/participate/participate.html',
 })
 export class ParticipatePage {
+collaboratorForm: FormGroup;
+resetName: string;
+resetAreasOfExpertise: string;
+resetDesiredContribution: string;
+resetRelevantLinks: string;
+resetContact: string;
+collabFormObj: CollaborateFormObject;
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder) {
+      this.navCtrl = navCtrl;
+      this.collabFormObj = null;
+   
+        //form stuff
+        var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
+        var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
+        var regExAge: string = '[1]*[0-9]?[0-9]';
+        var regExLettersOnly: string = '[a-ZA-Z]+';
+        var regExNumbersOnly: string = '[0-9]*';
+        var regExZip: string = '[0-9]{5}[-]?[0-9]?[0-9]?[0-9]?[0-9]?';
 
+        this.collaboratorForm = fb.group({  
+            'enterFullName': ['', Validators.required],
+            'enterContact': ['', Validators.compose([Validators.required, Validators.pattern(regExEmail)])],
+            'enterAreasOfExpertise': ['', Validators.required],
+            'enterDesiredContribution': ['', Validators.required],
+            'enterRelevantLinks': ['',Validators.required],
+            
+
+        });
+        
+  // End Constructor
   }
 
+
+onSubmit(value: any): void {
+
+
+ this.collabFormObj = {
+fullName: value.enterFullName,
+emailAddress: value.enterContact,
+areasOfExpertise: value.enterAreasOfExpertise,
+desiredContribution: value.enterDesiredContribution,
+links: value.enterRelevantLinks
+ }
+
+ //console.log(this.collabFormObj);
+
+ //console.log('hello');
+
+  // ask Eric about emailing a form value
+
+
+// alert    
+            
+            let alert = this.alertCtrl.create({
+                        title: 'Successfully Submitted',
+                        subTitle: 'Thank you for your submission; we greatly appreciate your interest in participating. Someone will respond to you as soon as possible. Our team is small right now; please expect it may take us some time to reply.',
+		buttons: [ 'OK' ]
+                    });
+                    alert.present(); 
+                    	try {
+		    this.navCtrl.setRoot(HomePage, {});
+		} catch (EE) {
+		    console.log('error in Submitting, exc='+ EE.toString())
+		}
+            }
+
+/*
+this.resetName = null;
+this.resetAreasOfExpertise  = null;
+this.resetDesiredContribution  = null;
+this.resetRelevantLinks = null;
+this.resetContact = null;
+*/
+
+
+
+
+
+
+// End class
 }

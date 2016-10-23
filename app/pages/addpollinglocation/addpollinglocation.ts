@@ -16,6 +16,10 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 // forms
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
+
+import {RestService} from '../../providers/rest-service/rest-service';
+
 
 @Component({
   templateUrl: 'build/pages/addpollinglocation/addpollinglocation.html',
@@ -40,9 +44,11 @@ totalRemainingShiftsToFill: number;
 currentVolunteerHere: Volunteer;
 volunteerservice: Volunteerservice;
 addPollingLocationForm: FormGroup;
+loggedIn: boolean;
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder, private restSvc: RestService) {
   this.navCtrl = navCtrl;
+  this.restSvc = restSvc;
   this.pollingStationService = pollingStationService;
   this.stations = pollingStationService.getStations();
   this.pollingStationKey = this.pollingStationService.generatePollingStationKey();
@@ -57,6 +63,18 @@ addPollingLocationForm: FormGroup;
   this.totalNeededVolunteers = null;
   this.totalRemainingShiftsToFill = null;
   this.volunteerservice = volunteerservice;
+  this.loggedIn = false;
+
+   if(this.restSvc.getLoggedIn()){
+            this.loggedIn = true;
+        }
+
+        this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
+
+
+
+/* old way
+
    if(volunteerservice.currentVolunteer!==null){
   this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
    }else{
@@ -81,9 +99,9 @@ addPollingLocationForm: FormGroup;
         volunteerservice.setNewVolunteer(this.currentVolunteerHere);
         console.log(this.currentVolunteerHere); 
 
-}
+} */
 
-// instantuite blank station
+// instantiate blank station
 this.newPollingStation = {
           pollingStationKey: this.pollingStationKey,
           precinctNumber: '',
@@ -93,8 +111,6 @@ this.newPollingStation = {
           city: '',
           state: '',
           zip: null,
-          associatedVolunteerKeyList: []
-
 }
 
 
@@ -154,6 +170,16 @@ onChangeZip(value){
   //this.zip = value;
 }
 
+    onRegister(){
+        var that = this;
+      try {that.navCtrl.setRoot(UnregisteredsigninPage, {});
+            
+
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        } 
+    }
+
 
 // Compare precint number and zip for navigating to duplicate station pages
 onComparePrecintAndZip(){
@@ -196,13 +222,24 @@ onComparePrecintAndZip(){
           city: value.enterCity,
           state: value.enterState,
           zip: value.enterZip,
-          associatedVolunteerKeyList: []
         }
 
 
      // set station for details pages (MUST NOT ADD TO LIST IF CONFIRMED DUPLICATE)
       this.pollingStationService.setStation(this.newPollingStation);
 
+/*
+      //reset form not working so manual reset
+      //this.addPollingLocationForm.reset();
+        this.addPollingLocationForm = this.fb.group({  
+            'enterPrecinctNumber': [''],
+            'enterStreetAddress': [''],
+            'enterUnitNumber': [''],
+            'enterRoomNumber': [''],
+            'enterCity': [''],
+            'enterState': [''],
+            'enterZip': [''],
+        });*/
 
         if(this.onComparePrecintAndZip()){
           	try {
