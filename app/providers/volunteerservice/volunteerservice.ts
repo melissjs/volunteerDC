@@ -31,6 +31,9 @@ export class Volunteerservice {
     associatedVolunteerArray: Volunteer[];
     tempVolunteer: Volunteer;
     restSvc: RestService;
+    volunteerCount: number;
+    shiftsToFill: number;
+    shiftsFilled: number;
 
     constructor(pollingstationservice: Pollingstationservice, restSvc: RestService) {
         this.currentVolunteer = null;
@@ -39,6 +42,7 @@ export class Volunteerservice {
         this.volunteerListInMemory = VOLUNTEERS;
         this.notRegistered = "None";
         this.associatedVolunteerArray = [];
+        this.shiftsFilled = 0;
 
         // if no one is logged in creat void volunteer 
         if (!this.restSvc.getLoggedIn()){
@@ -212,6 +216,10 @@ export class Volunteerservice {
 
     }
 
+    getShiftCountFromString(shiftString) { 
+    return shiftString.split(" ").length;
+    }
+
     // begin shifts
 
 
@@ -260,6 +268,34 @@ export class Volunteerservice {
         }
         return this.currentVolunteer;
     }
+
+generateStationStats(passedStationKey){
+    //get array all volunteers with same station key
+    this.associatedVolunteerArray = this.getTeamVolunteersByPollKey(passedStationKey);
+    //return array length
+    this.volunteerCount = this.associatedVolunteerArray.length;
+    //count and aggregate each of their shift array lengths = filledShifts
+    for (var i=0; i < this.associatedVolunteerArray.length; i++){
+        this.shiftsFilled += this.getShiftCountFromString(this.associatedVolunteerArray[i].shifts);
+    }
+    this.shiftsFilled = this.shiftsFilled/2;
+     this.shiftsToFill = 45 - this.shiftsFilled;
+}
+
+
+// not in use
+
+getVolunteerCount(){
+return this.volunteerCount;
+}
+
+getShiftsToFill(){
+return this.shiftsToFill;
+}
+
+getShiftsFilled(){
+return this.shiftsFilled
+}
 
 
 

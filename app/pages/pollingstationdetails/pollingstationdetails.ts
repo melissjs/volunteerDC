@@ -58,6 +58,10 @@ export class PollingstationdetailsPage {
 
     shiftSelected: boolean = false;
 
+    volunteerCount: number;
+    shiftsToFill: number;
+    shiftsFilled: number;
+
     constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController, private restSvc: RestService ) {
         this.pollingStationService = pollingStationService;
         this.volunteerservice = volunteerservice;
@@ -65,13 +69,28 @@ export class PollingstationdetailsPage {
         this.loggedIn = false;
         if (this.restSvc.getLoggedIn()){
         this.loggedIn = true;
+        this.volunteerCount = 0;
+        this.shiftsToFill = 0;
+        this.shiftsFilled = 0;
         }
+
+        
+
+
         //this.currentVolunteerHere = null;
         this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
         this.currentStation = this.pollingStationService.getStation();
-        //var passedStations = this.pollingStationService.selectedStation;
 
-        //console.log(pollingStationService.selectedStation.associatedVolunteerList[1].exposeEmail);
+
+
+
+
+        this.volunteerservice.generateStationStats(this.currentStation.pollingStationKey);
+        this.volunteerCount = this.volunteerservice.getVolunteerCount();
+        this.shiftsToFill = this.volunteerservice.getShiftsToFill();
+        this.shiftsFilled = this.volunteerservice.getShiftsFilled();
+
+
         
         //ATTEMP TO FIX PROBLEM
 if (!this.currentVolunteerHere){
@@ -176,6 +195,7 @@ if (!this.currentVolunteerHere){
         var LateE = !value;
         console.log('signature selected:' + LateE);
         this.lE = LateE;
+       
         // console.log(this.volunteerservice.getVolunteersByStation(this.currentStation));
     }
 

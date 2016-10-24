@@ -15,7 +15,7 @@ import {ContactPage} from './pages/contact/contact';
 import {AccountsettingsPage} from './pages/accountsettings/accountsettings';
 
 // intermediate pages called from others
-import {RegisteredsigninPage} from './pages/registeredsignin/registeredsignin';
+//import {RegisteredsigninPage} from './pages/registeredsignin/registeredsignin';
 import {UnregisteredsigninPage} from './pages/unregisteredsignin/unregisteredsignin';
 import {HomePage} from './pages/home/home';
 import {InstructionsPage} from './pages/instructions/instructions';
