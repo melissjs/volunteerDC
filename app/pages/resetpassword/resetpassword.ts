@@ -4,7 +4,7 @@ import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswo
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
-import { AccountsettingsPage } from '../accountsettings/accountsettings';
+import { Logincomponent } from '../logincomponent/logincomponent';
 import {RestService} from '../../providers/rest-service/rest-service';
 
 
@@ -190,7 +190,7 @@ onSubmitCodes(value: any): void {
             },250);
         }
         try {
-            this.navCtrl.setRoot(AccountsettingsPage);
+            this.navCtrl.setRoot(Logincomponent);
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
             console.log(EE.stack);
