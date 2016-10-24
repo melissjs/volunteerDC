@@ -42,13 +42,12 @@ key: string;
   this.regExEmail = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
 
   this.resetForm = fb.group({  
-            'enterEmailAddress': ['', Validators.compose([Validators.required, Validators.pattern(this.regExEmail)])],
-            //'enterOneTimePasscode': ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+            'enterEmailAddress': ['', Validators.compose([Validators.required, Validators.pattern(this.regExEmail)])]
+
         });
 
 
           this.resetWithCodeForm = fb.group({  
-            'enterOneTimePasscode': ['', Validators.compose([Validators.required])],
             'enterCreatePasscode': ['', Validators.compose([Validators.required, Validators.minLength(8)])],
             'enterConfirmPasscode': ['', Validators.compose([Validators.required, Validators.minLength(8)])]
         });

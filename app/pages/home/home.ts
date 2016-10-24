@@ -5,7 +5,7 @@ import {VolunteerPage} from '../volunteer/volunteer';
 import {ActivatePage} from '../activate/activate';
 import {DonatePage} from '../donate/donate';
 import {Logincomponent} from '../logincomponent/logincomponent';
-
+import {ResetpasswordPage} from '../resetpassword/resetpassword';
 
 @Component({
   templateUrl: 'build/pages/home/home.html'
@@ -57,7 +57,7 @@ export class HomePage {
           }
           var that = this;
           switch (pageref) {
-              case 'activate':
+          case 'activate':
               try {
                   that.buttonsDisabled = true;
                   that.navCtrl.push(ActivatePage, keyvalues);
@@ -68,6 +68,20 @@ export class HomePage {
                   that.buttonsDisabled = false;
                   console.log('error in Submitting, exc='+ EE.toString())
               }
+              break;
+          case 'reset/finish':
+              try {
+                  that.buttonsDisabled = true;
+                  that.navCtrl.push(ResetpasswordPage, keyvalues);
+                  setTimeout(()=>{
+                      this.enableButtons();
+                  },10000);
+              } catch (EE) { 
+                  that.buttonsDisabled = false;
+                  console.log('error in Submitting, exc='+ EE.toString())
+              }
+              break;
+              
           }
       } else {
           console.log('no url specified');
