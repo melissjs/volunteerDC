@@ -65,9 +65,8 @@ loggedIn: boolean;
   this.volunteerservice = volunteerservice;
   this.loggedIn = false;
 
-   if(this.restSvc.getLoggedIn()){
-            this.loggedIn = true;
-        }
+	this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse,this);
+        this.loggedIn = false;
 
         this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
 
@@ -139,7 +138,13 @@ this.newPollingStation = {
   // constructor end
   }
 
+    setLoginTrue(that) {
+	that.loggedIn = true;
+    }
 
+    setLoginFalse(that) {
+	that.loggedIn = false;
+    }
 
 onChangePrecinctNumber(value){
   //this.precinctNumber = value;

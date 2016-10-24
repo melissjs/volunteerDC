@@ -19,33 +19,133 @@ export class RestService {
     jsessionid: string;
     csrf_token: string;
     loggedIn: boolean;
+    lastLoginCheck: number;
+    MIN_LOGIN_CHECK_TIME: number = 15000; // 15 seconds
 
     constructor(private http: Http) {
         // generate values
-        this.jsessionid = null;// this.generateUUID();
-        this.csrf_token = null;// this.generateUUID();
+        this.jsessionid = null;
+        this.csrf_token = null;
         this.loggedIn = false;
+        this.lastLoginCheck = 0;
+
+        // submit call to initialize ionic.
+        this.initIonic();
+
     }
 
+    initIonic() {
+
+        // let options = new RequestOptions({ headers: headers });
+        var url = config.MT_HOST + '/api/ionicinit' + this.cacheBuster();
+
+        // var retval1 = this.http.post(url, params, { headers: headers });
+        var retval1 = this.http.get(url);
+        
+        // body, options
+
+        var retval2 = retval1.map(
+            res => res.json()
+        );
+        var that = this;
+        retval2.subscribe( data => {
+            console.log('successful ionicinit call:' + data);
+            if (data._csrf != null) {
+                var csrfToken = data._csrf;
+                if (csrfToken != null) {
+                    that.setCsrfToken(csrfToken[0]);
+                    console.log('CSRF-TOKEN updated in init to:'+
+                                this.csrf_token);
+                }
+            } else {
+                console.log('error init ionicinit call:' + data.message);
+            }
+        }, err => {
+            console.log('error occurred in ionicinit ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                console.log('error expected in standalone ionic app');
+                return;
+            }
+        }, () => {console.log('ionicinit complete')});
+    }
+
+    // This method should not be available, but we allow it for value false (logout)
     setLoggedIn(passedLoginValue){
-        this.loggedIn = passedLoginValue;
+        if (!passedLoginValue) {
+            this.loggedIn = passedLoginValue;
+            // Call initIonic again to establish another CSRF TOKEN
+            this.initIonic();
+        } else {
+            // login required for "true" no op.
+            console.log('login required for "true" no op for setLoggedIn.');
+        }
     }
 
-    getLoggedIn(){
+    // getLoggedIn() has the current "state", but when logging in.. this 
+    // must be handled correctly.. so checkLoggedIn must be called.
+    getLoggedIn() {
+        this.checkLoggedIn(this.setLoginTrue, this.setLoginFalse, this);
         return this.loggedIn;
     }
 
-    generateUUID(){
-        var d = new Date().getTime();
-        if(window.performance && typeof window.performance.now === "function"){
-            d += performance.now(); //use high-precision timer if available
+    setLoginTrue(that) {
+        that.loggedIn = true;
+    }
+
+    setLoginFalse(that) {
+        that.loggedIn = false;
+    }
+
+    // added checkLoggedIn, because the return for this is an Observable
+    // which requires asynchronous handling or the result.
+    checkLoggedIn(cbtrue, cbfalse, thatobj) {
+
+        var dnow = new Date();
+        var inow = dnow.getTime();
+
+        if ((inow - this.lastLoginCheck) < this.MIN_LOGIN_CHECK_TIME) {
+            return;
         }
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = (d + Math.random()*16)%16 | 0;
-            d = Math.floor(d/16);
-            return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-        });
-        return uuid;
+        // Force to wait 15 more seconds before allowing another call.
+        this.lastLoginCheck = inow;
+
+        var url = '/api/account';
+
+        // var retval1 = this.http.post(url, params, { headers: headers });
+        var retval1 = this.http.get(url);
+        
+        // body, options
+        // var retval2 = retval1;
+        var that = this;
+        retval1.subscribe( data => {
+            console.log('successful getLoggedIn call:' + data);
+            if (data.status == 200) {
+                that.loggedIn = true;
+                cbtrue(thatobj);
+            } else {
+                // ?? shouldn't happen ??
+                console.log('UNKNOWN STATUS getLoggedIn :' + data);
+                cbfalse(thatobj);
+            }
+        }, err => {
+            console.log('error occurred getLoggedIn ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                that.loggedIn = true; // "Unknown Error!";
+                cbtrue(thatobj);
+                // fake success
+            } else if (err.status == 500) {
+                that.loggedIn = false; // definite error
+                console.log('error in getLoggedIn ' + err._body);
+                cbfalse(thatobj);
+            } else {
+                that.loggedIn = false; // definite error
+                console.log('error in getLoggedIn ' + err.toString() + err._body);
+                cbfalse(thatobj);
+            }
+        }, () => {console.log('getLoggedIn complete')});
+        //return this.loggedIn;
     }
 
     sendAuthyRequest(via: string, cellPhone: string) {
@@ -73,14 +173,11 @@ export class RestService {
 
         var url = '/api/activate' + '?key=' + key;
 
-	// var retval1 = this.http.post(url, params, { headers: headers });
+        // var retval1 = this.http.post(url, params, { headers: headers });
         var retval1 = this.http.get(url);
         
         // body, options
-        var that = this;
-        var retval2 = retval1.map(
-            res => res.json()
-        );
+        var retval2 = retval1;
         return retval2;
     }
 
@@ -142,31 +239,50 @@ export class RestService {
         return retval2;
     }
 
-    handleError(error) {
+    loginUser(phoneNumber: string, passcode: string) {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        var body = 'j_username=' + phoneNumber + '&j_password=' + passcode +
+            '&remember-me=true&submit=Login';
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/authentication' + this.cacheBuster();
+        var retval1 = this.http.post(url, body, options);
+        // body, options
+        var retval2 = retval1;
+        return retval2;
+    }
+
+    logoutUser() {
+        var params = null;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/logout' + this.cacheBuster();
+        var retval1 = this.http.post(url, params, options);
+        // body, options
+        var retval2 = retval1;
+        // Token will be deleted.
+        this.csrf_token = null;
+        return retval2;
+    }
+
+    /* handleError(error) {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error' + error.toString());
     }
-
-    anonSignin() {
-        var property = 
-            { "withCredentials": "true", "j_username": "anon", "j_password": "anon", "remember-me" : "true"
-            };
-        var json = JSON.stringify(property);
-        var params = /* 'json=' +  */ json;
-        let headers = new Headers();
-        /* headers.append('Access-Control-Allow-Origin', '*');
-           headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-           headers.append('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-        */
-        headers.append('Content-Type', 'application/json');
-
-        // let options = new RequestOptions({ headers: headers });
-        var url = config.MT_HOST + '/api/authentication';
-        var retval1 = this.http.post(url, params, { headers: headers })
+    */
+    resetPasswordInit(emailAddress: string) {
         
-        // body, options
-
-        var retval2 = retval1.map(res => res.json());
-        return retval2;
     }
+
 }

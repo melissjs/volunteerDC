@@ -67,23 +67,14 @@ export class PollingstationdetailsPage {
         this.volunteerservice = volunteerservice;
         this.restSvc = restSvc;
         this.loggedIn = false;
-        if (this.restSvc.getLoggedIn()){
-        this.loggedIn = true;
+	this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse, this);
         this.volunteerCount = 0;
         this.shiftsToFill = 0;
         this.shiftsFilled = 0;
-        }
-
-        
-
 
         //this.currentVolunteerHere = null;
         this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
         this.currentStation = this.pollingStationService.getStation();
-
-
-
-
 
         this.volunteerservice.generateStationStats(this.currentStation.pollingStationKey);
         this.volunteerCount = this.volunteerservice.getVolunteerCount();
@@ -122,6 +113,13 @@ if (!this.currentVolunteerHere){
         
     } // end const
 
+    setLoginTrue(that) {
+	that.loggedIn = true;
+    }
+
+    setLoginFalse(that) {
+	that.loggedIn = false;
+    }
 
     setShifts() {
         if (this.currentVolunteerHere.associatedPollingStationKey == 

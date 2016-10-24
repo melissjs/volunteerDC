@@ -4,7 +4,7 @@ import { NavController, MenuController, NavParams } from 'ionic-angular';
 import {VolunteerPage} from '../volunteer/volunteer';
 import {ActivatePage} from '../activate/activate';
 import {DonatePage} from '../donate/donate';
-
+import {Logincomponent} from '../logincomponent/logincomponent';
 
 
 @Component({
@@ -12,12 +12,14 @@ import {DonatePage} from '../donate/donate';
 })
 export class HomePage {
 
+    buttonsDisabled: boolean;
 
   //userDataSvc: UserDataService;
 
   constructor(public navCtrl: NavController, navParams: NavParams) {
 
       this.navCtrl = navCtrl;
+      this.buttonsDisabled = false;
 
       // Obtain all args (key=val) format and store to nav params (keyvalues)
 
@@ -57,8 +59,13 @@ export class HomePage {
           switch (pageref) {
               case 'activate':
               try {
+                  that.buttonsDisabled = true;
                   that.navCtrl.push(ActivatePage, keyvalues);
+                  setTimeout(()=>{
+                      this.enableButtons();
+                  },10000);
               } catch (EE) { 
+                  that.buttonsDisabled = false;
                   console.log('error in Submitting, exc='+ EE.toString())
               }
           }
@@ -82,11 +89,15 @@ export class HomePage {
 onVolunteerClick(){
     var that = this;
         try {
+           that.buttonsDisabled = true;
            that.navCtrl.push(VolunteerPage, {
-                    
             });
+            setTimeout(()=>{
+                this.enableButtons();
+            },10000);
         } catch (EE) { 
             console.log('error in Submitting, exc='+ EE.toString())
+            that.buttonsDisabled = false;
         }
 
 }   
@@ -94,15 +105,36 @@ onVolunteerClick(){
 onDonateClick(){
 var that = this;
         try {
+           that.buttonsDisabled = true;
            that.navCtrl.push(DonatePage, {
                     
             });
+            setTimeout(()=>{
+                this.enableButtons();
+            },10000);
         } catch (EE) { 
+            that.buttonsDisabled = false;
             console.log('error in Submitting, exc='+ EE.toString())
         }
 }  
 
+onLoginClick(){
+    var that = this;
+    try {
+        that.buttonsDisabled = true;
+        console.log('about to setroot login component...');
+        that.navCtrl.setRoot(Logincomponent);
+        setTimeout(()=>{
+            this.enableButtons();
+        },10000);
+    } catch (EE) { 
+        that.buttonsDisabled = false;
+        console.log('error in Submitting, exc='+ EE.toString())
+    }
+}  
 
-
+enableButtons() {
+    this.buttonsDisabled = false;
+}
 
 }

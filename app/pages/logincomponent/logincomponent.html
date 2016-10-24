@@ -1,4 +1,4 @@
-   <form novaildate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+   <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
      <!-- <ion-list-header>User Login</ion-list-header> -->
    <ion-list>
     <ion-item>
@@ -16,5 +16,11 @@
     <button type="submit" [disabled]="!loginForm.valid" (click)="onSubmit(loginForm.value)" block large>
     Log In
     </button>
+    <ion-list-header>
+      Forgot Password? 
+      <button (click)="onResetPassword()" ion-button item-right>
+	Reset Password
+      </button>
+    </ion-list-header>
 
     <P style="color:red" *ngIf="error">{{errorMessage}}</P>

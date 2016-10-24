@@ -45,11 +45,17 @@ export class Volunteerservice {
         this.shiftsFilled = 0;
 
         // if no one is logged in creat void volunteer 
-        if (!this.restSvc.getLoggedIn()){
-        this.currentVolunteer = this.setToVoidVolunteer();
-        }
+        this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse,this);
     }
     
+    setLoginTrue(that) {
+        // this.loggedIn = true;  no op
+    }
+
+    setLoginFalse(that) {
+        // this.loggedIn = false;
+        that.currentVolunteer = that.setToVoidVolunteer();
+    }
     
     getVolunteers() { return this.volunteerListInMemory;  }
 

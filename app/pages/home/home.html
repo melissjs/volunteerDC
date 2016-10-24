@@ -14,22 +14,16 @@
 
 <img src="../../img/exitAuditBanner.jpg">
           
-          <button type="submit" (click)="onVolunteerClick()" block large>
+          <button type="button" [disabled]="buttonsDisabled" (click)="onVolunteerClick()" block large>
   			    Volunteer 
            </button>
 
-            <button type="submit" (click)="onDonateClick()" block large>
+            <button type="button" [disabled]="buttonsDisabled" (click)="onDonateClick()" block large>
   			    Donate 
            </button>
-
-
-
-
-
-
-
-
-
+            <button type="button" [disabled]="buttonsDisabled" (click)="onLoginClick()" block large>
+  			    Log in 
+           </button>
 
 </ion-content>
 

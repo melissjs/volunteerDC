@@ -72,7 +72,8 @@ onSubmitCodes(value: any): void {
             console.log(this.volunteerHere.passcode);
             this.volunteerservice.setNewVolunteer(this.volunteerHere);
             //then
-                  this.restSvc.setLoggedIn(true);
+                // Eric Note.. should not be setting logged in flag.
+                // this.restSvc.setLoggedIn(true);
                   var that = this;
               try {
                   
