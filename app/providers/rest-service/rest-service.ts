@@ -281,8 +281,42 @@ export class RestService {
         return Observable.throw(error.json().error || 'Server error' + error.toString());
     }
     */
+
     resetPasswordInit(emailAddress: string) {
-        
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'text/plain;charset=UTF-8');
+        var body = emailAddress;
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/account/reset_password/init' + this.cacheBuster();
+        var retval1 = this.http.post(url, body, options);
+        // body, options
+        var retval2 = retval1;
+        return retval2;
+    }
+
+    resetPasswordFinish(key: string, newPassword: string) {
+        var property = 
+            { "key": key, "newPassword": newPassword };
+        var json = JSON.stringify(property);
+        var params = /* 'json=' +  */ json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/account/reset_password/finish' + this.cacheBuster();
+        var retval1 = this.http.post(url, params, options);
+        // body, options
+        var retval2 = retval1;
+        return retval2;
     }
 
 }

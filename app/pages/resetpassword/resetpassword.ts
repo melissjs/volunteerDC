@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -24,8 +24,14 @@ volunteerList: Volunteer[];
 loggedIn: boolean;
 emailWasSent: boolean;
 errorTextEmail: string;
+key: string;
 
-  constructor(private navCtrl: NavController, public fb: FormBuilder, volunteerservice: Volunteerservice, private restSvc: RestService) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public params: NavParams, public fb: FormBuilder, volunteerservice: Volunteerservice, private restSvc: RestService) {
+  if (this.params != null) {
+      this.key = this.params.get('key');
+  } else {
+      this.key = null;
+  }
   this.navCtrl = navCtrl;
   this.volunteerservice = volunteerservice;
   this.restSvc = restSvc;
@@ -48,53 +54,147 @@ errorTextEmail: string;
         });
   }
   
-
-
-
-
-
-
   onSubmitEmailOnly(value: any): void {
-    if (this.volunteerservice.getVolunteerByEmail(value.enterEmailAddress.toLowerCase())){
-  this.volunteerHere = this.volunteerservice.getVolunteerByEmail(value.enterEmailAddress);
-  this.emailWasSent = true;
-  console.log(this.volunteerHere);
-  //this.restSvc.setLoggedIn
-    } else {
-      this.errorTextEmail = 'This email is not recognized in our system.';
-    }
+
+      var that = this;
+      try {
+          that.restSvc.resetPasswordInit(value.enterEmailAddress.toLowerCase())
+              .subscribe( (data) => {
+                  // that.properties = data;
+                  // Expect response created here...
+                  if (data.status == 200) {
+                      console.log('successful call:' + data);
+                      this.successResetInit(true);
+                      return;
+                  } else {
+                      // ?? shouldn't happen ??
+                      console.log('UNKNOWN STATUS:' + data);
+                      this.errorTextEmail = 'Unknown Error occurred attempting to reset password';
+                  }
+              } , err => {
+                  console.log('error occurred ' + err.toString());
+                  var subtitle;
+                  if ((err.status == 0) ||
+                      (err.status == 404)) {
+                      this.successResetInit(false);
+                      // fake success
+                  } else if (err.status == 400) {
+                      that.errorTextEmail = err._body; // toString();
+                  } else if (err.status == 401) {
+                      // Actual error (most likely bad password)
+                      if (err._body) {
+                          var jsonobj = JSON.parse(err._body);
+                          that.errorTextEmail = jsonobj.message;
+                      } else {
+                          that.errorTextEmail = err.toString();
+                      }
+                  } else {
+                      that.errorTextEmail = err.toString() + ':' + err._body;
+                  }
+              }, () => {console.log('password reset init complete')}
+                        );
+      } catch (err) {
+          console.error(err);
+          console.log('error in Submitting, exc='+ err.toString());
+          this.errorTextEmail = err.toString();
+      }
   }
+
+    successResetInit(real:boolean) {
+        var that = this;
+        if (!real) {
+            // console.log(error.stack());
+            let alert = that.alertCtrl.create({
+                title: 'TEST MODE: Simulating Resetting Password',
+                subTitle: 'This simulates the reset password init logic',
+                buttons: [{
+                    text: 'OK',
+                    handler: () => {
+                        alert.dismiss();
+                    }
+                }]
+            });
+            //timeout the error to let other modals finish dismissing.
+            setTimeout(()=>{
+                alert.present();
+            },250);
+        }
+        this.emailWasSent = true;
+    }
 
 onSubmitCodes(value: any): void {
-  if (this.volunteerHere.passcode == value.enterOneTimePasscode){
-            if(value.enterCreatePasscode == value.enterConfirmPasscode){
-            this.volunteerHere.passcode = value.enterCreatePasscode;
-            console.log(this.volunteerHere.passcode);
-            this.volunteerservice.setNewVolunteer(this.volunteerHere);
-            //then
-                // Eric Note.. should not be setting logged in flag.
-                // this.restSvc.setLoggedIn(true);
-                  var that = this;
-              try {
-                  
-                  this.navCtrl.push(AccountsettingsPage, {
-                  });
-                  
-              } catch (EE) {
-                  console.log('error in Submitting, exc='+ EE.toString())
-                  
-              }
-          } else if (value.enterCreatePasscode !== value.enterConfirmPasscode){
-            this.errorText = 'Passwords do not match.'
-          } 
-  }
-  else {this.errorText = 'The one time passcode you entered was not correct.'}
+    if(value.enterCreatePasscode !== value.enterConfirmPasscode){
+        this.errorText = 'Passwords do not match.'
+        return;
+    } 
+    var that = this;
+    try {
+          that.restSvc.resetPasswordFinish(this.key,value.enterConfirmPasscode)
+              .subscribe( (data) => {
+                  // that.properties = data;
+                  // Expect response created here...
+                  if (data.status == 200) {
+                      console.log('successful call:' + data);
+                      this.successResetFinish(true);
+                      return;
+                  } else {
+                      // ?? shouldn't happen ??
+                      console.log('UNKNOWN STATUS:' + data);
+                      this.errorText = 'Unknown Error occurred attempting to reset password';
+                  }
+              } , err => {
+                  console.log('error occurred ' + err.toString());
+                  var subtitle;
+                  if ((err.status == 0) ||
+                      (err.status == 404)) {
+                      this.successResetFinish(false);
+                      // fake success
+                  } else if (err.status == 400) {
+                      that.errorText = err._body; // toString();
+                  } else if (err.status == 401) {
+                      // Actual error (most likely bad password)
+                      if (err._body) {
+                          var jsonobj = JSON.parse(err._body);
+                          that.errorText = jsonobj.message;
+                      } else {
+                          that.errorText = err.toString();
+                      }
+                  } else {
+                      that.errorText = err.toString() + ':' + err._body;
+                  }
+              }, () => {console.log('password reset finish complete')}
+                        );
+    } catch (err) {
+        console.error(err);
+        console.log('error in Submitting, exc='+ err.toString());
+        this.errorText = err.toString();
+    }
 }
 
-
-
-
-
-
-
+    successResetFinish(real:boolean) {
+        var that = this;
+        if (!real) {
+            // console.log(error.stack());
+            let alert = that.alertCtrl.create({
+                title: 'TEST MODE: Simulating Resetting Password',
+                subTitle: 'This simulates the reset password finish logic',
+                buttons: [{
+                    text: 'OK',
+                    handler: () => {
+                        alert.dismiss();
+                    }
+                }]
+            });
+            //timeout the error to let other modals finish dismissing.
+            setTimeout(()=>{
+                alert.present();
+            },250);
+        }
+        try {
+            this.navCtrl.setRoot(AccountsettingsPage);
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+            console.log(EE.stack);
+        }
+    }
 }
