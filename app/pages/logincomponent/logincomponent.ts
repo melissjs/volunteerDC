@@ -61,7 +61,7 @@ error: boolean;
       this.volunteerservice.setNewVolunteer(this.volunteerHere);
                try {
             
-                this.navCtrl.push(AccountsettingsPage, {
+                this.navCtrl.setRoot(AccountsettingsPage, {
                   });
             
         } catch (EE) {

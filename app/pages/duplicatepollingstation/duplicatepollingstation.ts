@@ -30,6 +30,8 @@ export class DuplicatepollingstationPage {
   pollingStationService: Pollingstationservice;
   alertMsg: string;
   alertMsgHeading: string;
+  selectedStation: PollingStation;
+
   constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice) {
   var that = this;
   this.navCtrl = navCtrl;
@@ -82,6 +84,22 @@ onAdd(){
     }
 }
 
+showStationDetails(item){
+    this.selectedStation = item;
+  console.log('selectedStation'+ this.selectedStation);
+  this.pollingStationService.setStation(this.selectedStation);
+  this.pollingStationService.printSelectedStation();
+  var that = this;
+         try {
+            
+                this.navCtrl.push(PollingstationdetailsPage, {
+                  });
+            
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+  
+    }
+}
 
 
 

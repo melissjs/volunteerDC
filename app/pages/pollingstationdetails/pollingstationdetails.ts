@@ -258,10 +258,9 @@ if (!this.currentVolunteerHere){
                     buttons: ['OK'] 
                 });
                 alert.present();
-            } else {
                 that.navCtrl.push(ConfirmationPage, {
                 });
-            }
+            } 
 
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())

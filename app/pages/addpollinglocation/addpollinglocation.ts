@@ -270,7 +270,7 @@ onComparePrecintAndZip(){
                     });
                     alert.present();
 		try {
-		    that.navCtrl.push(PollingstationdetailsPage, {});
+		    that.navCtrl.setRoot(PollingstationdetailsPage, {});
 		} catch (EE) {
 		    console.log('error in Submitting, exc='+ EE.toString())
 		}

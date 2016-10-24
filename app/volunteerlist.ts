@@ -46,7 +46,7 @@ export var VOLUNTEERS: Volunteer[] = [{
         "sex": "Female",
         "partyAffiliation": "No Party Preference",    
         "shifts": "Early Evening, Late Evening",
-        "passcode": "pass",
+        "passcode": "password",
         "associatedPollingStationKey": "ps2",
         "totalRecords": 6,
         "totalVoteRecords": 5,

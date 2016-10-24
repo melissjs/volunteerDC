@@ -66,7 +66,7 @@ console.log(this.contactFormObj);
                            alert.present();
 
                     try {
-                        this.navCtrl.push(HomePage, {});
+                        this.navCtrl.setRoot(HomePage, {});
                     } catch (EE) {
                         console.log('error in Submitting, exc='+ EE.toString())
                     }

@@ -12,7 +12,7 @@
   
 <img src="../../img/quote2.jpg">
 
-          <button type="submit" (click)="onRegister()" block large>
+          <button [disabled]="restSvc.getLoggedIn()" type="submit" (click)="onRegister()" block large>
   			    Register to Volunteer  
            </button>
 

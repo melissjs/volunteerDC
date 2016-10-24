@@ -5,14 +5,17 @@ import {UnregisteredsigninPage} from '../unregisteredsignin/unregisteredsignin';
 import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
 import {AddpollinglocationPage} from '../addpollinglocation/addpollinglocation';
 
+import {RestService} from '../../providers/rest-service/rest-service';
+
 
 @Component({
   templateUrl: 'build/pages/volunteer/volunteer.html',
 })
 export class VolunteerPage {
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, private restSvc: RestService) {
   this.navCtrl = navCtrl;
+  this.restSvc = restSvc;
   }
 
   onRegister(){

@@ -45,7 +45,7 @@ errorText: string;
              var that = this;
         try {
             
-            this.navCtrl.push(AccountsettingsPage, {
+            this.navCtrl.setRoot(AccountsettingsPage, {
             });
             
         } catch (EE) {
