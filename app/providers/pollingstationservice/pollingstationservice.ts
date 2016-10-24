@@ -10,6 +10,9 @@ import { Volunteer} from '../../volunteer';
 // datalist
 import { STATIONS } from '../../stationlist';
 
+import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
+
+
 // pipes
 //import { Searchpipe } from '../../pipes/searchpipe.ts';
 
@@ -22,12 +25,18 @@ export class Pollingstationservice {
     associatedVolunteerKeyList: string[];
     matchingPrecinctAndZipList: PollingStation[];
     duplicateYesOrNo: boolean;
+    volunteerCount: number;
+    shiftsToFill: number;
+    shiftsFilled: number;
+    volunteerservice: Volunteerservice;
+    associatedVolunteerArray: Volunteer[];
     //searchpipe: Searchpipe;
 
     constructor(){
         this.stationListInMemory = this.getStations();
         this.matchingPrecinctAndZipList = [];
         this.duplicateYesOrNo = false;
+        //this.volunteerservice = volunteerservice;
     }
 
     getStations() { return STATIONS;  }
@@ -133,5 +142,7 @@ duplicateStationSearch(passedPrecint: string, passedZip: number){
     return false;
     }
 }
+
+
 
 }

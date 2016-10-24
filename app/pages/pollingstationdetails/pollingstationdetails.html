@@ -11,7 +11,7 @@
 
 
 <ion-content class="backgroundColor" padding>
-
+        
       <ion-card padding>
     <pollingstationcomponent [passedStations]=pollingStationService.selectedStation> </pollingstationcomponent> 
       </ion-card>
@@ -77,13 +77,25 @@
 </ion-card>
 
 <ion-card padding>
-<p>Total Registered Volunteers: {{check}}</p>
-<p>Total Needed Volunteers Remaining: {{pollingStationService.selectedStation.totalNeededVolunteers}}</p>
- <p>Total Remaining Shifts To Fill: {{pollingStationService.selectedStation.totalRemainingShiftsToFill}}</p>  
+   <ion-list>
+        <ion-list-header>Station Stats</ion-list-header>
+        <ion-item text-wrap>
+There are 45 individual shifts to fill at every station. These totals are based on the recommended number of volunteers per shift: 5 in the morning when it is less busy and 8 in each of the five following time blocks. 
+<br><br>
+Total registered volunteers so far: {{volunteerCount}}
+<br>
+Total shifts filled so far: {{shiftsFilled}}
+<br>
+Total remaining shifts to fill: {{shiftsToFill}}
+        </ion-item>
+   </ion-list>
 </ion-card>
 
-<ion-card padding >
-  <h1>Select all shifts you want to volunteer for:</h1>
+
+
+<ion-card padding>
+  <ion-list>
+  <ion-list-header>Select all shifts you want to volunteer for:</ion-list-header>
   <ion-item>
     <ion-label>Early Morning (5:00 AM - 8:15 AM)</ion-label>
     <ion-checkbox [(ngModel)]="earlyM" (click)="onChangeEarlyM(earlyM)" ></ion-checkbox>
@@ -108,6 +120,7 @@
      <ion-label>Late Evening (8:00 PM - 10:30 PM)</ion-label>
       <ion-checkbox [(ngModel)]="lateE" (click)="onChangeLateE(lateE)" ></ion-checkbox>
   </ion-item>
+  </ion-list>
 </ion-card>
 
             <!-- for  reg -->
