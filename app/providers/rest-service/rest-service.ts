@@ -69,6 +69,21 @@ export class RestService {
         // .catch(this.handleError);
     }
 
+    sendActivation(key: string) {
+
+        var url = '/api/activate' + '?key=' + key;
+
+	// var retval1 = this.http.post(url, params, { headers: headers });
+        var retval1 = this.http.get(url);
+        
+        // body, options
+        var that = this;
+        var retval2 = retval1.map(
+            res => res.json()
+        );
+        return retval2;
+    }
+
     setCsrfToken(value: string) {
         this.csrf_token = value;
     }
