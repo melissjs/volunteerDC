@@ -111,12 +111,7 @@ export class UnregisteredsigninPage {
             sex: null,
             partyAffiliation: null,
             shifts:'', 
-            passcode: null,
-            associatedPollingStationKey:null, 
-            totalRecords:null,
-            totalVoteRecords:null,
-            totalAnomalyRecords: null,
-            totalAmendmentRecords: null,
+            associatedPollingStationKey:null
         }
     }
 
@@ -250,7 +245,7 @@ export class UnregisteredsigninPage {
     onSubmit(value: any): void {
 
         if(value.enterPasscode1 == value.enterPasscode2){
-            this.newVolunteer.passcode = value.enterPasscode1;
+	    this.enterPasscode = value.enterPasscode1;
         } else {
 
             let pcalert = this.alertCtrl.create({
@@ -282,14 +277,6 @@ export class UnregisteredsigninPage {
         this.newVolunteer.exposeEmail = this.enterExposeEmail;
 
         this.newVolunteer.associatedPollingStationKey = null;
-        this.newVolunteer.totalRecords = 0;
-        this.newVolunteer.totalVoteRecords = 0;
-        this.newVolunteer.totalAnomalyRecords = 0;
-        this.newVolunteer.totalAmendmentRecords = 0;
-        
-        
-
-        
 
         // set new volunteer
         this.volunteerservice.setNewVolunteer(this.newVolunteer);
@@ -550,7 +537,7 @@ export class UnregisteredsigninPage {
     sendVerificationEmail() {
         var that = this;
         try {
-            that.restSvc.registerUser(that.newVolunteer)
+            that.restSvc.registerUser(that.newVolunteer, that.enterPasscode)
                 .subscribe( (data) => {
                     that.properties = data;
                     // Expect response created here...

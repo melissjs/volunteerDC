@@ -265,12 +265,7 @@ export class Volunteerservice {
             sex: '',
             partyAffiliation: '',
             shifts:'', 
-            passcode: '',
             associatedPollingStationKey: null, 
-            totalRecords: 0,
-            totalVoteRecords:0,
-            totalAnomalyRecords: 0,
-            totalAmendmentRecords: 0,
         }
         return this.currentVolunteer;
     }

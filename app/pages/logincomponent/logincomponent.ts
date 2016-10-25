@@ -85,8 +85,15 @@ error: boolean;
                     } else {
                         that.errorMessage = err.toString() + ':' + err._body;
                     }
-                }, () => {console.log('login complete')}
-                          );
+                }, () => {console.log('login complete');
+                          //use timeout to call initIonic in order to reset
+                          //CSRF TOKEN
+                          if (!that.error) {
+                              setTimeout(()=>{
+                                  this.restSvc.initIonic(true);
+                              },250);
+                          }
+                         });
         } catch (err) {
             console.error(err);
             console.log('error in Submitting, exc='+ err.toString());
@@ -129,6 +136,7 @@ error: boolean;
 
     successForward(real:boolean) {
         var that = this;
+        that.error = false;
         if (!real) {
             // console.log(error.stack());
             let alert = that.alertCtrl.create({
@@ -143,6 +151,7 @@ error: boolean;
             });
             //timeout the error to let other modals finish dismissing.
             setTimeout(()=>{
+                this.restSvc.initIonic(true);
                 alert.present();
             },250);
         }

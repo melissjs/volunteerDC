@@ -82,12 +82,7 @@ export class AccountsettingsPage {
                 sex: 'Female',
                 partyAffiliation: "Other Party",
                 shifts:'Late Morning, Early Evening, Early Morning, Late Evening', //'Late Morning, Early Evening'
-                passcode: 'passcodestring',
-                associatedPollingStationKey:'ps1', 
-                totalRecords: 0,
-                totalVoteRecords: 0,
-                totalAnomalyRecords: 0,
-                totalAmendmentRecords: 0,
+                associatedPollingStationKey:'ps1'
             } 
         }
 
@@ -172,7 +167,7 @@ onClickReset(){
                         this.successLogout(true);              
                     }
                 } , err => {
-                    console.log('error occurred ' + err.toString());
+                    console.log('error occurred ' + err.toString() + err._body);
                     var subtitle;
                     if ((err.status == 0) ||
                         (err.status == 404)) {
@@ -302,15 +297,13 @@ onConfirmOldPasscode(){
         {
           text: 'Cancel',
           handler: data => {
-            console.log('Cancel clicked' + this.currentTempVolunteer.passcode);
-            //this.currentTempVolunteer.passcode = this.currentTempVolunteer.passcode
+            console.log('Cancel clicked');
           }
         },
         {
           text: 'Enter',
           handler: data => {
-              var oldPassEntry = data.old;
-              if (oldPassEntry == this.currentTempVolunteer.passcode){
+              if (this.restSvc.matchesPasscode(data.old)){
                   this.passChange = true;
                   this.resetPasscode = true;
                   console.log('from inside ' + this.passChange)
@@ -398,9 +391,8 @@ onChangePartyAffiliationFromList(passedValue){
           /* if (this.passChange==true) {
                this.currentTempVolunteer.passcode = value.passcodeCtrl;
            } */
-           console.log(this.passChange + ' after submit ' + this.currentTempVolunteer.passcode);
+           console.log(this.passChange + ' after submit ');
 
-           
         }
 
 

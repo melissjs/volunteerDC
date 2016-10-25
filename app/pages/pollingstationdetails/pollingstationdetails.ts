@@ -96,12 +96,7 @@ if (!this.currentVolunteerHere){
             sex: null,
             partyAffiliation: null,
             shifts:'', 
-            passcode: null,
-            associatedPollingStationKey:null, 
-            totalRecords:null,
-            totalVoteRecords:null,
-            totalAnomalyRecords: null,
-            totalAmendmentRecords: null,
+            associatedPollingStationKey:null
         }
         volunteerservice.setNewVolunteer(this.currentVolunteerHere);
 

@@ -20,6 +20,8 @@ export class RestService {
     csrf_token: string;
     loggedIn: boolean;
     lastLoginCheck: number;
+    hashedPassCode: number;
+    attemptedPassCode: number;
     MIN_LOGIN_CHECK_TIME: number = 15000; // 15 seconds
 
     constructor(private http: Http) {
@@ -28,14 +30,19 @@ export class RestService {
         this.csrf_token = null;
         this.loggedIn = false;
         this.lastLoginCheck = 0;
+        this.hashedPassCode = 0;
+        this.attemptedPassCode = 0;
 
         // submit call to initialize ionic.
-        this.initIonic();
+        this.initIonic(false);
 
     }
 
-    initIonic() {
+    initIonic(onlogin: boolean) {
 
+        if (onlogin) {
+            this.hashedPassCode = this.attemptedPassCode;
+        }
         // let options = new RequestOptions({ headers: headers });
         var url = config.MT_HOST + '/api/ionicinit' + this.cacheBuster();
 
@@ -74,8 +81,6 @@ export class RestService {
     setLoggedIn(passedLoginValue){
         if (!passedLoginValue) {
             this.loggedIn = passedLoginValue;
-            // Call initIonic again to establish another CSRF TOKEN
-            this.initIonic();
         } else {
             // login required for "true" no op.
             console.log('login required for "true" no op for setLoggedIn.');
@@ -91,6 +96,8 @@ export class RestService {
 
     setLoginTrue(that) {
         that.loggedIn = true;
+        // now call initIonic to reset the CSRF token
+        that.initIonic();
     }
 
     setLoginFalse(that) {
@@ -208,7 +215,7 @@ export class RestService {
         return retval;
     }
 
-    registerUser(nv: Volunteer) {
+    registerUser(nv: Volunteer, passcode: string) {
         var blankIdx = nv.fullName.indexOf(" ");
         var firstName = null;
         var lastName = null;
@@ -221,7 +228,7 @@ export class RestService {
         }
         var property = 
             { "login": nv.phoneNumber, "firstName": firstName, "lastName": lastName,
-              "email": nv.emailAddress, "password": nv.passcode, "langKey": "en" };
+              "email": nv.emailAddress, "password": passcode, "langKey": "en" };
         var json = JSON.stringify(property);
         var params = /* 'json=' +  */ json;
         let headers = new Headers();
@@ -254,7 +261,33 @@ export class RestService {
         var retval1 = this.http.post(url, body, options);
         // body, options
         var retval2 = retval1;
+        this.attemptPasscodeChange(passcode);
         return retval2;
+    }
+
+    attemptPasscodeChange(passcode) {
+        this.attemptedPassCode = this.hashPassCode(passcode);
+    }
+
+    getHashedPasscode() {
+        return this.hashedPassCode;
+    }
+
+    matchesPasscode(inval: string) {
+        return this.hashedPassCode == this.hashPassCode(inval);
+    }
+
+    hashPassCode(passcode: string) {
+        var hash = 0;
+        var chr;
+        var ii;
+        if (passcode.length == 0) return hash;
+        for (ii = 0; ii < passcode.length; ii++) {
+            chr = passcode.charCodeAt(ii);
+            hash = ((hash<<5)-hash)+chr;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
     }
 
     logoutUser() {
@@ -319,4 +352,22 @@ export class RestService {
         return retval2;
     }
 
+    changePassword(newPassword: string) {
+        // var json = JSON.stringify(newPassword);
+        var params = /* 'json=' +  */ newPassword; // json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/account/change_password' + this.cacheBuster();
+        var retval1 = this.http.post(url, params, options);
+        // body, options
+        var retval2 = retval1;
+        this.attemptPasscodeChange(newPassword);
+        return retval2;
+    }
 }
