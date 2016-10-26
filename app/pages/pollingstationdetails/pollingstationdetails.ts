@@ -67,7 +67,7 @@ export class PollingstationdetailsPage {
         this.volunteerservice = volunteerservice;
         this.restSvc = restSvc;
         this.loggedIn = false;
-	this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse, this);
+        this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse, this);
         this.volunteerCount = 0;
         this.shiftsToFill = 0;
         this.shiftsFilled = 0;
@@ -109,11 +109,11 @@ if (!this.currentVolunteerHere){
     } // end const
 
     setLoginTrue(that) {
-	that.loggedIn = true;
+        that.loggedIn = true;
     }
 
     setLoginFalse(that) {
-	that.loggedIn = false;
+        that.loggedIn = false;
     }
 
     setShifts() {
@@ -264,20 +264,61 @@ if (!this.currentVolunteerHere){
             if ((shiftNowSelected) ||
                 (this.shiftSelected && !shiftNowSelected)) { // Something changed (all cleared)
 
-                // ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
-                let alert = this.alertCtrl.create({
-                    title: 'Independently Validate Location Address',
-                    subTitle: 'Please keep in mind anyone can enter a polling location address and we cannot check the validity of every single one; make sure to confirm this polling location is legitimate for yourself.',
-                    buttons: ['OK'] 
-                });
-                alert.present();
-                that.navCtrl.push(ConfirmationPage, {
-                });
+                this.restSvc.saveVolunteerInfo()
+                    .subscribe( (data) => {
+                        // Expect response created here...
+                        if (data.status == 201) {
+                            console.log('successful call:' + data);
+                            this.successForward(true);
+                        } else {
+                            // ?? shouldn't happen ??
+                            console.log('UNKNOWN STATUS:' + data);
+                            this.successForward(true);              
+                        }
+                    } , err => {
+                        console.log('error occurred ' + err.toString());
+                        var errStr = null;
+                        if (err.status == 400) {
+                            errStr = err._body // toString();
+                        } else {
+                            errStr = err.toString();
+                        }
+                        // console.log(error.stack());
+                        let alert = that.alertCtrl.create({
+                            title: 'Error Saving Polling Station Details',
+                            subTitle: errStr,
+                            buttons: [{
+                                text: 'OK',
+                                handler: () => {
+                                    alert.dismiss();
+                                }
+                            }]
+                        }
+                                                         );
+                        //timeout the error to let other modals finish dismissing.
+                        setTimeout(()=>{
+                            alert.present();
+                        },500);
+                    }, () => {console.log('save polling details complete')}
+                              );
             } 
 
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }
+    }
+
+    successForward(real:boolean) {
+
+        // ((this.eM == true) || (this.lM) || (this.eA) || (this.lA) || (this.eE) || (this.lE) ){
+        let alert = this.alertCtrl.create({
+            title: 'Independently Validate Location Address',
+            subTitle: 'Please keep in mind anyone can enter a polling location address and we cannot check the validity of every single one; make sure to confirm this polling location is legitimate for yourself.',
+            buttons: ['OK'] 
+        });
+        alert.present();
+        this.navCtrl.push(ConfirmationPage, {
+        });
     }
 
 }

@@ -13,7 +13,7 @@ import * as globals from '../../globals';
 //other service
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
-import {RestService} from '../../providers/rest-service/rest-service';
+// import {RestService} from '../../providers/rest-service/rest-service';
 
 
 
@@ -30,24 +30,25 @@ export class Volunteerservice {
     teamKeyList: string[];
     associatedVolunteerArray: Volunteer[];
     tempVolunteer: Volunteer;
-    restSvc: RestService;
+    // restSvc: RestService;
     volunteerCount: number;
     shiftsToFill: number;
     shiftsFilled: number;
 
-    constructor(pollingstationservice: Pollingstationservice, restSvc: RestService) {
+    constructor(pollingstationservice: Pollingstationservice /*, restSvc: RestService */) {
         this.currentVolunteer = null;
         this.pollingstationservice = pollingstationservice;
-        this.restSvc = restSvc;
+        // this.restSvc = restSvc;
         this.volunteerListInMemory = VOLUNTEERS;
         this.notRegistered = "None";
         this.associatedVolunteerArray = [];
         this.shiftsFilled = 0;
 
         // if no one is logged in creat void volunteer 
-        this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse,this);
+        // this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse,this);
     }
     
+    /*
     setLoginTrue(that) {
         // this.loggedIn = true;  no op
     }
@@ -56,15 +57,15 @@ export class Volunteerservice {
         // this.loggedIn = false;
         that.currentVolunteer = that.setToVoidVolunteer();
     }
+    */
     
-    getVolunteers() { return this.volunteerListInMemory;  }
+    getVolunteersXX() { return this.volunteerListInMemory;  }
 
     generateVolunteerKey(){
         return 'v'+(this.volunteerListInMemory.length+1);
     }
     
     setNewVolunteer(value){
-        var that = this;
         this.currentVolunteer = value;
     }
 
@@ -170,12 +171,12 @@ export class Volunteerservice {
         return null;
     }
 
-        getVolunteerbyPhoneNumber(passedPhoneNumber){ 
-        for (var i = 0; i < this.volunteerListInMemory.length; i++){
-            if (this.volunteerListInMemory[i].phoneNumber == passedPhoneNumber){
-                return this.volunteerListInMemory[i]
-            }
-        }
+    getVolunteerbyPhoneNumber(passedPhoneNumber:string){ 
+            for (var i = 0; i < this.volunteerListInMemory.length; i++){
+		if (this.volunteerListInMemory[i].phoneNumber == passedPhoneNumber){
+                    return this.volunteerListInMemory[i]
+		}
+	    }
         return null;
     }
     

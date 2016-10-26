@@ -14,20 +14,30 @@
 
 <img src="../../img/exitAuditBanner.jpg">
           
-          <button type="button" [disabled]="buttonsDisabled" (click)="onVolunteerClick()" block large>
-  			    Volunteer 
-           </button>
+<button type="button" (click)="onVolunteerClick()" block large>
+  Volunteer 
+</button>
 
-            <button type="button" [disabled]="buttonsDisabled" (click)="onDonateClick()" block large>
-  			    Donate 
-           </button>
-            <button type="button" [disabled]="buttonsDisabled" (click)="onLoginClick()" block large>
-  			    Log in 
-           </button>
+<button type="button" (click)="onDonateClick()" block large>
+  Donate 
+</button>
+<div *ngIf="!restSvc.getLoggedIn()">
+  <button type="button" (click)="onLoginClick()" block large>
+    Log in 
+  </button>
+</div>
+<div *ngIf="restSvc.getLoggedIn()">
+  <button (click)="onLogout()" block large>
+    Log Out
+  </button>
+</div>
+
+    <P style="color:red" *ngIf="errorMessage">{{errorMessage}}</P>
+
 
 </ion-content>
 
-     
+
 
 
      

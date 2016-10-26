@@ -152,73 +152,8 @@ onClickReset(){
         }
 }
 
-
-    onLogout(){
-        var that = this;
-        {
-            that.restSvc.logoutUser()
-                .subscribe( (data) => {
-                    if (data.status == 200) {
-                        console.log('successful logout call:' + data);
-                        this.successLogout(true);
-                    } else {
-                        // ?? shouldn't happen ??
-                        console.log('UNKNOWN LOGOUT STATUS:' + data);
-                        this.successLogout(true);              
-                    }
-                } , err => {
-                    console.log('error occurred ' + err.toString() + err._body);
-                    var subtitle;
-                    if ((err.status == 0) ||
-                        (err.status == 404)) {
-                        this.successLogout(false);
-                        // fake success
-                    } else if (err.status == 400) {
-                        subtitle = err._body // toString();
-                    } else {
-                        subtitle = err.toString();
-                    }
-                    // console.log(error.stack());
-                    let alert = that.alertCtrl.create({
-                        title: 'Error Logging Out',
-                        subTitle: subtitle,
-                        buttons: [{
-                            text: 'OK',
-                            handler: () => {
-                                alert.dismiss();
-                            }
-                        }]
-                    });
-                    //timeout the error to let other modals finish dismissing.
-                    setTimeout(()=>{
-                        alert.present();
-                    },250);
-                }, () => {console.log('logout complete')});
-        }
-    }
-
-    successLogout(real: boolean) {
-        var that = this;
-        if (!real) {
-            // console.log(error.stack());
-            let alert = that.alertCtrl.create({
-                title: 'TEST MODE: Simulating Logging Out',
-                subTitle: 'This simulates a logout',
-                buttons: [{
-                    text: 'OK',
-                    handler: () => {
-                        alert.dismiss();
-                    }
-                }]
-            });
-            //timeout the error to let other modals finish dismissing.
-            setTimeout(()=>{
-                alert.present();
-            },250);
-        }
-        this.restSvc.setLoggedIn(this.loggedIn) 
-        this.loggedIn = false;
-        this.currentTempVolunteer = this.volunteerservice.setToVoidVolunteer();
+    onLogout() {
+        this.restSvc.onLogout(this,this.displayError);
     }
 
 // CHANGE EXPOSE EMAIL
@@ -348,7 +283,7 @@ onChangePartyAffiliationFromList(passedValue){
     }
 
 // CLICK FOR STATION
-    goToStationDetails(){
+    goToStationDetails() {
         console.log('thisTempStation'+ this.thisTempStation);
         this.pollingstationservice.setStation(this.thisTempStation);
         var that = this;
@@ -362,10 +297,6 @@ onChangePartyAffiliationFromList(passedValue){
             
         }
     }
-    
-
-
-
 
     onSubmit(value: any): void {
 
@@ -394,9 +325,23 @@ onChangePartyAffiliationFromList(passedValue){
            console.log(this.passChange + ' after submit ');
 
         }
+    }
 
-
-
+    displayError(that:any,text: string,subtitle: string) {
+        let alert = that.alertCtrl.create({
+            title: text,
+            subTitle: subtitle,
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    alert.dismiss();
+                }
+            }]
+        });
+        //timeout the error to let other modals finish dismissing.
+        setTimeout(()=>{
+            alert.present();
+        },250);
     }
 
 // END CLASS

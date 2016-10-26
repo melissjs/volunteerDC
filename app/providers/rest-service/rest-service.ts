@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import * as config from '../../config';
 import { Volunteer} from '../../volunteer';
+import { Volunteerservice} from '../volunteerservice/volunteerservice';
 
 let authyURL = config.AUTHY_VER_URL;
 
@@ -24,7 +25,7 @@ export class RestService {
     attemptedPassCode: number;
     MIN_LOGIN_CHECK_TIME: number = 15000; // 15 seconds
 
-    constructor(private http: Http) {
+    constructor(private http: Http,private volSvc: Volunteerservice) {
         // generate values
         this.jsessionid = null;
         this.csrf_token = null;
@@ -34,11 +35,10 @@ export class RestService {
         this.attemptedPassCode = 0;
 
         // submit call to initialize ionic.
-        this.initIonic(false);
-
+        this.initIonic(false,null);
     }
 
-    initIonic(onlogin: boolean) {
+    initIonic(onlogin: boolean,phoneNumber: string) {
 
         if (onlogin) {
             this.hashedPassCode = this.attemptedPassCode;
@@ -63,6 +63,9 @@ export class RestService {
                     that.setCsrfToken(csrfToken[0]);
                     console.log('CSRF-TOKEN updated in init to:'+
                                 this.csrf_token);
+                    if (phoneNumber != null) {
+                        that.getVolunteerbyPhoneNumber(phoneNumber,onlogin);
+                    }
                 }
             } else {
                 console.log('error init ionicinit call:' + data.message);
@@ -71,7 +74,16 @@ export class RestService {
             console.log('error occurred in ionicinit ' + err.toString());
             if ((err.status == 0) ||
                 (err.status == 404)) {
-                console.log('error expected in standalone ionic app');
+                console.log('error expected in standalone ionic app:' + onlogin);
+                if (onlogin) {
+                    that.loggedIn = true;
+                    if (phoneNumber != null) {
+                        // For the fake version.. we look it up in memory..
+                        var vol = 
+                            that.volSvc.getVolunteerbyPhoneNumber(phoneNumber);
+                        that.volSvc.setNewVolunteer(vol);
+                    }
+                }
                 return;
             }
         }, () => {console.log('ionicinit complete')});
@@ -97,7 +109,7 @@ export class RestService {
     setLoginTrue(that) {
         that.loggedIn = true;
         // now call initIonic to reset the CSRF token
-        that.initIonic();
+        // that.initIonic();
     }
 
     setLoginFalse(that) {
@@ -139,7 +151,7 @@ export class RestService {
             console.log('error occurred getLoggedIn ' + err.toString());
             if ((err.status == 0) ||
                 (err.status == 404)) {
-                that.loggedIn = true; // "Unknown Error!";
+                // Keep as current value for this case
                 cbtrue(thatobj);
                 // fake success
             } else if (err.status == 500) {
@@ -313,6 +325,51 @@ export class RestService {
         return retval2;
     }
 
+    onLogout(comp:any, errorcb){
+        var that = this;
+        that.logoutUser()
+            .subscribe( (data) => {
+                if (data.status == 200) {
+                    console.log('successful logout call:' + data);
+                    that.successLogout(true,comp,errorcb);
+                } else {
+                    // ?? shouldn't happen ??
+                    console.log('UNKNOWN LOGOUT STATUS:' + data);
+                    that.successLogout(true,comp,errorcb);
+                }
+            } , err => {
+                console.log('error occurred ' + err.toString() + err._body);
+                var subtitle;
+                if ((err.status == 0) ||
+                    (err.status == 404)) {
+                    that.successLogout(false,comp,errorcb);
+                    // fake success
+                    return;
+                } else if (err.status == 400) {
+                    subtitle = err._body // toString();
+                } else {
+                    subtitle = err.toString();
+                }
+                // console.log(error.stack());
+                errorcb(comp,'Error Logging Out',subtitle);
+            }, () => {console.log('logout complete')});
+    }
+
+    successLogout(real: boolean,comp: any,errorcb) {
+        var that = this;
+        if (!real) {
+            // console.log(error.stack());
+            errorcb(comp,'TEST MODE: Simulating Logging Out','');
+        }
+        that.setLoggedIn(false) 
+        if (comp.loggedIn) {
+            comp.loggedIn = false;
+        }
+        if (comp.currentTempVolunteer) {
+            comp.currentTempVolunteer = comp.volunteerservice.setToVoidVolunteer();
+        }
+    }
+
     /* handleError(error) {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error' + error.toString());
@@ -372,6 +429,63 @@ export class RestService {
         // body, options
         var retval2 = retval1;
         this.attemptPasscodeChange(newPassword);
+        return retval2;
+    }
+
+    getVolunteerbyPhoneNumber(phoneNumber,onlogin) {
+
+        var url = config.MT_HOST + '/api/volunteer/' +  phoneNumber + this.cacheBuster();
+        // var retval1 = this.http.post(url, params, { headers: headers });
+        var retval1 = this.http.get(url);
+        
+        // body, options
+
+        var retval2 = retval1.map(
+            res => res.json()
+        );
+	var that=this;
+        retval2.subscribe( data => {
+            console.log('successful get volunteer data call:' + data);
+            if (data.phoneNumber != null) {
+                this.volSvc.setNewVolunteer(data);
+            } else {
+                console.log('error getting volunteer data call:' + data.message);
+            }
+        }, err => {
+            console.log('error occurred in getting volunteer data ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                console.log('error expected in standalone ionic app for get data call:' + phoneNumber);
+                if (onlogin) {
+                    that.loggedIn = true;
+                    if (phoneNumber != null) {
+                        // For the fake version.. we look it up in memory..
+                        var vol = 
+                            that.volSvc.getVolunteerbyPhoneNumber(phoneNumber);
+                        that.volSvc.setNewVolunteer(vol);
+                    }
+                }
+                return;
+            }
+        }, () => {console.log('get vol data complete')});
+    }
+
+    saveVolunteerInfo() {
+        var property = this.volSvc.getNewVolunteer();
+        var json = JSON.stringify(property);
+        var params = /* 'json=' +  */ json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/volunteers' + this.cacheBuster();
+        var retval1 = this.http.put(url, params, options);
+        // body, options
+        var retval2 = retval1;
         return retval2;
     }
 

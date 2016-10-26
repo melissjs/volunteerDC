@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import {RestService} from '../../providers/rest-service/rest-service';
-import { AccountsettingsPage } from '../accountsettings/accountsettings';
 import { ResetpasswordPage } from '../resetpassword/resetpassword';
+import { RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
 
 
 /*
@@ -22,15 +21,12 @@ import { ResetpasswordPage } from '../resetpassword/resetpassword';
 export class Logincomponent {
 loginForm: FormGroup;
 regExPhone: string;
-volunteerservice: Volunteerservice;
-volunteerHere: Volunteer;
 loggedIn: boolean;
 errorMessage: string;
 error: boolean;
   
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, volunteerservice: Volunteerservice, private restSvc: RestService ) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService ) {
   this.navCtrl = navCtrl;
-  this.volunteerservice = volunteerservice;
   this.regExPhone = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
   //this.volunteerHere = null;
   this.restSvc = restSvc;
@@ -55,7 +51,7 @@ error: boolean;
                     if (data.status == 200) {
                         console.log('successful call:' + data);
                         // this.restSvc.checkLoggedIn();
-                        this.successForward(true);
+                        this.successForward(true,value.enterPhoneNumber);
                         return;
                     } else {
                         // ?? shouldn't happen ??
@@ -70,7 +66,7 @@ error: boolean;
                     var subtitle;
                     if ((err.status == 0) ||
                         (err.status == 404)) {
-                        this.successForward(false);
+                        this.successForward(false,value.enterPhoneNumber);
                         // fake success
                     } else if (err.status == 400) {
                         that.errorMessage = err._body; // toString();
@@ -90,7 +86,7 @@ error: boolean;
                           //CSRF TOKEN
                           if (!that.error) {
                               setTimeout(()=>{
-                                  this.restSvc.initIonic(true);
+                                  this.restSvc.initIonic(true,value.enterPhoneNumber);
                               },250);
                           }
                          });
@@ -134,10 +130,13 @@ error: boolean;
         } */
     }
 
-    successForward(real:boolean) {
+    successForward(real:boolean,phoneNumber) {
         var that = this;
         that.error = false;
         if (!real) {
+
+            // fake version.. lookup data in rest-service now
+
             // console.log(error.stack());
             let alert = that.alertCtrl.create({
                 title: 'TEST MODE: Simulating Logging In',
@@ -151,15 +150,15 @@ error: boolean;
             });
             //timeout the error to let other modals finish dismissing.
             setTimeout(()=>{
-                this.restSvc.initIonic(true);
+                this.restSvc.initIonic(true,phoneNumber);
                 alert.present();
             },250);
         }
         this.loggedIn = true;
         // this.restSvc.setLoggedIn(this.loggedIn);
-        this.volunteerservice.setNewVolunteer(this.volunteerHere);
+
         try {
-            this.navCtrl.setRoot(AccountsettingsPage);
+            this.navCtrl.setRoot(RegistrationsuccessPage);
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
             console.log(EE.stack);

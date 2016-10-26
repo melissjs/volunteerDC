@@ -7,19 +7,24 @@ import {DonatePage} from '../donate/donate';
 import {Logincomponent} from '../logincomponent/logincomponent';
 import {ResetpasswordPage} from '../resetpassword/resetpassword';
 
+import {RestService} from '../../providers/rest-service/rest-service';
+
+
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
 
     buttonsDisabled: boolean;
+    errorMessage: string;
 
   //userDataSvc: UserDataService;
 
-  constructor(public navCtrl: NavController, navParams: NavParams) {
+  constructor(public navCtrl: NavController, navParams: NavParams, private restSvc: RestService) {
 
       this.navCtrl = navCtrl;
       this.buttonsDisabled = false;
+      this.errorMessage = null;
 
       // Obtain all args (key=val) format and store to nav params (keyvalues)
 
@@ -146,6 +151,15 @@ onLoginClick(){
         console.log('error in Submitting, exc='+ EE.toString())
     }
 }  
+
+onLogout() {
+    this.restSvc.onLogout(this,this.displayError);
+}
+
+    displayError(that:any,text: string,subtitle: string) {
+        that.errorMessage = text + ':' + subtitle;
+    }
+
 
 enableButtons() {
     this.buttonsDisabled = false;

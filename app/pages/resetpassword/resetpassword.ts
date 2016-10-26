@@ -3,7 +3,6 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import { Logincomponent } from '../logincomponent/logincomponent';
 import { RestService} from '../../providers/rest-service/rest-service';
 
@@ -17,28 +16,22 @@ resetForm: FormGroup;
 resetWithCodeForm: FormGroup;
 regExPassword: string;
 regExEmail: string;
-volunteerservice: Volunteerservice;
-volunteerHere: Volunteer;
 errorText: string;
-volunteerList: Volunteer[];
 loggedIn: boolean;
 emailWasSent: boolean;
 errorTextEmail: string;
 key: string;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public params: NavParams, public fb: FormBuilder, volunteerservice: Volunteerservice, private restSvc: RestService) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public params: NavParams, public fb: FormBuilder, private restSvc: RestService) {
   if (this.params != null) {
       this.key = this.params.get('key');
   } else {
       this.key = null;
   }
   this.navCtrl = navCtrl;
-  this.volunteerservice = volunteerservice;
   this.restSvc = restSvc;
   this.loggedIn = false;
   this.emailWasSent = false;
-  this.volunteerHere = this.volunteerservice.getNewVolunteer();
-  this.volunteerList = this.volunteerservice.getVolunteers();
   this.regExEmail = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
 
   this.resetForm = fb.group({  

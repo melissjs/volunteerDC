@@ -79,7 +79,7 @@ errorText: string;
               }, () => {console.log('password change init complete');
                         if (this.errorText == null) {
                             // Initiate update of CSRF and change internal passcode
-                            this.restSvc.initIonic(true);
+                            this.restSvc.initIonic(true,null);
                         }
                        }
                         );
@@ -109,7 +109,7 @@ errorText: string;
             });
             //timeout the error to let other modals finish dismissing.
             setTimeout(()=>{
-                this.restSvc.initIonic(true);
+                this.restSvc.initIonic(true,null);
                 alert.present();
             },250);
         }
