@@ -228,7 +228,11 @@ export class RestService {
         }
         var property = 
             { "login": nv.phoneNumber, "firstName": firstName, "lastName": lastName,
-              "email": nv.emailAddress, "password": passcode, "langKey": "en" };
+              "email": nv.emailAddress, "password": passcode, "langKey": "en",
+              "exposeEmail": nv.exposeEmail, "age": nv.age, "sex": nv.sex,
+              "partyAffiliation": nv.partyAffiliation, "shifts": nv.shifts,
+              "associatedPollingStationKey": nv.associatedPollingStationKey
+            };
         var json = JSON.stringify(property);
         var params = /* 'json=' +  */ json;
         let headers = new Headers();
@@ -239,7 +243,7 @@ export class RestService {
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/register' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/registervolunteer' + this.cacheBuster();
         var retval1 = this.http.post(url, params, options);
         // body, options
         var retval2 = retval1;
@@ -370,4 +374,5 @@ export class RestService {
         this.attemptPasscodeChange(newPassword);
         return retval2;
     }
+
 }
