@@ -278,6 +278,7 @@ export class PollingstationdetailsPage {
                         if ((err.status == 0) ||
                             (err.status == 404)) {
                             this.successForward(false);
+			    return;
                         } else if (err.status == 400) {
                             errStr = err._body // toString();
                         } else {

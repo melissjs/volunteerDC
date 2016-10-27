@@ -63,7 +63,7 @@ addPollingLocationForm: FormGroup;
   this.totalNeededVolunteers = null;
   this.totalRemainingShiftsToFill = null;
   this.volunteerservice = volunteerservice;
-	// this.loggedIn = false;
+        // this.loggedIn = false;
 
         this.restSvc.getLoggedIn();
 
@@ -262,7 +262,11 @@ onComparePrecintAndZip(){
                 } , err => {
                     console.log('error occurred ' + err.toString());
                     var errStr = null;
-                    if (err.status == 400) {
+                    if ((err.status == 0) ||
+                        (err.status == 404)) {
+                        this.successForward(false);
+                        return;
+                    } else if (err.status == 400) {
                         errStr = err._body // toString();
                     } else {
                         errStr = err.toString();

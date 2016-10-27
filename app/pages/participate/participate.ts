@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { HomePage} from '../home/home';
+import { RestService } from '../../providers/rest-service/rest-service';
 
 // forms
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -19,7 +20,8 @@ resetRelevantLinks: string;
 resetContact: string;
 collabFormObj: CollaborateFormObject;
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder,
+		private restSvc: RestService) {
       this.navCtrl = navCtrl;
       this.collabFormObj = null;
    
@@ -64,6 +66,8 @@ links: value.enterRelevantLinks
 
 
 // alert    
+
+    this.restSvc.sendCollab(this.collabFormObj);
             
             let alert = this.alertCtrl.create({
                         title: 'Successfully Submitted',

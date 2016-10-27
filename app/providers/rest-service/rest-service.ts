@@ -482,6 +482,7 @@ export class RestService {
                     that.loggedIn = true;
                     if (phoneNumber != null) {
                         // For the fake version.. we look it up in memory..
+			that.volSvc.getVolunteers();
                         var vol = 
                             that.volSvc.getVolunteerbyPhoneNumber(phoneNumber);
                         that.volSvc.setNewVolunteer(vol);
@@ -513,7 +514,7 @@ export class RestService {
 
     getVolunteersByStation(key: string, setInternalcb, thatobj) {
 
-	var keyQuery = '';
+        var keyQuery = '';
         if (key != null) {
             keyQuery = '?pollingStation=' + key;
         }
@@ -539,12 +540,13 @@ export class RestService {
             if ((err.status == 0) ||
                 (err.status == 404)) {
                 console.log('error expected in standalone ionic app for get data call for volunteers list');
-		var fakedata = that.volSvc.getTeamVolunteersByPollKey(key);
-		this.volSvc.setVolunteers(fakedata,false);
+		that.volSvc.getVolunteers();
+                var fakedata = that.volSvc.getTeamVolunteersByPollKey(key);
+                this.volSvc.setVolunteers(fakedata,false);
                 return;
             }
         }, () => {console.log('get volunteer data complete');
-		  setInternalcb(thatobj);});
+                  setInternalcb(thatobj);});
     }
 
     getLatestPollStations() {
@@ -603,6 +605,35 @@ export class RestService {
         // body, options
         var retval2 = retval1;
         return retval2;
+    }
+
+    sendCollab(collabForm: any) {
+        var property = collabForm;
+        var json = JSON.stringify(property);
+        var params = /* 'json=' +  */ json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/sendform/collabform' + this.cacheBuster(true);
+        var retval1 = this.http.post(url, params, options);
+        // body, options
+        var retval2 = retval1;
+        var that=this;
+        retval2.subscribe( data => {
+            console.log('successful send collaboration form data call:' + data);
+        }, err => {
+            console.log('error occurred in sending collaboration form data ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                console.log('error expected in standalone ionic app for send collaboration form');
+                return;
+            }
+        }, () => {console.log('send collaboration form data complete')});
     }
 
 }
