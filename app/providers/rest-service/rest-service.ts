@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import * as config from '../../config';
 import { Volunteer} from '../../volunteer';
 import { Volunteerservice} from '../volunteerservice/volunteerservice';
+import { Pollingstationservice} from '../pollingstationservice/pollingstationservice';
 
 let authyURL = config.AUTHY_VER_URL;
 
@@ -19,13 +20,17 @@ export class RestService {
 
     jsessionid: string;
     csrf_token: string;
-    loggedIn: boolean;
     lastLoginCheck: number;
     hashedPassCode: number;
     attemptedPassCode: number;
+    lastPollingStationDate: any;
+
+    public loggedIn: boolean;
+
     MIN_LOGIN_CHECK_TIME: number = 15000; // 15 seconds
 
-    constructor(private http: Http,private volSvc: Volunteerservice) {
+    constructor(private http: Http,private volSvc: Volunteerservice,
+                private polSvc: Pollingstationservice) {
         // generate values
         this.jsessionid = null;
         this.csrf_token = null;
@@ -33,6 +38,7 @@ export class RestService {
         this.lastLoginCheck = 0;
         this.hashedPassCode = 0;
         this.attemptedPassCode = 0;
+        this.lastPollingStationDate = null;
 
         // submit call to initialize ionic.
         this.initIonic(false,null);
@@ -44,7 +50,7 @@ export class RestService {
             this.hashedPassCode = this.attemptedPassCode;
         }
         // let options = new RequestOptions({ headers: headers });
-        var url = config.MT_HOST + '/api/ionicinit' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/ionicinit' + this.cacheBuster(true);
 
         // var retval1 = this.http.post(url, params, { headers: headers });
         var retval1 = this.http.get(url);
@@ -63,9 +69,7 @@ export class RestService {
                     that.setCsrfToken(csrfToken[0]);
                     console.log('CSRF-TOKEN updated in init to:'+
                                 this.csrf_token);
-                    if (phoneNumber != null) {
-                        that.getVolunteerbyPhoneNumber(phoneNumber,onlogin);
-                    }
+                    that.getVolunteerbyPhoneNumber(phoneNumber,onlogin);
                 }
             } else {
                 console.log('error init ionicinit call:' + data.message);
@@ -108,6 +112,12 @@ export class RestService {
 
     setLoginTrue(that) {
         that.loggedIn = true;
+        var nv = that.volSvc.getNewVolunteer();
+        if (nv == null || nv.phoneNumber == null) {
+            // If we just came on the scene.. and nothing is assigned
+            // then lookup from database.
+            that.getVolunteerbyPhoneNumber(null,true);
+        }
         // now call initIonic to reset the CSRF token
         // that.initIonic();
     }
@@ -221,9 +231,14 @@ export class RestService {
         // .catch(this.handleError);
     }
     
-    cacheBuster() {
+    cacheBuster(useq:boolean) {
         var now = new Date().getTime();
-        var retval = '?cacheBuster=' + now;
+        var retval = null;
+        if (useq) {
+            retval = '?cacheBuster=' + now;
+        } else {
+            retval = '&cacheBuster=' + now;         
+        }
         return retval;
     }
 
@@ -255,7 +270,7 @@ export class RestService {
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/registervolunteer' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/registervolunteer' + this.cacheBuster(true);
         var retval1 = this.http.post(url, params, options);
         // body, options
         var retval2 = retval1;
@@ -273,7 +288,7 @@ export class RestService {
             '&remember-me=true&submit=Login';
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/authentication' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/authentication' + this.cacheBuster(true);
         var retval1 = this.http.post(url, body, options);
         // body, options
         var retval2 = retval1;
@@ -316,7 +331,7 @@ export class RestService {
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/logout' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/logout' + this.cacheBuster(true);
         var retval1 = this.http.post(url, params, options);
         // body, options
         var retval2 = retval1;
@@ -368,6 +383,8 @@ export class RestService {
         if (comp.currentTempVolunteer) {
             comp.currentTempVolunteer = comp.volunteerservice.setToVoidVolunteer();
         }
+        // need to get a new csrf token.
+        that.initIonic(false,null);
     }
 
     /* handleError(error) {
@@ -386,7 +403,7 @@ export class RestService {
         var body = emailAddress;
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/account/reset_password/init' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/account/reset_password/init' + this.cacheBuster(true);
         var retval1 = this.http.post(url, body, options);
         // body, options
         var retval2 = retval1;
@@ -406,7 +423,7 @@ export class RestService {
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/account/reset_password/finish' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/account/reset_password/finish' + this.cacheBuster(true);
         var retval1 = this.http.post(url, params, options);
         // body, options
         var retval2 = retval1;
@@ -424,7 +441,7 @@ export class RestService {
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/account/change_password' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/account/change_password' + this.cacheBuster(true);
         var retval1 = this.http.post(url, params, options);
         // body, options
         var retval2 = retval1;
@@ -434,7 +451,11 @@ export class RestService {
 
     getVolunteerbyPhoneNumber(phoneNumber,onlogin) {
 
-        var url = config.MT_HOST + '/api/volunteer/' +  phoneNumber + this.cacheBuster();
+        var paramString = '';
+        if (phoneNumber != null) {
+            paramString = '?phoneNumber=' + phoneNumber;
+        }
+        var url = config.MT_HOST + '/api/volunteer' + paramString + this.cacheBuster(false);
         // var retval1 = this.http.post(url, params, { headers: headers });
         var retval1 = this.http.get(url);
         
@@ -443,11 +464,12 @@ export class RestService {
         var retval2 = retval1.map(
             res => res.json()
         );
-	var that=this;
+        var that=this;
         retval2.subscribe( data => {
             console.log('successful get volunteer data call:' + data);
             if (data.phoneNumber != null) {
                 this.volSvc.setNewVolunteer(data);
+                this.getLatestPollStations();
             } else {
                 console.log('error getting volunteer data call:' + data.message);
             }
@@ -482,8 +504,102 @@ export class RestService {
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let options = new RequestOptions({ headers: headers, withCredentials: true});
 
-        var url = config.MT_HOST + '/api/volunteers' + this.cacheBuster();
+        var url = config.MT_HOST + '/api/volunteers' + this.cacheBuster(true);
         var retval1 = this.http.put(url, params, options);
+        // body, options
+        var retval2 = retval1;
+        return retval2;
+    }
+
+    getVolunteersByStation(key: string, setInternalcb, thatobj) {
+
+	var keyQuery = '';
+        if (key != null) {
+            keyQuery = '?pollingStation=' + key;
+        }
+        var url = config.MT_HOST + '/api/volunteers' + keyQuery
+            + this.cacheBuster(false);
+        var retval1 = this.http.get(url);
+        
+        // body, options
+
+        var retval2 = retval1.map(
+            res => res.json()
+        );
+        var that=this;
+        retval2.subscribe( data => {
+            console.log('successful get volunteer list data call:' + data);
+            if (data != null) {
+                this.lastPollingStationDate = this.volSvc.setVolunteers(data,true);
+            } else {
+                console.log('error getting volunteer list data call:' + data.message);
+            }
+        }, err => {
+            console.log('error occurred in getting volunteer list data ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                console.log('error expected in standalone ionic app for get data call for volunteers list');
+		var fakedata = that.volSvc.getTeamVolunteersByPollKey(key);
+		this.volSvc.setVolunteers(fakedata,false);
+                return;
+            }
+        }, () => {console.log('get volunteer data complete');
+		  setInternalcb(thatobj);});
+    }
+
+    getLatestPollStations() {
+
+        var lastPollingDate = '';
+        if (this.lastPollingStationDate != null) {
+            lastPollingDate = '?createDate=' + this.lastPollingStationDate;
+        }
+        var url = config.MT_HOST + '/api/polling-stations' + lastPollingDate
+            + this.cacheBuster(false);
+        // var retval1 = this.http.post(url, params, { headers: headers });
+        var retval1 = this.http.get(url);
+        
+        // body, options
+
+        var retval2 = retval1.map(
+            res => res.json()
+        );
+        var that=this;
+        retval2.subscribe( data => {
+            console.log('successful get polling station data call:' + data);
+            if (data != null) {
+                this.lastPollingStationDate = this.polSvc.addPollingStations(data);
+            } else {
+                console.log('error getting polling station data call:' + data.message);
+            }
+        }, err => {
+            console.log('error occurred in getting polling station data ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                console.log('error expected in standalone ionic app for get data call for polling stations');
+                return;
+            }
+        }, () => {console.log('get polling station data complete')});
+    }
+
+    savePollStationInfo(doadd:boolean) {
+        var property = this.polSvc.getStation();
+        var json = JSON.stringify(property);
+        var params = /* 'json=' +  */ json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/polling-stations' + this.cacheBuster(true);
+        var retval1 = null;
+        if (doadd) {
+            retval1 = this.http.post(url, params, options);
+        } else {
+            retval1 = this.http.put(url, params, options);
+        }
         // body, options
         var retval2 = retval1;
         return retval2;

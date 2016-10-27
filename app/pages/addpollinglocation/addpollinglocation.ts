@@ -44,7 +44,7 @@ totalRemainingShiftsToFill: number;
 currentVolunteerHere: Volunteer;
 volunteerservice: Volunteerservice;
 addPollingLocationForm: FormGroup;
-loggedIn: boolean;
+    // loggedIn: boolean;
 
     constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder, private restSvc: RestService) {
   this.navCtrl = navCtrl;
@@ -63,10 +63,9 @@ loggedIn: boolean;
   this.totalNeededVolunteers = null;
   this.totalRemainingShiftsToFill = null;
   this.volunteerservice = volunteerservice;
-  this.loggedIn = false;
+	// this.loggedIn = false;
 
-	this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse,this);
-        this.loggedIn = false;
+        this.restSvc.getLoggedIn();
 
         this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
 
@@ -138,14 +137,6 @@ this.newPollingStation = {
   // constructor end
   }
 
-    setLoginTrue(that) {
-	that.loggedIn = true;
-    }
-
-    setLoginFalse(that) {
-	that.loggedIn = false;
-    }
-
 onChangePrecinctNumber(value){
   //this.precinctNumber = value;
   //console.log('from function: ' + this.precinctNumber);
@@ -191,7 +182,7 @@ onComparePrecintAndZip(){
   if(this.newPollingStation.precinctNumber && this.newPollingStation.zip){
     if(this.pollingStationService.duplicateStationSearch(this.newPollingStation.precinctNumber, this.newPollingStation.zip)){
      // call alert popup
-		return true
+                return true
   }
   } else {
     return false
@@ -247,43 +238,89 @@ onComparePrecintAndZip(){
         });*/
 
         if(this.onComparePrecintAndZip()){
-          	try {
-		    this.navCtrl.push(DuplicatepollingstationPage, {});
-		} catch (EE) {
-		    console.log('error in Submitting, exc='+ EE.toString())
-		}
+                try {
+                    this.navCtrl.push(DuplicatepollingstationPage, {});
+                } catch (EE) {
+                    console.log('error in Submitting, exc='+ EE.toString())
+                }
 
         } else {
 
         //console.log('new one: ' + this.newPollingStation.precinctNumber);
 
-
-      // add new station to list
-      this.stations.push(this.newPollingStation);
-      
-      //console.log(this.stations);
-
-
-
-        // show alert
-            var that = this; 
-            if (this !== null){
-            let alert = this.alertCtrl.create({
-                        title: 'Addition Successful',
-                        subTitle: 'Congratulations you have successfully initiated a new audit! This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.',
-		buttons: [ 'OK' ]
-                    });
-                    alert.present();
-		try {
-		    that.navCtrl.setRoot(PollingstationdetailsPage, {});
-		} catch (EE) {
-		    console.log('error in Submitting, exc='+ EE.toString())
-		}
-
-            }
-
-
+            this.restSvc.savePollStationInfo(true)
+                .subscribe( (data) => {
+                    // Expect response created here...
+                    if (data.status == 201) {
+                        console.log('successful call:' + data);
+                        this.successForward(true);
+                    } else {
+                        // ?? shouldn't happen ??
+                        console.log('UNKNOWN STATUS:' + data);
+                        this.successForward(true);              
+                    }
+                } , err => {
+                    console.log('error occurred ' + err.toString());
+                    var errStr = null;
+                    if (err.status == 400) {
+                        errStr = err._body // toString();
+                    } else {
+                        errStr = err.toString();
+                    }
+                    // console.log(error.stack());
+                    let alert = this.alertCtrl.create({
+                        title: 'Error Adding Poll Station',
+                        subTitle: errStr,
+                        buttons: [{
+                            text: 'OK',
+                            handler: () => {
+                                alert.dismiss();
+                            }
+                        }]
+                    }
+                                                     );
+                    //timeout the error to let other modals finish dismissing.
+                    setTimeout(()=>{
+                        alert.present();
+                    },500);
+                }, () => {console.log('registration(register) complete')}
+                          );
+    
          }
       }
+
+    successForward(real:boolean) {
+        var subtitle;
+        var that = this;
+        if (real) {
+            subtitle = 'Congratulations you have successfully initiated a new audit! This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.';
+        } else {
+            subtitle = 'For TESTING PURPOSES, we simulate success here.  You would be told: This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.';
+            this.stations.push(this.newPollingStation);
+
+        }
+        let alert = that.alertCtrl.create({
+            title: 'Addition Successful',
+            subTitle: subtitle,
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    alert.dismiss();
+                }
+            }]
+        });
+        //timeout the error to let other modals finish dismissing.
+        setTimeout(()=>{
+            alert.present();
+        },500);
+        // Send to login page
+        try {
+            that.navCtrl.setRoot(PollingstationdetailsPage, {});
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+        }
+
+    }
+
 
 }

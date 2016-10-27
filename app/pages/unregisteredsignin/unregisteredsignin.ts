@@ -274,7 +274,7 @@ export class UnregisteredsigninPage {
         //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
 	//This is only necessary for the "fake" version .. since we don't use
 	//this list for the "real" one.
-        this.volunteerservice.addCurrentVolunteerToList(this.newVolunteer);
+
         this.volunteerservice.setNewVolunteer(this.newVolunteer);
 
         // ERICS Call
@@ -507,6 +507,7 @@ export class UnregisteredsigninPage {
             // "activation" of the account.  In that case we proceed from the
             // "activate" page.
             this.newVolunteer.volunteerKey = this.volunteerservice.generateVolunteerKey();
+            this.volunteerservice.addCurrentVolunteerToList(this.newVolunteer);
         }
         let alert = that.alertCtrl.create({
             title: 'Verification Successful',

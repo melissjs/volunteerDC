@@ -30,16 +30,75 @@ export class Pollingstationservice {
     shiftsFilled: number;
     volunteerservice: Volunteerservice;
     associatedVolunteerArray: Volunteer[];
+    usingReal: boolean;
+
     //searchpipe: Searchpipe;
 
     constructor(){
+        this.usingReal = false;
         this.stationListInMemory = this.getStations();
         this.matchingPrecinctAndZipList = [];
         this.duplicateYesOrNo = false;
         //this.volunteerservice = volunteerservice;
     }
 
-    getStations() { return STATIONS;  }
+    getStations() {
+        if (!this.usingReal) {
+            if (this.stationListInMemory == null) {
+                this.stationListInMemory = STATIONS;
+            }
+        }
+        return this.stationListInMemory;
+    }
+
+    addPollingStations(data: any) {
+        // returns the most recently modified date to use
+        // on the next query.
+        var lastDate = null;
+        if ((!this.usingReal) ||
+            ((this.stationListInMemory == null) && (data != null))) {
+            // If we are using the "fake" data, change now to use real data.
+            this.stationListInMemory = data;
+            this.usingReal = true;
+            // from now on, we will just add to this.
+        } else if ((this.stationListInMemory != null) &&
+                   (data != null)) {
+            // go through the stationListInMemory, and
+            // see about adding the data to it.
+            var curPoll = null;
+            var thisList = this.stationListInMemory;
+            for (var ii=0;ii<data.length;ii++) {
+                curPoll = data[ii];
+                var key=curPoll.pollingStationKey;
+                var pollChk = null;
+                var found = false;
+                for (var jj=0;jj<thisList.length;jj++) {
+                    pollChk = thisList[jj];
+                    var keyChk= pollChk.pollingStationKey;
+                    if (keyChk == key) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    // Didn't find this one.. add it.
+                    this.stationListInMemory.push(curPoll);
+                }
+            }
+        }
+        var thisList = this.stationListInMemory;
+        var pollChk = null;
+        for (var kk=0;kk<thisList.length;kk++) {
+            pollChk = thisList[kk];
+            var modDateChk=pollChk.modifiedDate;
+            if ((lastDate == null) || (lastDate < modDateChk)) {
+                lastDate = modDateChk;
+            }
+        }
+        // Now return the "latest" date
+        // set a break here..
+        return lastDate;
+    }
 
     setStation(passedValue){
         var that = this;

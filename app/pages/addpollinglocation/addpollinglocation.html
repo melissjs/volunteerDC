@@ -70,12 +70,12 @@
         </ion-card>  
 
 <!-- for  non registered -->
-  <button *ngIf="!loggedIn" (click)="onRegister()" block large  style="background-color:#959eb0; cursor:default" >
+  <button *ngIf="!restSvc.loggedIn" (click)="onRegister()" block large  style="background-color:#959eb0; cursor:default" >
     Register to add a location
   </button>
 
 <!--for  registered *ngIf="currentVolunteerHere && currentVolunteerHere.fullName!=null"-->
-  <button *ngIf="loggedIn" type="submit" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
+  <button *ngIf="restSvc.loggedIn" type="submit" block large [disabled]="!addPollingLocationForm.valid" (click)="onSubmit(addPollingLocationForm.value)">
     Add Location 
   </button>
 

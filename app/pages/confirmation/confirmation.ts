@@ -22,7 +22,6 @@ import {RestService} from '../../providers/rest-service/rest-service';
 })
 export class ConfirmationPage {
 currentVolunteer: Volunteer; 
-fullVolunteerList: Volunteer[];
 volunteerservice: Volunteerservice;
 pollingstationservice: Pollingstationservice;
 thisTempStation: PollingStation;
@@ -37,23 +36,21 @@ printedShifts: string;
         this.restSvc = restSvc;
         this.volunteerservice.associatedVolunteerArray = [];
 
-         if(this.restSvc.getLoggedIn()){
+      if(this.restSvc.getLoggedIn()){
           this.currentVolunteer = this.volunteerservice.getNewVolunteer();
-         }
 
           if(this.currentVolunteer.associatedPollingStationKey!==null){
-        this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentVolunteer.associatedPollingStationKey)
-        this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
-       }
 
-        //get associate volunteer keys
-        if(this.currentVolunteer.associatedPollingStationKey!==null){
-             this.fullVolunteerList = this.volunteerservice.getTeamVolunteersByPollKey(this.currentVolunteer.associatedPollingStationKey)
-            }
+              this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentVolunteer.associatedPollingStationKey)
+              if (this.thisTempStation != null) {
+                  this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
+              }
+          }
 
+      }
   }
-
-      goToStationDetails(){
+    
+    goToStationDetails(){
         console.log('thisTempStation'+ this.thisTempStation);
         this.pollingstationservice.setStation(this.thisTempStation);
         var that = this;
@@ -83,18 +80,74 @@ printedShifts: string;
                     text: 'Delete',
                     handler: () => {
                         
-                        //this.volunteerservice.clearShifts()
+                        this.volunteerservice.clearShifts()
                         this.currentVolunteer.shifts = '';
                         this.printedShifts = "None";
                         this.currentVolunteer.associatedPollingStationKey = null;
-                        this.volunteerservice.associatedVolunteerArray = [];
+                        this.volunteerservice.setPollingStationForVolunteer(null);
+
+                        var that = this;
+                        this.restSvc.saveVolunteerInfo()
+                            .subscribe( (data) => {
+                                // Expect response created here...
+                                if (data.status == 200)  {
+                                    console.log('successful call to save:' + data);
+                                    this.successForward(true);
+                                } else {
+                                    // ?? shouldn't happen ??
+                                    console.log('UNKNOWN STATUS:' + data);
+                                    this.successForward(true);              
+                                }
+                            } , err => {
+                                console.log('error occurred ' + err.toString());
+                                var errStr = null;
+                                if ((err.status == 0) ||
+                                    (err.status == 404)) {
+                                    this.successForward(false);
+                                } else if (err.status == 400) {
+                                    errStr = err._body // toString();
+                                } else {
+                                    errStr = err.toString();
+                                }
+                                // console.log(error.stack());
+                                let alert = that.alertCtrl.create({
+                                    title: 'Error Saving Account Settings',
+                                    subTitle: errStr,
+                                    buttons: [{
+                                        text: 'OK',
+                                        handler: () => {
+                                            alert.dismiss();
+                                        }
+                                    }]
+                                }
+                                                                 );
+                                //timeout the error to let other modals finish dismissing.
+                                setTimeout(()=>{
+                                    alert.present();
+                                },250);
+                            }, () => {console.log('save polling details complete')}
+                                      );
+
                         console.log('Agree clicked' + this.currentVolunteer.shifts);
                         
                     }
                 }
             ]
         });
+
         confirm.present();
+    }
+
+    successForward(real:boolean) {
+
+
+        if (!real) {
+            this.volunteerservice.overWriteChangesToVolunteer(this.currentVolunteer);
+        }
+
+        this.volunteerservice.printVolunteer(this.currentVolunteer);
+        console.log('confirmation after submit ');
+
     }
 
 

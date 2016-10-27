@@ -32,7 +32,7 @@ export class PollingstationdetailsPage {
     pollingStationService: Pollingstationservice;
     volunteerservice: Volunteerservice;
     currentStation: PollingStation;
-    loggedIn: boolean;
+    // loggedIn: boolean;
 
     eM: boolean = false;
     lM: boolean = false;
@@ -66,8 +66,8 @@ export class PollingstationdetailsPage {
         this.pollingStationService = pollingStationService;
         this.volunteerservice = volunteerservice;
         this.restSvc = restSvc;
-        this.loggedIn = false;
-        this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse, this);
+        // this.loggedIn = false;
+        this.restSvc.getLoggedIn();
         this.volunteerCount = 0;
         this.shiftsToFill = 0;
         this.shiftsFilled = 0;
@@ -76,44 +76,41 @@ export class PollingstationdetailsPage {
         this.currentVolunteerHere = this.volunteerservice.getNewVolunteer();
         this.currentStation = this.pollingStationService.getStation();
 
-        this.volunteerservice.generateStationStats(this.currentStation.pollingStationKey);
-        this.volunteerCount = this.volunteerservice.getVolunteerCount();
-        this.shiftsToFill = this.volunteerservice.getShiftsToFill();
-        this.shiftsFilled = this.volunteerservice.getShiftsFilled();
+        // populate using rest-service instead...
+        // this.volunteerservice.generateStationStats(this.currentStation.pollingStationKey);
+        this.restSvc.getVolunteersByStation(this.currentStation.pollingStationKey,this.setInternals,this);
 
+        this.volunteerCount = 0;
+        this.shiftsToFill = 0;
+        this.shiftsFilled = 0;
 
-        
         //ATTEMP TO FIX PROBLEM
-if (!this.currentVolunteerHere){
+        if (!this.currentVolunteerHere){
 
-        this.currentVolunteerHere = {
-            volunteerKey: null,
-            fullName: null,
-            emailAddress: null,
-            exposeEmail: false,
-            phoneNumber: null,
-            age:null,
-            sex: null,
-            partyAffiliation: null,
-            shifts:'', 
-            associatedPollingStationKey:null
+            this.currentVolunteerHere = {
+                volunteerKey: null,
+                fullName: null,
+                emailAddress: null,
+                exposeEmail: false,
+                phoneNumber: null,
+                age:null,
+                sex: null,
+                partyAffiliation: null,
+                shifts:'', 
+                associatedPollingStationKey:null
+            }
+            volunteerservice.setNewVolunteer(this.currentVolunteerHere);
+
         }
-        volunteerservice.setNewVolunteer(this.currentVolunteerHere);
-
-}
-
-
 
         this.setShifts();
         
     } // end const
 
-    setLoginTrue(that) {
-        that.loggedIn = true;
-    }
-
-    setLoginFalse(that) {
-        that.loggedIn = false;
+    setInternals(that: any) {
+        that.volunteerCount = that.volunteerservice.getVolunteerCount();
+        that.shiftsToFill = that.volunteerservice.getShiftsToFill();
+        that.shiftsFilled = that.volunteerservice.getShiftsFilled();
     }
 
     setShifts() {
@@ -154,7 +151,7 @@ if (!this.currentVolunteerHere){
 
     onChangeEarlyM(value) {
         var earlyM = !value;
-        console.log('signature selected:' + earlyM + ' heyyyy ' + this.loggedIn);
+        console.log('signature selected:' + earlyM + ' heyyyy ' + this.restSvc.loggedIn);
         this.eM = earlyM;
     }
 
@@ -267,7 +264,7 @@ if (!this.currentVolunteerHere){
                 this.restSvc.saveVolunteerInfo()
                     .subscribe( (data) => {
                         // Expect response created here...
-                        if (data.status == 201) {
+                        if (data.status == 200)  {
                             console.log('successful call:' + data);
                             this.successForward(true);
                         } else {
@@ -278,7 +275,10 @@ if (!this.currentVolunteerHere){
                     } , err => {
                         console.log('error occurred ' + err.toString());
                         var errStr = null;
-                        if (err.status == 400) {
+                        if ((err.status == 0) ||
+                            (err.status == 404)) {
+                            this.successForward(false);
+                        } else if (err.status == 400) {
                             errStr = err._body // toString();
                         } else {
                             errStr = err.toString();
@@ -298,7 +298,7 @@ if (!this.currentVolunteerHere){
                         //timeout the error to let other modals finish dismissing.
                         setTimeout(()=>{
                             alert.present();
-                        },500);
+                        },250);
                     }, () => {console.log('save polling details complete')}
                               );
             } 
@@ -316,7 +316,9 @@ if (!this.currentVolunteerHere){
             subTitle: 'Please keep in mind anyone can enter a polling location address and we cannot check the validity of every single one; make sure to confirm this polling location is legitimate for yourself.',
             buttons: ['OK'] 
         });
-        alert.present();
+        setTimeout(()=>{
+            alert.present();
+        },250);
         this.navCtrl.push(ConfirmationPage, {
         });
     }

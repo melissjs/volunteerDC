@@ -21,7 +21,7 @@ import { RegistrationsuccessPage} from '../registrationsuccess/registrationsucce
 export class Logincomponent {
 loginForm: FormGroup;
 regExPhone: string;
-loggedIn: boolean;
+// loggedIn: boolean;
 errorMessage: string;
 error: boolean;
   
@@ -30,7 +30,7 @@ error: boolean;
   this.regExPhone = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
   //this.volunteerHere = null;
   this.restSvc = restSvc;
-  this.loggedIn = false;
+      // this.loggedIn = false;
       
 
   this.loginForm = fb.group({  
@@ -154,7 +154,7 @@ error: boolean;
                 alert.present();
             },250);
         }
-        this.loggedIn = true;
+        // this.loggedIn = true;
         // this.restSvc.setLoggedIn(this.loggedIn);
 
         try {

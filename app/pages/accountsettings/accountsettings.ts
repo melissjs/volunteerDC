@@ -311,20 +311,61 @@ onChangePartyAffiliationFromList(passedValue){
             //this.currentTempVolunteer.passcode = value.passcodeCtrl;
             this.wasTouched = false;
             if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
-            this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
-            
-            this.volunteerservice.printVolunteer(this.currentTempVolunteer);
-             //this.volunteerservice.printVolunteer(this.volunteerservice.currentVolunteer);
-            //console.log('temp ' + this.currentTempVolunteer.shifts);
-           // console.log('vservice ' + this.volunteerservice.currentVolunteer.shifts);
 
-            //this.prompt.present();
-          /* if (this.passChange==true) {
-               this.currentTempVolunteer.passcode = value.passcodeCtrl;
-           } */
-           console.log(this.passChange + ' after submit ');
-
+	    var that = this;
+            this.restSvc.saveVolunteerInfo()
+                .subscribe( (data) => {
+                    // Expect response created here...
+                    if (data.status == 200)  {
+                        console.log('successful call to save:' + data);
+                        this.successForward(true);
+                    } else {
+                        // ?? shouldn't happen ??
+                        console.log('UNKNOWN STATUS:' + data);
+                        this.successForward(true);              
+                    }
+                } , err => {
+                    console.log('error occurred ' + err.toString());
+                    var errStr = null;
+                    if ((err.status == 0) ||
+                        (err.status == 404)) {
+                        this.successForward(false);
+                    } else if (err.status == 400) {
+                        errStr = err._body // toString();
+                    } else {
+                        errStr = err.toString();
+                    }
+                    // console.log(error.stack());
+                    let alert = that.alertCtrl.create({
+                        title: 'Error Saving Account Settings',
+                        subTitle: errStr,
+                        buttons: [{
+                            text: 'OK',
+                            handler: () => {
+                                alert.dismiss();
+                            }
+                        }]
+                    }
+                                                     );
+                    //timeout the error to let other modals finish dismissing.
+                    setTimeout(()=>{
+                        alert.present();
+                    },250);
+                }, () => {console.log('save polling details complete')}
+                          );
         }
+    }
+
+    successForward(real:boolean) {
+
+
+        if (!real) {
+            this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
+        }
+
+        this.volunteerservice.printVolunteer(this.currentTempVolunteer);
+        console.log(this.passChange + ' after submit ');
+
     }
 
     displayError(that:any,text: string,subtitle: string) {

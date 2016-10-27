@@ -22,7 +22,7 @@
   
 <div>
   <b>Early Morning (5:00 AM - 8:15 AM)</b>
-      <p *ngFor="let item of (volunteerservice.getVolunteersByStationAndShift(currentStation.pollingStationKey,EARLY_MORNING))"> 
+      <p *ngFor="let item of (volunteerservice.getVolunteersByShift(EARLY_MORNING))"> 
         {{item.fullName}}
       </p>
 </div>
@@ -32,7 +32,7 @@
 
 <div>
   <b>Late Morning (8:00 AM - 11:15 AM)</b>
-      <p *ngFor="let item of (volunteerservice.getVolunteersByStationAndShift(currentStation.pollingStationKey,LATE_MORNING))"> 
+      <p *ngFor="let item of (volunteerservice.getVolunteersByShift(LATE_MORNING))"> 
         {{item.fullName}}
       </p>
 </div>
@@ -42,7 +42,7 @@
 
 <div>
   <b>Early Afternoon (11:00 AM - 2:15 PM)</b>
-      <p *ngFor="let item of (volunteerservice.getVolunteersByStationAndShift(currentStation.pollingStationKey,EARLY_AFTERNOON))"> 
+      <p *ngFor="let item of (volunteerservice.getVolunteersByShift(EARLY_AFTERNOON))"> 
         {{item.fullName}}
       </p>
 </div>
@@ -52,7 +52,7 @@
 
 <div>
   <b>Late Afternoon (2:00 PM - 5:15 PM)</b>
-      <p *ngFor="let item of (volunteerservice.getVolunteersByStationAndShift(currentStation.pollingStationKey,LATE_AFTERNOON))"> 
+      <p *ngFor="let item of (volunteerservice.getVolunteersByShift(LATE_AFTERNOON))"> 
         {{item.fullName}}
       </p>
 </div>
@@ -61,7 +61,7 @@
 
 <div>
     <b>Early Evening (5:00 PM - 8:15 PM)</b>
-      <p *ngFor="let item of (volunteerservice.getVolunteersByStationAndShift(currentStation.pollingStationKey,EARLY_EVENING))"> 
+      <p *ngFor="let item of (volunteerservice.getVolunteersByShift(EARLY_EVENING))"> 
         {{item.fullName}}
       </p>
 </div>
@@ -70,7 +70,7 @@
 
 <div>
   <b>Late Evening (8:00 PM - 10:30 PM)</b>
-      <p *ngFor="let item of (volunteerservice.getVolunteersByStationAndShift(currentStation.pollingStationKey,LATE_EVENING))"> 
+      <p *ngFor="let item of (volunteerservice.getVolunteersByShift(LATE_EVENING))"> 
         {{item.fullName}}
       </p>
 </div>
@@ -124,12 +124,12 @@ Total remaining shifts to fill: {{shiftsToFill}}
 </ion-card>
 
             <!-- for  reg -->
-            <button type="submit" (click)="onSubmit()" block large *ngIf="loggedIn">
+            <button type="submit" (click)="onSubmit()" block large *ngIf="restSvc.loggedIn">
   			    Submit
            </button>
 
            <!-- for non reg -->
-           <button (click)="onRegister()" block large *ngIf="!loggedIn" style="background-color:#959eb0; cursor:default">
+           <button (click)="onRegister()" block large *ngIf="!restSvc.loggedIn" style="background-color:#959eb0; cursor:default">
   			    Register to sign up for shifts
            </button>
       
