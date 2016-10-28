@@ -21,9 +21,9 @@
        <ion-card>
          <ion-list-header>Station you Entered</ion-list-header>
          <ion-item>
-           <p>Precinct Number: {{pollingStationService.selectedStation.precinctNumber}}</p>
-            <p>{{pollingStationService.selectedStation.streetAddress}}</p>
-            <p>{{pollingStationService.selectedStation.city}}, {{pollingStationService.selectedStation.state}} {{pollingStationService.selectedStation.zip}}</p> 
+           <p>Precinct Number: {{pollingStationService.getStation().precinctNumber}}</p>
+            <p>{{pollingStationService.getStation().streetAddress}}</p>
+            <p>{{pollingStationService.getStation().city}}, {{pollingStationService.getStation().state}} {{pollingStationService.getStation().zip}}</p> 
                   <ion-buttons end>
                     <button small item-right (click)="onCancel()">Cancel</button>
                   <button small item-right (click)="onAdd()">Add</button>

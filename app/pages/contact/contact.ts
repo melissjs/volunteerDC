@@ -6,7 +6,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HomePage} from '../home/home';
 import {ContactFormObject} from '../../contactObj'
-
+import { RestService } from '../../providers/rest-service/rest-service';
 
 
 @Component({
@@ -21,7 +21,8 @@ contactFormObj: ContactFormObject;
  
 
 
-constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder) {
+    constructor(private navCtrl: NavController, private alertCtrl: AlertController, 
+                public fb: FormBuilder, private restSvc: RestService) {
 this.navCtrl = navCtrl;
 this.contactFormObj = null;
 var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*'
@@ -56,7 +57,7 @@ message: value.message
 
 console.log(this.contactFormObj);
 
-
+    this.restSvc.sendCollab(this.contactFormObj);
 
   let alert = this.alertCtrl.create({
                                         title: 'Submission Successful',

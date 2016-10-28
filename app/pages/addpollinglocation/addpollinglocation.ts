@@ -287,7 +287,7 @@ onComparePrecintAndZip(){
                     setTimeout(()=>{
                         alert.present();
                     },500);
-                }, () => {console.log('registration(register) complete')}
+                }, () => {console.log('add polling station complete')}
                           );
     
          }

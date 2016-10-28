@@ -19,7 +19,7 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 
 @Injectable()
 export class Pollingstationservice {
-    selectedStation: PollingStation;
+    selectedStationXX: PollingStation;
     oldStation: PollingStation;
     stationListInMemory: PollingStation[];
     associatedVolunteerKeyList: string[];
@@ -102,13 +102,13 @@ export class Pollingstationservice {
 
     setStation(passedValue){
         var that = this;
-        this.selectedStation = passedValue;
+        this.selectedStationXX = passedValue;
         //return this.selectedStation;
     }
 
     getStation(){
         var that = this;
-        return this.selectedStation;
+        return this.selectedStationXX;
         //return this.selectedStation;
     }
 
@@ -164,7 +164,7 @@ export class Pollingstationservice {
     }*/
 
     printSelectedStation(){
-        console.log('from service' + this.selectedStation.streetAddress)
+        console.log('from service' + this.selectedStationXX.streetAddress)
     }
 
     //notchecked

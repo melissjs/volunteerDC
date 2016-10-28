@@ -14,6 +14,7 @@ import { Volunteer} from '../../volunteer';
 
 //providers
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
+import {RestService} from '../../providers/rest-service/rest-service';
 
 /*
   Generated class for the DuplicatepollingstationPage page.
@@ -32,7 +33,7 @@ export class DuplicatepollingstationPage {
   alertMsgHeading: string;
   selectedStation: PollingStation;
 
-  constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice) {
+  constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, private restSvc: RestService) {
   var that = this;
   this.navCtrl = navCtrl;
   this.pollingStationService = pollingStationService;
@@ -53,7 +54,7 @@ this.pollingStationService.duplicateYesOrNo = false;
 this.pollingStationService.matchingPrecinctAndZipList = [];
 //this.pollingStationService.selectedStation = null;
 // zero out selectedStation
-this.pollingStationService.selectedStation = {
+    var station = {
           pollingStationKey: '',
           precinctNumber: '',
           streetAddress: '',
@@ -62,7 +63,9 @@ this.pollingStationService.selectedStation = {
           city: '',
           state: '',
           zip: null,
-}
+    };
+
+    this.pollingStationService.setStation(station);
    try {
                 this.navCtrl.setRoot(FindpollinglocationPage, {});            
         } catch (EE) {
@@ -72,17 +75,65 @@ this.pollingStationService.selectedStation = {
 }
 
 onAdd(){
-  this.pollingStationService.duplicateYesOrNo = false;
-  this.pollingStationService.matchingPrecinctAndZipList = [];
-  this.pollingStationService.stationListInMemory.push(this.pollingStationService.selectedStation);
-     try {
-            
-                this.navCtrl.setRoot(PollingstationdetailsPage, {}); 
+
+    this.pollingStationService.duplicateYesOrNo = false;
+    this.pollingStationService.matchingPrecinctAndZipList = [];
+
+    this.restSvc.savePollStationInfo(true)
+        .subscribe( (data) => {
+            // Expect response created here...
+            if (data.status == 201) {
+                console.log('successful call:' + data);
+                this.successForward(true);
+            } else {
+                // ?? shouldn't happen ??
+                console.log('UNKNOWN STATUS:' + data);
+                this.successForward(true);              
+            }
+        } , err => {
+            console.log('error occurred ' + err.toString());
+            var errStr = null;
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                this.successForward(false);
+                return;
+            } else if (err.status == 400) {
+                errStr = err._body // toString();
+            } else {
+                errStr = err.toString();
+            }
+            // console.log(error.stack());
+            this.alertMsg = errStr;
+            this.alertMsgHeading = 'Error Adding Poll Station';
+        }, () => {console.log('add dupe polling station complete')}
+                  );
+}
+
+    successForward(real:boolean) {
+        var subtitle;
+        var that = this;
+        if (real) {
+            subtitle = 'Congratulations you have successfully initiated a new audit! This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.';
+        } else {
+            subtitle = 'For TESTING PURPOSES, we simulate success here.  You would be told: This polling location has been added to our list and now other volunteers can sign up to work with you here. Please help promote your new audit location and fill the needed shifts.';
+
+
+            this.pollingStationService.addPollingStations(this.pollingStationService.getStation());
+
+        }
+        this.alertMsg = subtitle;
+        this.alertMsgHeading = 'Addition Successful';
+
+        // Send to polling station details page
+        try {
+            that.navCtrl.setRoot(PollingstationdetailsPage, {});
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
-  
+        }
+
     }
-}
+
+
 
 showStationDetails(item){
     this.selectedStation = item;
