@@ -1,3 +1,4 @@
+import {enableProdMode} from '@angular/core';
 
 import {Component, ViewChild} from '@angular/core';
 import {ionicBootstrap, Platform, MenuController, Nav} from 'ionic-angular';
@@ -87,5 +88,7 @@ class MyApp {
     this.nav.setRoot(page.component);
   }
 }
+
+enableProdMode();
 
 ionicBootstrap(MyApp, [provideForms(), disableDeprecatedForms()]);
