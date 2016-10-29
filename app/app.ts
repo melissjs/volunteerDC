@@ -26,6 +26,9 @@ import {AddpollinglocationPage} from './pages/addpollinglocation/addpollinglocat
 import {VideosPage} from './pages/videos/videos';
 import {RegistrationsuccessPage} from './pages/registrationsuccess/registrationsuccess';
 import {TempPage} from './pages/temp/temp';
+import {SuccesssplashPage} from './pages/successsplash/successsplash';
+import {AuditchecklistPage} from './pages/auditchecklist/auditchecklist';
+import {LoginPage} from './pages/loginpage/loginpage';
 
 // intermediate components called from others
 //import {UserDataService} from './user-data-service';
@@ -43,7 +46,7 @@ class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   //set back to HomePage after using TempPage
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
   pages: Array<{title: string, component: any}>;
   //userDataSvc: UserDataService;
   pollingStationService: Pollingstationservice;
@@ -66,6 +69,7 @@ class MyApp {
        { title: 'Donate', component: DonatePage },
        { title: 'Participate', component: ParticipatePage },
        { title: 'Audit Training', component: EducatePage },
+       { title: 'Audit Checklist', component: AuditchecklistPage },
        { title: 'Promote', component: PromotePage },
        { title: 'Contact Us', component: ContactPage },
        { title: 'Account', component: AccountsettingsPage },

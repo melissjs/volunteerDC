@@ -137,6 +137,10 @@ this.newPollingStation = {
   // constructor end
   }
 
+  toTitleCase(str){
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
 onChangePrecinctNumber(value){
   //this.precinctNumber = value;
   //console.log('from function: ' + this.precinctNumber);
@@ -212,11 +216,11 @@ onComparePrecintAndZip(){
         this.newPollingStation = {
           pollingStationKey: this.pollingStationKey,
           precinctNumber: value.enterPrecinctNumber,
-          streetAddress: value.enterStreetAddress,
+          streetAddress: this.toTitleCase(value.enterStreetAddress),
           unitNumber: value.enterUnitNumber,
           roomNumber: value.enterRoomNumber,
-          city: value.enterCity,
-          state: value.enterState,
+          city: this.toTitleCase(value.enterCity),
+          state: this.toTitleCase(value.enterState),
           zip: value.enterZip,
         }
 
