@@ -7,6 +7,9 @@
 <ion-header>
 
   <ion-navbar hideBackButton="true" >
+    <button class="button-clear icon ion-arrow-left-c" 
+	    style="float:left; margin-top:10px; margin-right:0px" (click)="navCtrl.pop()" ion-button > 
+    </button>
     <ion-title>Menu</ion-title>
   </ion-navbar>
 
@@ -14,13 +17,9 @@
 
 <ion-content padding>
 
-    <button ion-item item-left (click)="navCtrl.pop()">
-      Back
-    </button>
-
     <ion-list>
       <div *ngFor="let p of pages">
-      <button *ngIf="!p.loggedIn || restSvc.getLoggedIn()" ion-item (click)="openPage(p)">
+      <button *ngIf="!p.loggedin || restSvc.getLoggedIn()" ion-item (click)="openPage(p)">
         {{p.title}}
       </button>
       </div>

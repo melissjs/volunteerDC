@@ -6,7 +6,7 @@ import {RestService} from '../../providers/rest-service/rest-service';
 import { Volunteerservice} from '../../providers/volunteerservice/volunteerservice';
 import { ResetpasswordPage } from '../resetpassword/resetpassword';
 import { RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
-
+import {MenuPage} from '../menu/menu';
 
 /*
   Generated class for the LogincomponentPage page.
@@ -25,12 +25,14 @@ regExPhone: string;
 // loggedIn: boolean;
 errorMessage: string;
 error: boolean;
+    menupg : any;
   
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService, private volSvc: Volunteerservice ) {
   this.navCtrl = navCtrl;
   this.regExPhone = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
   //this.volunteerHere = null;
   this.restSvc = restSvc;
+      this.menupg = MenuPage;
       // this.loggedIn = false;
       
 

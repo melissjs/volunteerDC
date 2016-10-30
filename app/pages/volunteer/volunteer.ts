@@ -6,14 +6,18 @@ import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocatio
 import {AddpollinglocationPage} from '../addpollinglocation/addpollinglocation';
 
 import {RestService} from '../../providers/rest-service/rest-service';
+import {MenuPage} from '../menu/menu';
 
 
 @Component({
   templateUrl: 'build/pages/volunteer/volunteer.html',
 })
 export class VolunteerPage {
+    menupg: any;
 
   constructor(private navCtrl: NavController, private restSvc: RestService) {
+
+      this.menupg = MenuPage;
   this.navCtrl = navCtrl;
   this.restSvc = restSvc;
   }

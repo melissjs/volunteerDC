@@ -26,6 +26,7 @@ import {RestService} from '../../providers/rest-service/rest-service';
 export class MenuPage {
 
     pages: Array<{title: string, component: any, loggedin: boolean}>;
+    restSvc: RestService;
 
     constructor(private navCtrl: NavController, restSvc: RestService) {
 
@@ -41,6 +42,7 @@ export class MenuPage {
 	    { title: 'Contact Us', component: ContactPage , loggedin: false },
 	    { title: 'Account', component: AccountsettingsPage , loggedin: true },
 	];
+	this.restSvc = restSvc;
 
     }
 

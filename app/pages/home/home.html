@@ -1,11 +1,11 @@
 
 <ion-header>
-  <ion-navbar hideBackbutton="true">
-    <button style="float:left; margin-top:-5px;" (click)="navCtrl.push(menupg)" ion-button clear cf> 
+  <!-- <ion-navbar hideBackbutton="true">   -->
+    <button style="float:left; margin-top:0px;" (click)="navCtrl.push(menupg)" ion-button clear cf> 
       <ion-icon name="menu" ></ion-icon> 
     </button>
-    <ion-title>Democracy Counts</ion-title>
-  </ion-navbar>
+    <ion-title style="margin-top:5px">Democracy Counts</ion-title>
+  <!-- </ion-navbar>  -->
 </ion-header>
 
 <ion-content class="backgroundColor" padding>
@@ -16,8 +16,10 @@
 
    <ion-card padding>
 
-<img src="../../img/exitAuditBanner.jpg">
-          
+<center>
+<img style="max-width:830px;" src="../../img/exitAuditBanner.jpg">
+</center>
+
 <button type="button" (click)="onVolunteerClick()" block large>
   Volunteer 
 </button>

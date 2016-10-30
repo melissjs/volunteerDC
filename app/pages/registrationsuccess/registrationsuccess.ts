@@ -2,14 +2,18 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
 import {AddpollinglocationPage} from '../addpollinglocation/addpollinglocation';
+import {MenuPage} from '../menu/menu';
 
 
 @Component({
   templateUrl: 'build/pages/registrationsuccess/registrationsuccess.html',
 })
 export class RegistrationsuccessPage {
+    menupg: any;
 
   constructor(private navCtrl: NavController) {
+
+      this.menupg = MenuPage;
 
   }
 

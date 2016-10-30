@@ -1,10 +1,13 @@
 <ion-header>
-  <ion-navbar>
-    <button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+  <!-- <ion-navbar hideBackbutton="true">   -->
+    <button style="float:left; margin-top:0px;" (click)="navCtrl.push(menupg)" ion-button clear cf> 
+      <ion-icon name="menu" ></ion-icon> 
     </button>
-    <ion-title>Volunteer</ion-title>
-  </ion-navbar>
+    <button class="button-clear icon ion-arrow-left-c" 
+	    style="float:left; margin-top:10px; margin-right:0px" (click)="navCtrl.pop()" ion-button > 
+    </button>
+    <ion-title style="margin-top:5px">Volunteer</ion-title>
+  <!-- </ion-navbar>  -->
 </ion-header>
 
 
