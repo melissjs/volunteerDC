@@ -1,16 +1,18 @@
 
 <ion-header>
-  <ion-navbar>
-    <button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+  <ion-navbar hideBackbutton="true">
+    <!-- <button menuToggle> -->
+      <!-- <ion-icon name="menu"></ion-icon> -->
     <ion-title>Democracy Counts</ion-title>
   </ion-navbar>
 </ion-header>
 
-
-
 <ion-content class="backgroundColor" padding>
+
+    <button type="button" item-left (click)="navCtrl.push(menupg);">
+      Menu
+    </button>
+
    <ion-card padding>
 
 <img src="../../img/exitAuditBanner.jpg">

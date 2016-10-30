@@ -6,6 +6,7 @@ import {ActivatePage} from '../activate/activate';
 import {DonatePage} from '../donate/donate';
 import {LoginPage} from '../loginpage/loginpage';
 import {ResetpasswordPage} from '../resetpassword/resetpassword';
+import {MenuPage} from '../menu/menu';
 
 import {RestService} from '../../providers/rest-service/rest-service';
 
@@ -17,6 +18,7 @@ export class HomePage {
 
     buttonsDisabled: boolean;
     errorMessage: string;
+    menupg : any;
 
   //userDataSvc: UserDataService;
 
@@ -25,6 +27,7 @@ export class HomePage {
       this.navCtrl = navCtrl;
       this.buttonsDisabled = false;
       this.errorMessage = null;
+      this.menupg = MenuPage;
 
       // Obtain all args (key=val) format and store to nav params (keyvalues)
 
