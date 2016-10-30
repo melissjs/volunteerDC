@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {Logincomponent} from '../logincomponent/logincomponent';
+import {LoginPage} from '../loginpage/loginpage';
 import {RestService} from '../../providers/rest-service/rest-service';
 
 /*
@@ -48,7 +48,7 @@ export class ActivatePage {
     }
     onSubmit() {
         try {
-            this.navCtrl.setRoot(Logincomponent);
+            this.navCtrl.setRoot(LoginPage);
         } catch (EE) { 
             console.log('error in Submitting, exc='+ EE.toString())
         }

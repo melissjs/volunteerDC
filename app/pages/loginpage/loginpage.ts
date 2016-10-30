@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../../providers/rest-service/rest-service';
+import { Volunteerservice} from '../../providers/volunteerservice/volunteerservice';
 import { ResetpasswordPage } from '../resetpassword/resetpassword';
 import { RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
 
@@ -25,7 +26,7 @@ regExPhone: string;
 errorMessage: string;
 error: boolean;
   
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService ) {
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService, private volSvc: Volunteerservice ) {
   this.navCtrl = navCtrl;
   this.regExPhone = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
   //this.volunteerHere = null;
@@ -66,7 +67,16 @@ error: boolean;
                     var subtitle;
                     if ((err.status == 0) ||
                         (err.status == 404)) {
-                        this.successForward(false,value.enterPhoneNumber);
+                        // For the fake version.. we look it up in memory..     
+                        var vol = 
+                            that.volSvc.getVolunteerbyPhoneNumber(value.enterPhoneNumber);
+                        if (vol) {
+                            // Simulate a successful login
+                            this.successForward(false,value.enterPhoneNumber);
+                        } else {
+                            // Simulate a bad login
+                            that.errorMessage = "Authentication failed (enter a real fake user) :)";
+                        }
                         // fake success
                     } else if (err.status == 400) {
                         that.errorMessage = err._body; // toString();

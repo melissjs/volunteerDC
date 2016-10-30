@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { Logincomponent } from '../logincomponent/logincomponent';
+// import { LoginPage } from '../loginpage/loginpage';
 import { SuccesssplashPage } from '../successsplash/successsplash';
 
 import { Volunteer} from '../../volunteer';
@@ -527,7 +527,7 @@ export class UnregisteredsigninPage {
         },500);
         // Send to login page
         // CHANGING THIS BECAUSE EMAIL LINK TAKES HERE _ THIS WONT WORK UNTIL EMAIL IS SENT
-       //that.navCtrl.setRoot(Logincomponent);
+       //that.navCtrl.setRoot(LoginPage);
        that.navCtrl.setRoot(SuccesssplashPage);
     }
 

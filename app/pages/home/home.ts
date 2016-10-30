@@ -4,7 +4,7 @@ import { NavController, MenuController, NavParams } from 'ionic-angular';
 import {VolunteerPage} from '../volunteer/volunteer';
 import {ActivatePage} from '../activate/activate';
 import {DonatePage} from '../donate/donate';
-import {Logincomponent} from '../logincomponent/logincomponent';
+import {LoginPage} from '../loginpage/loginpage';
 import {ResetpasswordPage} from '../resetpassword/resetpassword';
 
 import {RestService} from '../../providers/rest-service/rest-service';
@@ -142,7 +142,7 @@ onLoginClick(){
     try {
         that.buttonsDisabled = true;
         console.log('about to setroot login component...');
-        that.navCtrl.setRoot(Logincomponent);
+        that.navCtrl.setRoot(LoginPage);
         setTimeout(()=>{
             this.enableButtons();
         },10000);

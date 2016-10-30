@@ -220,7 +220,7 @@ onComparePrecintAndZip(){
           unitNumber: value.enterUnitNumber,
           roomNumber: value.enterRoomNumber,
           city: this.toTitleCase(value.enterCity),
-          state: this.toTitleCase(value.enterState),
+          state: value.enterState.toUpperCase(),
           zip: value.enterZip,
         }
 

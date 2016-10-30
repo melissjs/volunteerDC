@@ -3,7 +3,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Logincomponent } from '../logincomponent/logincomponent';
+import { LoginPage } from '../loginpage/loginpage';
 import { RestService} from '../../providers/rest-service/rest-service';
 
 
@@ -183,7 +183,7 @@ onSubmitCodes(value: any): void {
             },250);
         }
         try {
-            this.navCtrl.setRoot(Logincomponent);
+            this.navCtrl.setRoot(LoginPage);
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
             console.log(EE.stack);

@@ -6,7 +6,6 @@ import * as config from '../../config';
 import { Volunteer} from '../../volunteer';
 import { Volunteerservice} from '../volunteerservice/volunteerservice';
 import { Pollingstationservice} from '../pollingstationservice/pollingstationservice';
-
 let authyURL = config.AUTHY_VER_URL;
 
 /*
@@ -162,8 +161,9 @@ export class RestService {
             if ((err.status == 0) ||
                 (err.status == 404)) {
                 // Keep as current value for this case
-                cbtrue(thatobj);
+                // i.e. do nothing...
                 // fake success
+                console.log('standalone remains loggedIn=' + that.loggedIn);
             } else if (err.status == 500) {
                 that.loggedIn = false; // definite error
                 console.log('error in getLoggedIn ' + err._body);
@@ -543,9 +543,12 @@ export class RestService {
                 that.volSvc.getVolunteers();
                 var fakedata = that.volSvc.getTeamVolunteersByPollKey(key);
                 this.volSvc.setVolunteers(fakedata,false);
+                this.volSvc.generateStationStats(key);
+                setInternalcb(thatobj);
                 return;
             }
         }, () => {console.log('get volunteer data complete');
+                  this.volSvc.generateStationStats(key);
                   setInternalcb(thatobj);});
     }
 

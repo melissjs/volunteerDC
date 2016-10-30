@@ -45,7 +45,7 @@ export class AccountsettingsPage {
     fullVolunteerList: Volunteer[];
     wasTouched: boolean;
     resetPasscode: boolean;
-    loggedIn: boolean;
+    // loggedIn: boolean;
     passChange: boolean;
 
 
@@ -56,18 +56,19 @@ export class AccountsettingsPage {
         this.pollingstationservice = pollingstationservice;
         this.restSvc = restSvc;
         this.resetPasscode = false;
-        this.loggedIn = false;
+        // this.loggedIn = false;
         this.passChange = false;
         this.volunteerservice.associatedVolunteerArray = [];
 
 
-        this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse, this);
-        this.loggedIn = false;
+        this.restSvc.getLoggedIn();
+        // this.loggedIn = false;
 
         this.currentTempVolunteer = this.volunteerservice.getNewVolunteer();
 
  //for Testing only
 
+        /*
         if (this.currentTempVolunteer == null) {
 
             this.loggedIn = true;
@@ -85,45 +86,39 @@ export class AccountsettingsPage {
                 associatedPollingStationKey:'ps1'
             } 
         }
+        */
 
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
         var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
         var regExAge: string = '[1]*[0-9]?[0-9]';
 
-        this.changeForm = fb.group({  
-            'fullNameCtrl': [this.currentTempVolunteer.fullName, Validators.compose([Validators.required])],
-            'emailAddressCtrl': [this.currentTempVolunteer.emailAddress, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
-            'exposeEmailCtrl': [this.currentTempVolunteer.exposeEmail],
-            'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
-            'ageCtrl': [this.currentTempVolunteer.age, Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
-            'sexCtrl': [this.currentTempVolunteer.sex],
-            'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
-           // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
-            'shiftsCtrl': [this.currentTempVolunteer.shifts],
-            'passcodeCtrl': [Validators.required],
+        if (this.currentTempVolunteer) {
+            this.changeForm = fb.group({  
+                'fullNameCtrl': [this.currentTempVolunteer.fullName, Validators.compose([Validators.required])],
+                'emailAddressCtrl': [this.currentTempVolunteer.emailAddress, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
+                'exposeEmailCtrl': [this.currentTempVolunteer.exposeEmail],
+                'phoneNumberCtrl': [this.currentTempVolunteer.phoneNumber, Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
+                'ageCtrl': [this.currentTempVolunteer.age, Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
+                'sexCtrl': [this.currentTempVolunteer.sex],
+                'partyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation, Validators.required],
+                // 'otherPartyAffiliationCtrl': [this.currentTempVolunteer.partyAffiliation],
+                'shiftsCtrl': [this.currentTempVolunteer.shifts],
+                'passcodeCtrl': [Validators.required],
+            });
 
-        });
-
-       if(this.currentTempVolunteer.associatedPollingStationKey!==null){
-        this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentTempVolunteer.associatedPollingStationKey)
-        this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
-       }
-
-        //get associate volunteer keys
-        if(this.currentTempVolunteer.associatedPollingStationKey!==null){
-             this.fullVolunteerList = this.volunteerservice.getTeamVolunteersByPollKey(this.currentTempVolunteer.associatedPollingStationKey)
+            if(this.currentTempVolunteer.associatedPollingStationKey!==null){
+                this.thisTempStation = this.pollingstationservice.getPollingStationbyKey(this.currentTempVolunteer.associatedPollingStationKey)
+                this.thisTempStationPrecint = this.thisTempStation.precinctNumber;
             }
 
+            //get associate volunteer keys
+            if(this.currentTempVolunteer.associatedPollingStationKey!==null){
+                this.fullVolunteerList = this.volunteerservice.getTeamVolunteersByPollKey(this.currentTempVolunteer.associatedPollingStationKey)
+            }
+        }
+
         //end constructor
-    }
-
-    setLoginTrue(that) {
-        that.loggedIn = true;
-    }
-
-    setLoginFalse(that) {
-        that.loggedIn = false;
     }
 
 onClickRegister(){
@@ -158,7 +153,10 @@ onClickReset(){
 
 // CHANGE EXPOSE EMAIL
     onChangeExposeEmail(passedValue){
-        this.currentTempVolunteer.exposeEmail = passedValue;
+        this.wasThisTouched();
+        if (this.currentTempVolunteer) {
+            this.currentTempVolunteer.exposeEmail = passedValue;
+        }
     }
 
 
@@ -168,7 +166,9 @@ onClickReset(){
 
 // CHANGE SEX
     onChangeSex(passedValue){
-        this.currentTempVolunteer.sex = passedValue;
+        if (this.currentTempVolunteer) {
+            this.currentTempVolunteer.sex = passedValue;
+        }
     }
 
 
@@ -187,7 +187,11 @@ onClickReset(){
                 {
                     text: 'Cancel',
                     handler: () => {
-                        console.log('Disagree clicked' + this.currentTempVolunteer.shifts);
+                        if (this.currentTempVolunteer) {
+                            console.log('Disagree clicked' + this.currentTempVolunteer.shifts);
+                        } else {
+                            console.log('how did we get here?? account settings no volunteer!');
+                        }
                     }
                 },
                 {
@@ -195,12 +199,14 @@ onClickReset(){
                     handler: () => {
                         
                         //this.volunteerservice.clearShifts()
-                        this.currentTempVolunteer.shifts = '';
-                        this.printedShifts = "None";
-                        this.currentTempVolunteer.associatedPollingStationKey = null;
-                        this.volunteerservice.associatedVolunteerArray = [];
-                        console.log('Agree clicked' + this.currentTempVolunteer.shifts);
-                        
+                        if (this.currentTempVolunteer) {
+                            this.currentTempVolunteer.shifts = '';
+                            this.printedShifts = "None";
+                            this.currentTempVolunteer.associatedPollingStationKey = null;
+                            this.volunteerservice.associatedVolunteerArray = [];
+                            console.log('Agree clicked' + this.currentTempVolunteer.shifts);
+                        }
+                        console.log('how did we get here either?? account settings no volunteer!');                       
                     }
                 }
             ]
@@ -272,8 +278,9 @@ let alert = this.alertCtrl.create({
 
 // CHANGE PARTY AFFILIATION
 onChangePartyAffiliationFromList(passedValue){
-    this.currentTempVolunteer.partyAffiliation = passedValue;
-
+    if (this.currentTempVolunteer) {
+        this.currentTempVolunteer.partyAffiliation = passedValue;
+    }
 }
 
 
@@ -300,7 +307,7 @@ onChangePartyAffiliationFromList(passedValue){
 
     onSubmit(value: any): void {
 
-        if(this.changeForm.valid) {
+        if ((this.changeForm.valid) && (this.currentTempVolunteer)) {
             //console.log('Submitted value: ', value);
             this.currentTempVolunteer.fullName = value.fullNameCtrl;
             this.currentTempVolunteer.emailAddress = value.emailAddressCtrl;
@@ -312,7 +319,7 @@ onChangePartyAffiliationFromList(passedValue){
             this.wasTouched = false;
             if(this.currentTempVolunteer.shifts == ""){ this.currentTempVolunteer.associatedPollingStationKey = null;}
 
-	    var that = this;
+            var that = this;
             this.restSvc.saveVolunteerInfo()
                 .subscribe( (data) => {
                     // Expect response created here...
@@ -360,10 +367,14 @@ onChangePartyAffiliationFromList(passedValue){
 
 
         if (!real) {
-            this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
+            if (this.currentTempVolunteer) {
+                this.volunteerservice.overWriteChangesToVolunteer(this.currentTempVolunteer);
+            }
         }
 
-        this.volunteerservice.printVolunteer(this.currentTempVolunteer);
+        if (this.currentTempVolunteer) {
+            this.volunteerservice.printVolunteer(this.currentTempVolunteer);
+        }
         console.log(this.passChange + ' after submit ');
 
     }

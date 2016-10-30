@@ -82,7 +82,13 @@ export class Volunteerservice {
 
     // ONLY CALLED IN FAKE test (see unregisteredsignin.ts)
     generateVolunteerKey(){
-        return 'v'+(this.volunteerListInMemory.length+1);
+        var key = null;
+        if (this.checkUsingFake()) {
+            key = 'v'+(this.volunteerListInMemory.length+1); 
+        } else {
+            key = 'v' + Math.floor((Math.random() * 10000000));
+        }
+        return key;
     }
     
     setNewVolunteer(value){
@@ -136,31 +142,47 @@ export class Volunteerservice {
     }
     
 
+    checkUsingFake() {
+        if (this.volunteerListInMemory == null) {
+            if (this.usingReal) {
+                console.log('ERROR! shows using real but calling fake procedure!');
+                return false;
+            }
+            this.getVolunteers();
+        }
+        return true;
+    }
+
+
     // ONLY CALLED IN FAKE test (see unregisteredsignin.ts)
     addCurrentVolunteerToList(passedVolunteer){
-        this.volunteerListInMemory.push(passedVolunteer);
+        if (this.checkUsingFake()) {
+            this.volunteerListInMemory.push(passedVolunteer);
+        }
     }
 
     deleteCurrentVolunteerFromListXX(passedVolunteer){
-        for (var i = 0; i < this.volunteerListInMemory.length; i++){
-            if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
-                this.volunteerListInMemory.splice(i,1);
-            } else { console.log("The volunteer was not in the list.")}
-        } 
+        if (this.volunteerListInMemory) {
+            for (var i = 0; i < this.volunteerListInMemory.length; i++){
+                if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
+                    this.volunteerListInMemory.splice(i,1);
+                } else { console.log("The volunteer was not in the list.")}
+            } 
+        }
     }
 
 
     overWriteChangesToVolunteer(passedVolunteer){
-        for (var i = 0; i < this.volunteerListInMemory.length; i++){
-            if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
-                this.volunteerListInMemory[i] = passedVolunteer;
-                //console.log(passedVolunteer.volunteerKey + " matches " + this.volunteerListInMemory[i].volunteerKey);
-            } else { //console.log(passedVolunteer.volunteerKey + " is not " + this.volunteerListInMemory[i].volunteerKey);
-            
+        if (this.volunteerListInMemory) {
+            for (var i = 0; i < this.volunteerListInMemory.length; i++){
+                if (passedVolunteer.volunteerKey == this.volunteerListInMemory[i].volunteerKey){
+                    this.volunteerListInMemory[i] = passedVolunteer;
+                    //console.log(passedVolunteer.volunteerKey + " matches " + this.volunteerListInMemory[i].volunteerKey);
+                } else { //console.log(passedVolunteer.volunteerKey + " is not " + this.volunteerListInMemory[i].volunteerKey);
+                }
+            } 
         }
-        } 
     }
-
 
     isEmailExposed(passedVolunteer){
         this.currentVolunteer = passedVolunteer;
@@ -176,18 +198,22 @@ export class Volunteerservice {
 
     // Only should be used in fake instance..
     getVolunteerbyKeyXX(passedKey){ 
-        for (var i = 0; i < this.volunteerListInMemory.length; i++){
-            if (this.volunteerListInMemory[i].volunteerKey == passedKey){
-                return this.volunteerListInMemory[i]
+        if (this.volunteerListInMemory) {
+            for (var i = 0; i < this.volunteerListInMemory.length; i++){
+                if (this.volunteerListInMemory[i].volunteerKey == passedKey){
+                    return this.volunteerListInMemory[i]
+                }
             }
         }
         return null;
     }
 
     getVolunteerByEmailXX(passedEmail){
-        for (var i = 0; i < this.volunteerListInMemory.length; i++){
-            if (this.volunteerListInMemory[i].emailAddress == passedEmail){
-                return this.volunteerListInMemory[i]
+        if (this.volunteerListInMemory) {
+            for (var i = 0; i < this.volunteerListInMemory.length; i++){
+                if (this.volunteerListInMemory[i].emailAddress == passedEmail){
+                    return this.volunteerListInMemory[i]
+                }
             }
         }
         return null;
@@ -195,11 +221,13 @@ export class Volunteerservice {
 
     // ONLY CALLED IN FAKE test (see rest-service.ts)
     getVolunteerbyPhoneNumber(passedPhoneNumber:string){ 
+        if (this.checkUsingFake()) {
             for (var i = 0; i < this.volunteerListInMemory.length; i++){
                 if (this.volunteerListInMemory[i].phoneNumber == passedPhoneNumber){
                     return this.volunteerListInMemory[i]
                 }
             }
+        }
         return null;
     }
     
@@ -216,6 +244,7 @@ export class Volunteerservice {
 
 
     getVolunteerArrayByKeyListXX(passedKeyList){
+        this.associatedVolunteerArray = []; // initialize first!
         for ( var i=0; i < passedKeyList.length; i++){
             this.tempVolunteer = this.getVolunteerbyKeyXX(passedKeyList[i]);
             this.associatedVolunteerArray.push(this.tempVolunteer);
@@ -232,9 +261,11 @@ export class Volunteerservice {
 
     getTeamKeyListXX(passedPollKey){
         this.teamKeyList = []; // zero out to mitigate duplicates
-        for (var i = 0; i < this.volunteerListInMemory.length; i++){
-            if (this.volunteerListInMemory[i].associatedPollingStationKey == passedPollKey){
-                this.teamKeyList.push(this.volunteerListInMemory[i].volunteerKey)
+        if (this.volunteerListInMemory) {
+            for (var i = 0; i < this.volunteerListInMemory.length; i++){
+                if (this.volunteerListInMemory[i].associatedPollingStationKey == passedPollKey){
+                    this.teamKeyList.push(this.volunteerListInMemory[i].volunteerKey)
+                }
             }
         }
         return this.teamKeyList;
@@ -301,13 +332,19 @@ generateStationStats(passedStationKey){
     //this.associatedVolunteerArray = this.getTeamVolunteersByPollKey(passedStationKey);
 
     //return array length
-    this.volunteerCount = this.associatedVolunteerArray.length;
-    //count and aggregate each of their shift array lengths = filledShifts
-    for (var i=0; i < this.associatedVolunteerArray.length; i++){
-        this.shiftsFilled += this.getShiftCountFromStringXX(this.associatedVolunteerArray[i].shifts);
+    if (this.associatedVolunteerArray) {
+        this.volunteerCount = this.associatedVolunteerArray.length;
+        //count and aggregate each of their shift array lengths = filledShifts
+        for (var i=0; i < this.associatedVolunteerArray.length; i++){
+            this.shiftsFilled += this.getShiftCountFromStringXX(this.associatedVolunteerArray[i].shifts);
+        }
+        this.shiftsFilled = this.shiftsFilled/2;
+        this.shiftsToFill = 45 - this.shiftsFilled;
+    } else {
+        this.volunteerCount = 0;
+        this.shiftsFilled = 0;
+        this.shiftsToFill = 0;
     }
-    this.shiftsFilled = this.shiftsFilled/2;
-     this.shiftsToFill = 45 - this.shiftsFilled;
 }
 
 
@@ -326,5 +363,3 @@ return this.shiftsFilled
 }
 
 }
-
-
