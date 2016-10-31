@@ -49,6 +49,7 @@ export class AccountsettingsPage {
     // loggedIn: boolean;
     passChange: boolean;
     titlec: {page: any, title: string};
+    loggingout :boolean;
 
     constructor(private navCtrl: NavController, navParams: NavParams, 
                 volunteerservice: Volunteerservice, 
@@ -69,6 +70,7 @@ export class AccountsettingsPage {
         // this.loggedIn = false;
 
         this.currentTempVolunteer = this.volunteerservice.getNewVolunteer();
+        this.loggingout = false;
 
  //for Testing only
 
@@ -130,8 +132,8 @@ onClickRegister(){
         try {
             
             this.navCtrl.push(UnregisteredsigninPage, {
-		title: globals.UNREGPAGETITLE,
-		menupg: that.titlec.page
+                title: globals.UNREGPAGETITLE,
+                menupg: that.titlec.page
             });
             
         } catch (EE) {
@@ -145,8 +147,8 @@ onClickReset(){
         try {
             
             this.navCtrl.push(ResetpasswordPage, {
-		title: globals.RESETPWDTITLE,
-		menupg: this.titlec.page
+                title: globals.RESETPWDTITLE,
+                menupg: this.titlec.page
             });
             
         } catch (EE) {
@@ -156,6 +158,7 @@ onClickReset(){
 }
 
     onLogout() {
+        this.loggingout=true;
         this.restSvc.onLogout(this,this.displayError);
     }
 
@@ -305,8 +308,8 @@ onChangePartyAffiliationFromList(passedValue){
         try {
             
             this.navCtrl.push(PollingstationdetailsPage, {
-		title: globals.PSDETAILTITLE,
-		menupg: that.titlec.page
+                title: globals.PSDETAILTITLE,
+                menupg: that.titlec.page
             });
             
         } catch (EE) {
@@ -317,7 +320,8 @@ onChangePartyAffiliationFromList(passedValue){
 
     onSubmit(value: any): void {
 
-        if ((this.changeForm.valid) && (this.currentTempVolunteer)) {
+        if ((this.changeForm.valid) && (this.currentTempVolunteer) &&
+            (!this.loggingout)) {
             //console.log('Submitted value: ', value);
             this.currentTempVolunteer.fullName = value.fullNameCtrl;
             this.currentTempVolunteer.emailAddress = value.emailAddressCtrl;
