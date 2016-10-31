@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
 
 // to nav to
 import { ConfirmationPage } from '../confirmation/confirmation';
@@ -22,7 +23,7 @@ import {RestService} from '../../providers/rest-service/rest-service';
 @Component({
     templateUrl: 'build/pages/pollingstationdetails/pollingstationdetails.html',
     inputs: ['pollingstation', 'volunteer'],
-    directives: [PollingstationComponent],
+    directives: [PollingstationComponent, Headerc],
     //providers: [Pollingstationservice]
 })
 export class PollingstationdetailsPage {
@@ -61,8 +62,13 @@ export class PollingstationdetailsPage {
     volunteerCount: number;
     shiftsToFill: number;
     shiftsFilled: number;
+    titlec: {page: any, title: string};
 
-    constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, private alertCtrl: AlertController, private restSvc: RestService ) {
+    constructor(private navCtrl: NavController, navParams: NavParams, 
+                pollingStationService: Pollingstationservice,
+                volunteerservice: Volunteerservice, private alertCtrl: AlertController, 
+                private restSvc: RestService ) {
+        this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
         this.pollingStationService = pollingStationService;
         this.volunteerservice = volunteerservice;
         this.restSvc = restSvc;
@@ -191,8 +197,11 @@ export class PollingstationdetailsPage {
 
     onRegister(){
         var that = this;
-      try {that.navCtrl.setRoot(UnregisteredsigninPage, {});
-            
+        try {
+            that.navCtrl.push(UnregisteredsigninPage, {
+                title: globals.UNREGPAGETITLE,
+                menupg: that.titlec.page
+            });
 
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
@@ -278,7 +287,7 @@ export class PollingstationdetailsPage {
                         if ((err.status == 0) ||
                             (err.status == 404)) {
                             this.successForward(false);
-			    return;
+                            return;
                         } else if (err.status == 400) {
                             errStr = err._body // toString();
                         } else {
@@ -321,6 +330,8 @@ export class PollingstationdetailsPage {
             alert.present();
         },250);
         this.navCtrl.push(ConfirmationPage, {
+            title: globals.CONFPAGETITLE,
+            menupg: this.titlec.page
         });
     }
 

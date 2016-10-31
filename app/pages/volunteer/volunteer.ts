@@ -1,46 +1,48 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import {UnregisteredsigninPage} from '../unregisteredsignin/unregisteredsignin';
 import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
 import {AddpollinglocationPage} from '../addpollinglocation/addpollinglocation';
 
 import {RestService} from '../../providers/rest-service/rest-service';
-import {MenuPage} from '../menu/menu';
+import { Headerc} from '../headerc/headerc';
 
+import * as globals from '../../globals';
 
 @Component({
-  templateUrl: 'build/pages/volunteer/volunteer.html',
+    templateUrl: 'build/pages/volunteer/volunteer.html',
+    directives: [Headerc],
 })
 export class VolunteerPage {
-    menupg: any;
+    titlec: {page: any, title: string};
 
-  constructor(private navCtrl: NavController, private restSvc: RestService) {
+    constructor(private navCtrl: NavController, navParams: NavParams, private restSvc: RestService) {
 
-      this.menupg = MenuPage;
-  this.navCtrl = navCtrl;
-  this.restSvc = restSvc;
-  }
+	this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
+	this.navCtrl = navCtrl;
+	this.restSvc = restSvc;
+    }
 
-  onRegister(){
+    onRegister(){
         var that = this;
         try {
-            
-                that.navCtrl.push(UnregisteredsigninPage, {
-                });
-            
+            that.navCtrl.push(UnregisteredsigninPage, {
+		title: globals.UNREGPAGETITLE,
+		menupg: that.titlec.page
+	    });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }
-  }
+    }
 
 onFindPolling(){
 var that = this;
         try {
-            
-                that.navCtrl.push(FindpollinglocationPage, {
-                });
-            
+            that.navCtrl.push(FindpollinglocationPage, {
+		title: globals.FINDPOLLINGTITLE,
+		menupg: that.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }
@@ -51,6 +53,8 @@ var that = this;
         try {
             
                 that.navCtrl.push(AddpollinglocationPage, {
+		    title: globals.ADDPOLLINGTITLE,
+		    menupg: that.titlec.page
                 });
             
         } catch (EE) {

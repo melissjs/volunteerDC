@@ -14,3 +14,14 @@ export var DEMOCRATIC: string = 'Democratic Party';
 export var GREEN: string = 'Green Party';
 export var REPUBLICAN: string = 'Republican Party';
 export var OTHER: string = 'Other Party';
+
+export var UNREGPAGETITLE   = 'Step 1: Register';
+export var REGSUCCTITLE     = 'Step 2: Sign Up';
+export var FINDPOLLINGTITLE = 'Find Polling Location';
+export var ADDPOLLINGTITLE  = 'Add Polling Location';
+export var PSDETAILTITLE    = 'Polling Station Details';
+export var CONFPAGETITLE    = 'Confirmation Page';
+export var DUPEPSTITLE      = 'Possible Duplicate Location';
+export var RESETPWDTITLE    = 'Reset Password Page';
+export var SUCCSPLASHTITLE  = 'Registration';
+export var LOGINPAGETITLE   = 'Sign In';

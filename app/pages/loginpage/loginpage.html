@@ -1,12 +1,6 @@
-<ion-header>
-    <button style="float:left; margin-top:0px;" (click)="navCtrl.push(menupg)" ion-button clear cf> 
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Sign In</ion-title>
-</ion-header>
-
-
 <ion-content class="backgroundColor" padding>
+  <headerc [titlec]=titlec></headerc>
+
 <ion-card padding>
   <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
      <!-- <ion-list-header>User Login</ion-list-header> -->

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
 
 //to nav to
 import {PollingstationdetailsPage} from '../pollingstationdetails/pollingstationdetails';
@@ -16,6 +17,8 @@ import { Volunteerservice } from '../../providers/volunteerservice/volunteerserv
 // forms
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+import * as globals from '../../globals';
+
 import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
 import {RestService} from '../../providers/rest-service/rest-service';
@@ -23,6 +26,7 @@ import {RestService} from '../../providers/rest-service/rest-service';
 
 @Component({
   templateUrl: 'build/pages/addpollinglocation/addpollinglocation.html',
+  directives: [Headerc],
   inputs: ['pollingstation', 'volunteer'],
 })
 export class AddpollinglocationPage {
@@ -44,10 +48,16 @@ totalRemainingShiftsToFill: number;
 currentVolunteerHere: Volunteer;
 volunteerservice: Volunteerservice;
 addPollingLocationForm: FormGroup;
+titlec: {page: any, title: string};
     // loggedIn: boolean;
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, pollingStationService: Pollingstationservice, volunteerservice: Volunteerservice, public fb: FormBuilder, private restSvc: RestService) {
+    constructor(private navCtrl: NavController, navParams: NavParams, 
+                private alertCtrl: AlertController, 
+                pollingStationService: Pollingstationservice, 
+                volunteerservice: Volunteerservice, public fb: FormBuilder, 
+                private restSvc: RestService) {
   this.navCtrl = navCtrl;
+  this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
   this.restSvc = restSvc;
   this.pollingStationService = pollingStationService;
   this.stations = pollingStationService.getStations();
@@ -172,12 +182,14 @@ onChangeZip(value){
 
     onRegister(){
         var that = this;
-      try {that.navCtrl.setRoot(UnregisteredsigninPage, {});
-            
-
+        try {
+            that.navCtrl.push(UnregisteredsigninPage, {
+                title: globals.UNREGPAGETITLE,
+                menupg: this.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
-        } 
+        }
     }
 
 
@@ -243,11 +255,13 @@ onComparePrecintAndZip(){
 
         if(this.onComparePrecintAndZip()){
                 try {
-                    this.navCtrl.push(DuplicatepollingstationPage, {});
+                    this.navCtrl.push(DuplicatepollingstationPage, {
+                        title: globals.DUPEPSTITLE,
+                        menupg: this.titlec.page
+                    });
                 } catch (EE) {
                     console.log('error in Submitting, exc='+ EE.toString())
                 }
-
         } else {
 
         //console.log('new one: ' + this.newPollingStation.precinctNumber);
@@ -321,9 +335,12 @@ onComparePrecintAndZip(){
         setTimeout(()=>{
             alert.present();
         },500);
-        // Send to login page
+        // Send to (polling station details page)
         try {
-            that.navCtrl.setRoot(PollingstationdetailsPage, {});
+            that.navCtrl.setRoot(PollingstationdetailsPage, {
+                title: globals.PSDETAILTITLE,
+                menupg: this.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }

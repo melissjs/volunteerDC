@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
 import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {RestService} from '../../providers/rest-service/rest-service';
+import { RestService} from '../../providers/rest-service/rest-service';
 import { Volunteerservice} from '../../providers/volunteerservice/volunteerservice';
 import { ResetpasswordPage } from '../resetpassword/resetpassword';
 import { RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
-import {MenuPage} from '../menu/menu';
+
+import * as globals from '../../globals';
 
 /*
   Generated class for the LogincomponentPage page.
@@ -17,24 +19,23 @@ import {MenuPage} from '../menu/menu';
 @Component({
   
   templateUrl: 'build/pages/loginpage/loginpage.html',
-  inputs: ['Volunteer']
+  directives: [Headerc],
 })
 export class LoginPage {
 loginForm: FormGroup;
 regExPhone: string;
-// loggedIn: boolean;
 errorMessage: string;
 error: boolean;
-    menupg : any;
+titlec: {page: any, title: string};
   
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService, private volSvc: Volunteerservice ) {
+  constructor(private navCtrl: NavController, navParams: NavParams, 
+              private alertCtrl: AlertController, public fb: FormBuilder, 
+              private restSvc: RestService, private volSvc: Volunteerservice ) {
   this.navCtrl = navCtrl;
+  this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
   this.regExPhone = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
   //this.volunteerHere = null;
   this.restSvc = restSvc;
-      this.menupg = MenuPage;
-      // this.loggedIn = false;
-      
 
   this.loginForm = fb.group({  
             'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.pattern(this.regExPhone)])],
@@ -170,7 +171,10 @@ error: boolean;
         // this.restSvc.setLoggedIn(this.loggedIn);
 
         try {
-            this.navCtrl.setRoot(RegistrationsuccessPage);
+            this.navCtrl.setRoot(RegistrationsuccessPage, {
+                title: globals.REGSUCCTITLE,
+                menupg: that.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
             console.log(EE.stack);
@@ -179,7 +183,10 @@ error: boolean;
 
     onResetPassword() {
         try {
-            this.navCtrl.setRoot(ResetpasswordPage);
+            this.navCtrl.setRoot(ResetpasswordPage, {
+                title: globals.RESETPWDTITLE,
+                menupg: this.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
             console.log(EE.stack);

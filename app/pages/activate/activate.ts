@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from '../loginpage/loginpage';
 import {RestService} from '../../providers/rest-service/rest-service';
+import { Headerc} from '../headerc/headerc';
+
+import * as globals from '../../globals';
 
 /*
   Generated class for the ActivatePage page.
@@ -11,15 +14,19 @@ import {RestService} from '../../providers/rest-service/rest-service';
 */
 @Component({
   templateUrl: 'build/pages/activate/activate.html',
+  directives: [Headerc],
 })
 export class ActivatePage {
     key: string;
     stat: number;
     errString: string;
+    titlec: {page: any, title: string};
+
     constructor(private navCtrl: NavController, public params: NavParams, private restSvc: RestService) {
         this.key = this.params.get('key');
         this.stat = 0;
         this.errString = null;
+        this.titlec = { page: params.get("menupg"), title: "Activate" };
         var that = this;
         console.log('key = ' + this.key);
         that.restSvc.sendActivation(this.key)
@@ -48,7 +55,10 @@ export class ActivatePage {
     }
     onSubmit() {
         try {
-            this.navCtrl.setRoot(LoginPage);
+            this.navCtrl.setRoot(LoginPage, {
+                title: globals.LOGINPAGETITLE,
+                menupg: this.titlec.page
+            });
         } catch (EE) { 
             console.log('error in Submitting, exc='+ EE.toString())
         }

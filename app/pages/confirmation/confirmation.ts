@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
+
 import { Volunteer} from '../../volunteer';
 import { PollingStation} from '../../pollingstation';
 //import {VotePage} from '../vote/vote';
@@ -9,6 +11,9 @@ import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstati
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice';
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 import {RestService} from '../../providers/rest-service/rest-service';
+
+import * as globals from '../../globals';
+
 /*
   Generated class for the ConfirmationPage page.
 
@@ -18,7 +23,7 @@ import {RestService} from '../../providers/rest-service/rest-service';
 @Component({
   templateUrl: 'build/pages/confirmation/confirmation.html',
   inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent]
+  directives: [PollingstationComponent, Headerc]
 })
 export class ConfirmationPage {
 currentVolunteer: Volunteer; 
@@ -27,10 +32,13 @@ pollingstationservice: Pollingstationservice;
 thisTempStation: PollingStation;
 thisTempStationPrecint: string;
 printedShifts: string;
+titlec: {page: any, title: string};
 
-
-  constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice,  private restSvc: RestService, private alertCtrl: AlertController) {
+  constructor(private navCtrl: NavController, navParams: NavParams, 
+              volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice,  
+              private restSvc: RestService, private alertCtrl: AlertController) {
         this.navCtrl = navCtrl;
+        this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
         this.volunteerservice = volunteerservice; 
         this.pollingstationservice = pollingstationservice;
         this.restSvc = restSvc;
@@ -57,6 +65,8 @@ printedShifts: string;
         try {
             
             this.navCtrl.push(PollingstationdetailsPage, {
+                title: globals.PSDETAILTITLE,
+                menupg: this.titlec.page
             });
             
         } catch (EE) {
@@ -149,8 +159,5 @@ printedShifts: string;
         console.log('confirmation after submit ');
 
     }
-
-
-  
 
 }

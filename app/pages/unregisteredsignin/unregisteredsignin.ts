@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 // import { LoginPage } from '../loginpage/loginpage';
 import { SuccesssplashPage } from '../successsplash/successsplash';
+import { Headerc} from '../headerc/headerc';
 
 import { Volunteer} from '../../volunteer';
 import { Volunteerservice } from '../../providers/volunteerservice/volunteerservice'
@@ -18,6 +19,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angu
 
 @Component({
     templateUrl: 'build/pages/unregisteredsignin/unregisteredsignin.html',
+    directives: [Headerc],
     //providers: [RestService]
 })
 export class UnregisteredsigninPage {
@@ -47,10 +49,13 @@ export class UnregisteredsigninPage {
     dbSex: string;
     dbPartyAffiliation: string;
     properties: any;
-    loggedIn: boolean;
+    titlec: {page: any, title: string};
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder, private restSvc: RestService,  volunteerservice: Volunteerservice) {
+    constructor(private navCtrl: NavController, navParams: NavParams, 
+                private alertCtrl: AlertController, public fb: FormBuilder, 
+                private restSvc: RestService,  volunteerservice: Volunteerservice) {
         this.navCtrl = navCtrl;
+        this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
         this.newVolunteer = null;
         this.volunteerKey = null;
         this.enterFullName = null;
@@ -73,7 +78,6 @@ export class UnregisteredsigninPage {
         this.volunteerservice = volunteerservice;
         this.restSvc = restSvc;
         this.properties = null;
-        this.loggedIn = false;
 
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
@@ -273,62 +277,13 @@ export class UnregisteredsigninPage {
         this.newVolunteer.associatedPollingStationKey = null;
 
         //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
-	//This is only necessary for the "fake" version .. since we don't use
-	//this list for the "real" one.
+        //This is only necessary for the "fake" version .. since we don't use
+        //this list for the "real" one.
 
         this.volunteerservice.setNewVolunteer(this.newVolunteer);
 
         // ERICS Call
         this.presentVerificationInit();
-
-        /*
-          comment out mine
-          // then
-          //if (this.newVolunteer.fullName !== null){
-          let alert = this.alertCtrl.create({
-          title: 'Registration Successful',
-          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-          buttons: ['OK'] 
-          });
-          alert.present();
-          
-          
-          
-          // then
-          =======
-          //push volunteer to volunteerlist IS WORKING? CONSOLE LOG NOT WORKING
-          this.volunteers.push(this.newVolunteer);
-          //console.log(this.volunteers);
-          
-          
-          // ERICS Call
-          this.presentVerificationInit();
-
-          /*
-          comment out mine
-          // then
-          //if (this.newVolunteer.fullName !== null){
-          let alert = this.alertCtrl.create({
-          title: 'Registration Successful',
-          subTitle: 'Congratulations you have successfully registered to become an auditor! Thank you for your participation. Now Please read the next page and choose your polling location and shift(s).',
-          buttons: ['OK'] 
-          });
-          alert.present();
-
-          
-          
-          
-          // then
-
-          try {
-          
-          this.navCtrl.setRoot(RegistrationsuccessPage, {
-          });
-          
-          } catch (EE) {
-          console.log('error in Submitting, exc='+ EE.toString())
-          }
-        */
         
     }
 
@@ -528,7 +483,10 @@ export class UnregisteredsigninPage {
         // Send to login page
         // CHANGING THIS BECAUSE EMAIL LINK TAKES HERE _ THIS WONT WORK UNTIL EMAIL IS SENT
        //that.navCtrl.setRoot(LoginPage);
-       that.navCtrl.setRoot(SuccesssplashPage);
+        that.navCtrl.setRoot(SuccesssplashPage, {
+            title: globals.SUCCSPLASHTITLE,
+            menupg: that.titlec.page
+        });
     }
 
     testError() {

@@ -1,30 +1,36 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { HomePage} from '../home/home';
 import { RestService } from '../../providers/rest-service/rest-service';
 
 // forms
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { /* FormArray, */ FormBuilder, /* FormControl, */ FormGroup, Validators} from '@angular/forms';
 import { CollaborateFormObject} from '../../collaborateObj'; 
-
+import { Headerc} from '../headerc/headerc';
 
 @Component({
-  templateUrl: 'build/pages/participate/participate.html',
+    templateUrl: 'build/pages/participate/participate.html',
+    directives: [Headerc],
 })
 export class ParticipatePage {
-collaboratorForm: FormGroup;
-resetName: string;
-resetAreasOfExpertise: string;
-resetDesiredContribution: string;
-resetRelevantLinks: string;
-resetContact: string;
-collabFormObj: CollaborateFormObject;
+//
+    collaboratorForm: FormGroup;
+    resetName: string;
+    resetAreasOfExpertise: string;
+    resetDesiredContribution: string;
+    resetRelevantLinks: string;
+    resetContact: string;
+    collabFormObj: CollaborateFormObject;
 
-    constructor(private navCtrl: NavController, private alertCtrl: AlertController, public fb: FormBuilder,
+    titlec: {page: any, title: string};
+
+    constructor(private navCtrl: NavController, navParams: NavParams, private alertCtrl: AlertController, public fb: FormBuilder,
 		private restSvc: RestService) {
-      this.navCtrl = navCtrl;
-      this.collabFormObj = null;
-   
+
+	this.navCtrl = navCtrl;
+	this.collabFormObj = null;
+	this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
+
         //form stuff
         var regExEmail: string = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
         var regExPhone: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';

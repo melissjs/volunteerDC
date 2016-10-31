@@ -7,18 +7,21 @@ import {DonatePage} from '../donate/donate';
 import {LoginPage} from '../loginpage/loginpage';
 import {ResetpasswordPage} from '../resetpassword/resetpassword';
 import {MenuPage} from '../menu/menu';
+import { Headerc} from '../headerc/headerc';
 
 import {RestService} from '../../providers/rest-service/rest-service';
 
+import * as globals from '../../globals';
 
 @Component({
-  templateUrl: 'build/pages/home/home.html'
+    templateUrl: 'build/pages/home/home.html',
+    directives: [Headerc],
 })
 export class HomePage {
 
     buttonsDisabled: boolean;
     errorMessage: string;
-    menupg : any;
+    titlec: {page: any, title: string};
 
   //userDataSvc: UserDataService;
 
@@ -27,7 +30,12 @@ export class HomePage {
       this.navCtrl = navCtrl;
       this.buttonsDisabled = false;
       this.errorMessage = null;
-      this.menupg = MenuPage;
+      var menupg = navParams.get("menupg");
+      var title = 'Democracy Counts'; // ignore navParams.get("title");
+      if (menupg == null) {
+          menupg = MenuPage;
+      }
+      this.titlec = { page: menupg, title: title };
 
       // Obtain all args (key=val) format and store to nav params (keyvalues)
 
@@ -63,6 +71,7 @@ export class HomePage {
                   console.log('key,value[' + splitted[0] + '] = ' + keyvalues.data[splitted[0]]);
               }
           }
+          keyvalues.data["menupg"] = MenuPage;
           var that = this;
           switch (pageref) {
           case 'activate':
@@ -113,7 +122,9 @@ onVolunteerClick(){
         try {
            that.buttonsDisabled = true;
            that.navCtrl.push(VolunteerPage, {
-            });
+               title: 'Volunteer',
+               menupg: MenuPage
+           });
             setTimeout(()=>{
                 this.enableButtons();
             },10000);
@@ -128,9 +139,10 @@ onDonateClick(){
 var that = this;
         try {
            that.buttonsDisabled = true;
-           that.navCtrl.push(DonatePage, {
-                    
-            });
+           that.navCtrl.push(DonatePage,  {
+               title: 'Donate',
+               menupg: MenuPage
+           });
             setTimeout(()=>{
                 this.enableButtons();
             },10000);
@@ -145,7 +157,10 @@ onLoginClick(){
     try {
         that.buttonsDisabled = true;
         console.log('about to setroot login component...');
-        that.navCtrl.setRoot(LoginPage);
+        that.navCtrl.push(LoginPage, {
+            title: globals.LOGINPAGETITLE,
+            menupg: MenuPage
+        });
         setTimeout(()=>{
             this.enableButtons();
         },10000);

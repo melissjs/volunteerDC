@@ -1,15 +1,6 @@
-<ion-header>
-  <ion-navbar>
-    <button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Step 1: Register</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content class="backgroundColor" padding>
+  <headerc [titlec]=titlec></headerc>
 
-
-               
-        <ion-content class="backgroundColor" padding>
         <ion-card>
             <form [formGroup]="registerForm"  (ngSubmit)="onSubmit(registerForm.value)" novalidate>
 <ion-list>

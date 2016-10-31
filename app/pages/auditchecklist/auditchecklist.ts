@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
 
 /*
   Generated class for the AuditchecklistPage page.
@@ -9,11 +10,14 @@ import { NavController } from 'ionic-angular';
 */
 @Component({
   templateUrl: 'build/pages/auditchecklist/auditchecklist.html',
+  directives: [Headerc],
 })
 export class AuditchecklistPage {
+    titlec: {page: any, title: string};
 
-  constructor(private navCtrl: NavController) {
+    constructor(private navCtrl: NavController, navParams: NavParams) {
 
-  }
+      this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
 
+    }
 }

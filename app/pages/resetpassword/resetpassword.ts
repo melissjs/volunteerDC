@@ -5,11 +5,12 @@ import { Volunteer} from '../../volunteer';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { LoginPage } from '../loginpage/loginpage';
 import { RestService} from '../../providers/rest-service/rest-service';
-
-
+import { Headerc} from '../headerc/headerc';
+import * as globals from '../../globals';
 
 @Component({
   templateUrl: 'build/pages/resetpassword/resetpassword.html',
+  directives: [Headerc],
 })
 export class ResetpasswordPage {
 resetForm: FormGroup;
@@ -21,6 +22,7 @@ loggedIn: boolean;
 emailWasSent: boolean;
 errorTextEmail: string;
 key: string;
+    titlec: {page: any, title: string};
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, public params: NavParams, public fb: FormBuilder, private restSvc: RestService) {
   if (this.params != null) {
@@ -32,6 +34,9 @@ key: string;
   this.restSvc = restSvc;
   this.loggedIn = false;
   this.emailWasSent = false;
+
+      this.titlec = { page: params.get("menupg"), title: globals.RESETPWDTITLE };
+
   this.regExEmail = '[A-Za-z0-9._-][A-Za-z0-9._-]*@[A-Za-z0-9._-][A-Za-z0-9._-]*\.[a-zA-Z][a-zA-Z]*';
 
   this.resetForm = fb.group({  
@@ -183,7 +188,10 @@ onSubmitCodes(value: any): void {
             },250);
         }
         try {
-            this.navCtrl.setRoot(LoginPage);
+            this.navCtrl.setRoot(LoginPage, {
+                title: globals.LOGINPAGETITLE,
+                menupg: this.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
             console.log(EE.stack);

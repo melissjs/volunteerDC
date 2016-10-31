@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { Volunteer} from '../../volunteer';
 import { PollingStation} from '../../pollingstation';
@@ -19,6 +19,7 @@ import * as globals from '../../globals';
 //import { Logincomponent } from '../logincomponent/logincomponent';
 import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 import { Changepasswordcomponent } from '../changepasswordcomponent/changepasswordcomponent';
+import { Headerc} from '../headerc/headerc';
 
 import {RestService} from '../../providers/rest-service/rest-service';
 
@@ -28,7 +29,7 @@ import {RestService} from '../../providers/rest-service/rest-service';
   templateUrl: 'build/pages/accountsettings/accountsettings.html',
   //providers: [RestService],
   inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent /*, Logincomponent */, Changepasswordcomponent],
+  directives: [PollingstationComponent /*, Logincomponent */, Changepasswordcomponent, Headerc],
 
 })
 export class AccountsettingsPage {
@@ -47,11 +48,14 @@ export class AccountsettingsPage {
     resetPasscode: boolean;
     // loggedIn: boolean;
     passChange: boolean;
+    titlec: {page: any, title: string};
 
-
-
-    constructor(private navCtrl: NavController, volunteerservice: Volunteerservice, pollingstationservice: Pollingstationservice, public fb: FormBuilder, private alertCtrl: AlertController, private restSvc: RestService) {
+    constructor(private navCtrl: NavController, navParams: NavParams, 
+                volunteerservice: Volunteerservice, 
+                pollingstationservice: Pollingstationservice, public fb: FormBuilder, 
+                private alertCtrl: AlertController, private restSvc: RestService) {
         this.navCtrl = navCtrl;
+        this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
         this.volunteerservice = volunteerservice; 
         this.pollingstationservice = pollingstationservice;
         this.restSvc = restSvc;
@@ -126,6 +130,8 @@ onClickRegister(){
         try {
             
             this.navCtrl.push(UnregisteredsigninPage, {
+		title: globals.UNREGPAGETITLE,
+		menupg: that.titlec.page
             });
             
         } catch (EE) {
@@ -139,6 +145,8 @@ onClickReset(){
         try {
             
             this.navCtrl.push(ResetpasswordPage, {
+		title: globals.RESETPWDTITLE,
+		menupg: this.titlec.page
             });
             
         } catch (EE) {
@@ -297,6 +305,8 @@ onChangePartyAffiliationFromList(passedValue){
         try {
             
             this.navCtrl.push(PollingstationdetailsPage, {
+		title: globals.PSDETAILTITLE,
+		menupg: that.titlec.page
             });
             
         } catch (EE) {
@@ -377,6 +387,21 @@ onChangePartyAffiliationFromList(passedValue){
         }
         console.log(this.passChange + ' after submit ');
 
+        let alert = this.alertCtrl.create({
+            title: 'Successfully Saved Account Settings',
+            subTitle: '',
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    alert.dismiss();
+                }
+            }]
+        }
+                                         );
+        //timeout the error to let other modals finish dismissing.
+        setTimeout(()=>{
+            alert.present();
+        },250);
     }
 
     displayError(that:any,text: string,subtitle: string) {

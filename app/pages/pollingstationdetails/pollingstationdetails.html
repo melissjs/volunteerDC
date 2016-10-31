@@ -1,16 +1,5 @@
-<ion-header>
-  <ion-navbar>
-    <button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Polling Station Details</ion-title>
-  </ion-navbar>
-</ion-header>
-
-
-
-
 <ion-content class="backgroundColor" padding>
+  <headerc [titlec]=titlec></headerc>
         
       <ion-card padding>
     <pollingstationcomponent [passedStations]=pollingStationService.getStation()> </pollingstationcomponent> 

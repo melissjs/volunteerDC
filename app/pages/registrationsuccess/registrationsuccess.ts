@@ -1,29 +1,31 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
 import {FindpollinglocationPage} from '../findpollinglocation/findpollinglocation';
 import {AddpollinglocationPage} from '../addpollinglocation/addpollinglocation';
-import {MenuPage} from '../menu/menu';
 
+import * as globals from '../../globals';
 
 @Component({
   templateUrl: 'build/pages/registrationsuccess/registrationsuccess.html',
+  directives: [Headerc],
 })
 export class RegistrationsuccessPage {
-    menupg: any;
+    titlec: {page: any, title: string};
 
-  constructor(private navCtrl: NavController) {
+    constructor(private navCtrl: NavController, navParams: NavParams) {
 
-      this.menupg = MenuPage;
+      this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
 
-  }
+    }
 
-  onFindPolling(){
-var that = this;
+    onFindPolling(){
+        var that = this;
         try {
-            
                 that.navCtrl.push(FindpollinglocationPage, {
+                    title: globals.FINDPOLLINGTITLE,
+                    menupg: that.titlec.page
                 });
-            
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }
@@ -34,6 +36,8 @@ var that = this;
         try {
             
                 that.navCtrl.push(AddpollinglocationPage, {
+                    title: globals.ADDPOLLINGTITLE,
+                    menupg: that.titlec.page
                 });
             
         } catch (EE) {

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { Headerc} from '../headerc/headerc';
+
 
 // page to navigate to
 import { PollingstationdetailsPage } from '../pollingstationdetails/pollingstationdetails';
@@ -16,6 +18,8 @@ import { Volunteer} from '../../volunteer';
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 import {RestService} from '../../providers/rest-service/rest-service';
 
+import * as globals from '../../globals';
+
 /*
   Generated class for the DuplicatepollingstationPage page.
 
@@ -25,17 +29,19 @@ import {RestService} from '../../providers/rest-service/rest-service';
 @Component({
   templateUrl: 'build/pages/duplicatepollingstation/duplicatepollingstation.html',
   inputs: ['pollingstation', 'volunteer'],
-  directives: [PollingstationComponent]
+  directives: [PollingstationComponent, Headerc]
 })
 export class DuplicatepollingstationPage {
   pollingStationService: Pollingstationservice;
   alertMsg: string;
   alertMsgHeading: string;
   selectedStation: PollingStation;
+  titlec: {page: any, title: string};
 
-  constructor(private navCtrl: NavController, pollingStationService: Pollingstationservice, private restSvc: RestService) {
-  var that = this;
+  constructor(private navCtrl: NavController, navParams: NavParams, 
+              pollingStationService: Pollingstationservice, private restSvc: RestService) {
   this.navCtrl = navCtrl;
+  this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
   this.pollingStationService = pollingStationService;
   
 
@@ -66,11 +72,13 @@ this.pollingStationService.matchingPrecinctAndZipList = [];
     };
 
     this.pollingStationService.setStation(station);
-   try {
-                this.navCtrl.setRoot(FindpollinglocationPage, {});            
-        } catch (EE) {
-            console.log('error in Submitting, exc='+ EE.toString())
-  
+    try {
+        this.navCtrl.setRoot(FindpollinglocationPage, {
+            title: globals.FINDPOLLINGTITLE,
+            menupg: this.titlec.page
+        });
+    } catch (EE) {
+        console.log('error in Submitting, exc='+ EE.toString())
     }
 }
 
@@ -126,7 +134,10 @@ onAdd(){
 
         // Send to polling station details page
         try {
-            that.navCtrl.setRoot(PollingstationdetailsPage, {});
+            that.navCtrl.setRoot(PollingstationdetailsPage, {
+                title: globals.PSDETAILTITLE,
+                menupg: this.titlec.page
+            });
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }

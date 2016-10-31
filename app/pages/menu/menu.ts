@@ -48,7 +48,10 @@ export class MenuPage {
 
     openPage(page) {
 	// navigate to the new page if it is not the current page
-	this.navCtrl.push(page.component);
+	this.navCtrl.push(page.component, {
+	    title: page.title,
+	    menupg: MenuPage
+	});
     }
 
 }

@@ -14,6 +14,7 @@ import {EducatePage} from './pages/educate/educate';
 import {PromotePage} from './pages/promote/promote';
 import {ContactPage} from './pages/contact/contact';
 import {AccountsettingsPage} from './pages/accountsettings/accountsettings';
+import {MenuPage} from './pages/menu/menu';
 
 // intermediate pages called from others
 //import {RegisteredsigninPage} from './pages/registeredsignin/registeredsignin';
@@ -35,12 +36,13 @@ import {LoginPage} from './pages/loginpage/loginpage';
 import { Pollingstationservice } from './providers/pollingstationservice/pollingstationservice';
 import { Volunteerservice } from './providers/volunteerservice/volunteerservice';
 import {RestService} from './providers/rest-service/rest-service';
+import {Headerc} from './pages/headerc/headerc';
 
 @Component({
   templateUrl: 'build/app.html',
   // config: {}, // http://ionicframework.com/docs/v2/api/config/Config/	  
   //providers: [UserDataService]
-  providers: [Pollingstationservice, Volunteerservice, RestService]
+    providers: [Pollingstationservice, Volunteerservice, RestService],
 })
 class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -89,7 +91,10 @@ class MyApp {
     // close the menu when clicking a link from the menu
     this.menu.close();
     // navigate to the new page if it is not the current page
-    this.nav.setRoot(page.component);
+      this.nav.setRoot(page.component, {
+          title: page.title,
+	  menupg: MenuPage
+      });
   }
 }
 
