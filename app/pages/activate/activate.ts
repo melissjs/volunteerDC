@@ -53,6 +53,7 @@ export class ActivatePage {
               }
           }, () => {console.log('activate complete')});
     }
+
     onSubmit() {
         try {
             this.navCtrl.setRoot(LoginPage, {

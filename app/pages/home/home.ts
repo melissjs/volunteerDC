@@ -37,12 +37,17 @@ export class HomePage {
       }
       this.titlec = { page: menupg, title: title };
 
+      if (navParams.get("dontdoagain")) {
+          // we don't want to infinitely recurse this.. 
+          return;
+      }
+
       // Obtain all args (key=val) format and store to nav params (keyvalues)
 
       var locStr = window.location.toString();
       var pagerefidx = locStr.indexOf("#/");
       var keyvalidx;
-      var pageref;
+      var pageref = null;
       var keyvalstart;
       var keyvalpair;
 
@@ -73,6 +78,8 @@ export class HomePage {
           }
           keyvalues.data["menupg"] = MenuPage;
           var that = this;
+          // Another way to prevent refresh page errors..
+          window.location.href = "#/";
           switch (pageref) {
           case 'activate':
               try {
@@ -98,12 +105,45 @@ export class HomePage {
                   console.log('error in Submitting, exc='+ EE.toString())
               }
               break;
-              
+          case 'login':
+              try {
+                  // First, Check if the user is already logged in,
+                  // And, if so, stay on the home page.
+                  // Probably got here from a page refresh.. so we
+                  // need to synchronize with the actual login state.
+                  if (!that.restSvc.loggedIn) {
+                      that.restSvc.checkLoggedIn
+                      (that.setLoginTrue, that.setLoginFalse, that);
+                      return;
+                  } else {
+                      that.setLoginTrue(that);
+                  }
+              } catch (EE) { 
+                  console.log('error in Submitting, exc='+ EE.toString())
+              }
+              break;
           }
       } else {
           console.log('no url specified');
       }
   }
+
+    setLoginTrue(that) {
+        // The user is logged in.. so leave on home page.
+        that.navCtrl.push(HomePage, {
+            // Prevent infinite recursion..
+            dontdoagain: true
+        });
+    }
+
+    setLoginFalse(that) {
+        // The user is logged in.. so leave on home page.
+        that.navCtrl.push(LoginPage, {
+            title: globals.LOGINPAGETITLE,
+            menupg: that.titlec.page
+        });
+    }
+
 
    /* onSubmit() {
         var that = this;
