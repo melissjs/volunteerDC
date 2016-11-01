@@ -374,7 +374,7 @@ export class RestService {
         var that = this;
         if (!real) {
             // console.log(error.stack());
-            errorcb(comp,'TEST MODE: Simulating Logging Out','');
+            // errorcb(comp,'TEST MODE: Simulating Logging Out','');
         }
         that.setLoggedIn(false) 
         if (comp.loggedIn) {
