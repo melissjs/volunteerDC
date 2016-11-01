@@ -43,6 +43,7 @@
     <ion-label stacked>Party Affiliation:</ion-label>
          <ion-select text-wrap [(ngModel)]="enterPartyAffiliationFromList" formControlName="partyAffiliationCtrl" (change)="onChangePartyAffiliationFromList(enterPartyAffiliationFromList,otherParty,passcode)">
             <ion-option value="No Party Preference">No Party Preference</ion-option>
+            <ion-option value="Independent">Independent</ion-option>
             <ion-option value="Democratic Party">Democratic Party</ion-option>
             <ion-option value="Green Party">Green Party</ion-option>
             <ion-option value="Republican Party">Republican Party</ion-option>
