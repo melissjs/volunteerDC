@@ -7,6 +7,7 @@ import { RestService} from '../../providers/rest-service/rest-service';
 import { Volunteerservice} from '../../providers/volunteerservice/volunteerservice';
 import { ResetpasswordPage } from '../resetpassword/resetpassword';
 import { RegistrationsuccessPage} from '../registrationsuccess/registrationsuccess';
+import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
 import * as globals from '../../globals';
 
@@ -185,6 +186,18 @@ titlec: {page: any, title: string};
         try {
             this.navCtrl.setRoot(ResetpasswordPage, {
                 title: globals.RESETPWDTITLE,
+                menupg: this.titlec.page
+            });
+        } catch (EE) {
+            console.log('error in Submitting, exc='+ EE.toString())
+            console.log(EE.stack);
+        }
+    }
+
+    onRegister(){
+        try {
+            this.navCtrl.setRoot(UnregisteredsigninPage, {
+                title: globals.UNREGPAGETITLE,
                 menupg: this.titlec.page
             });
         } catch (EE) {

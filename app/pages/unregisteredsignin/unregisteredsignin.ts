@@ -87,7 +87,7 @@ export class UnregisteredsigninPage {
         this.registerForm = fb.group({  
             'enterFullName': ['', Validators.compose([Validators.required])],
             'enterEmailAddress': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExEmail)])],
-            'enterExposeEmailCtrl': ['',  Validators.required],
+            'enterExposeEmailCtrl': [''],
             'enterPhoneNumber': ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern(regExPhone)])],
             'enterAge': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern(regExAge)])],
             'sexCtrl': ['' , Validators.required],

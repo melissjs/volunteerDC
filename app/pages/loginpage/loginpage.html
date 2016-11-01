@@ -27,6 +27,13 @@
       </button>
     </ion-list-header>
 
+    <ion-list-header>
+      Not Registered Yet? 
+      <button (click)="onRegister()" ion-button item-right>
+	Register to Volunteer   
+      </button>
+    </ion-list-header>
+
     <P style="color:red" *ngIf="error">{{errorMessage}}</P>
 </ion-card>
 </ion-content>
