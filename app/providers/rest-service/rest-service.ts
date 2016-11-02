@@ -668,4 +668,39 @@ export class RestService {
         }, () => {console.log('send contact form data complete')});
     }
 
+    verifyExtraLogin(phoneNumber: string, passcode: string, checkonly: boolean, 
+		     cbsuccess: any, cbfailure: any, thatobj: any) {
+        var property = { "phoneNumber": phoneNumber, "passcode": passcode };
+        var json = JSON.stringify(property);
+        var params = /* 'json=' +  */ json;
+        let headers = new Headers();
+        headers.append('Accept', 'application/json, text/plain, */*');
+        if (this.csrf_token != null) {
+            headers.append('X-CSRF-TOKEN', this.csrf_token);
+        }
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let options = new RequestOptions({ headers: headers, withCredentials: true});
+
+        var url = config.MT_HOST + '/api/sendform/extralogin' + this.cacheBuster(true);
+        var retval1 = this.http.post(url, params, options);
+        // body, options
+        var retval2 = retval1;
+        var that=this;
+        retval2.subscribe( data => {
+            console.log('successful send extra login data call:' + data);
+	    cbsuccess(thatobj,true,data);
+        }, err => {
+            console.log('error occurred in sending extra login data ' + err.toString());
+            if ((err.status == 0) ||
+                (err.status == 404)) {
+                console.log('error expected in standalone ionic app for send extra login');
+		cbsuccess(thatobj,false,null);
+                return;
+            } else {
+		cbfailure(thatobj,err);
+	    }
+        }, () => {console.log('send extra login data complete')});
+    }
+    
+
 }

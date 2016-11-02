@@ -11,7 +11,7 @@ import { VOLUNTEERS } from '../../volunteerlist';
 import * as globals from '../../globals';
 
 //other service
-import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
+// import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
 
 // import {RestService} from '../../providers/rest-service/rest-service';
 
@@ -22,7 +22,7 @@ export class Volunteerservice {
     currentVolunteer: Volunteer;
     exposedYesOrNo: string;
     oldStation: PollingStation;
-    pollingstationservice: Pollingstationservice;
+    // pollingstationservice: Pollingstationservice;
     volunteerListInMemory: Volunteer[];
     volunteersByStation: Volunteer[];
     buildString: string;
@@ -36,9 +36,9 @@ export class Volunteerservice {
     shiftsFilled: number;
     usingReal: boolean;
 
-    constructor(pollingstationservice: Pollingstationservice /*, restSvc: RestService */) {
+    constructor(/* pollingstationservice: Pollingstationservice, restSvc: RestService */) {
         this.currentVolunteer = null;
-        this.pollingstationservice = pollingstationservice;
+        // this.pollingstationservice = pollingstationservice;
         // this.restSvc = restSvc;
         this.volunteerListInMemory = null; // set VOLUNTEERS; later (if at all)
         this.notRegistered = "None";
@@ -348,6 +348,15 @@ generateStationStats(passedStationKey){
 }
 
 
+    // Used in DC app only
+    getNewVolunteerKey(){
+        return this.currentVolunteer.volunteerKey;
+    }
+
+    getNewVolunteerPollingStationKey(){
+        return this.currentVolunteer.associatedPollingStationKey;
+    }
+
 // not in use
 
 getVolunteerCount(){
@@ -361,5 +370,7 @@ return this.shiftsToFill;
 getShiftsFilled(){
 return this.shiftsFilled
 }
+
+
 
 }

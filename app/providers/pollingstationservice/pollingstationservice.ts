@@ -202,6 +202,22 @@ duplicateStationSearch(passedPrecint: string, passedZip: number){
     }
 }
 
+// Only applicable to DC app
+
+isThisInState(state){
+    var stateUpper = this.selectedStationXX.state.toUpperCase();
+    state = state.toUpperCase();
+    var isInState = false;
+    switch (state) {
+    case 'FL':
+	isInState = (stateUpper == 'FL') || (stateUpper == 'FLORIDA');
+	break;
+    default:
+	isInState = (stateUpper == state);
+    }
+    return isInState;
+}
+
 
 
 }
