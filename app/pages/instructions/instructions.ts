@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Headerc} from '../headerc/headerc';
+import { InstructComponent } from '../../components/instruct-component/instruct-component';
 
 /*
   Generated class for the InstructionsPage page.
@@ -10,7 +11,7 @@ import { Headerc} from '../headerc/headerc';
 */
 @Component({
   templateUrl: 'build/pages/instructions/instructions.html',
-  directives: [Headerc],
+  directives: [Headerc,InstructComponent],
 })
 export class InstructionsPage {
     titlec: {page: any, title: string};

@@ -25,3 +25,5 @@ export var DUPEPSTITLE      = 'Possible Duplicate Location';
 export var RESETPWDTITLE    = 'Reset Password Page';
 export var SUCCSPLASHTITLE  = 'Registration';
 export var LOGINPAGETITLE   = 'Sign In';
+
+export var REGEXPHONE: string = '[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]';
