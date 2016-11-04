@@ -14,6 +14,7 @@ import { Volunteer} from '../../volunteer';
 
 //providers
 import { Pollingstationservice } from '../../providers/pollingstationservice/pollingstationservice';
+import {RestService} from '../../providers/rest-service/rest-service';
 
 // pipes
 import { Searchpipe } from '../../pipes/searchpipe';
@@ -37,11 +38,13 @@ export class FindpollinglocationPage {
   searchpipe: Searchpipe;
   titlec: {page: any, title: string};
 
-  constructor(private navCtrl: NavController, navParams: NavParams, pollingStationService: Pollingstationservice ) {
+    constructor(private navCtrl: NavController, navParams: NavParams, 
+                pollingStationService: Pollingstationservice,private restSvc: RestService ) {
   this.navCtrl = navCtrl;
   this.titlec = { page: navParams.get("menupg"), title: navParams.get("title") };
   this.stations = pollingStationService.getStations();
   this.pollingStationService = pollingStationService;
+  this.restSvc.getLatestPollStations();
   console.log('pollingstation=' + this.pollingStationService);
   console.log('stations=' + this.stations);  
   //this.searchpipe = searchpipe;
@@ -51,14 +54,15 @@ export class FindpollinglocationPage {
 
   showStationDetails(variablePassedFromItem){
 
+
   this.selectedStation = variablePassedFromItem;
   console.log('selectedStation'+ this.selectedStation);
   this.pollingStationService.setStation(this.selectedStation);
   this.pollingStationService.printSelectedStation();
       try {
           this.navCtrl.push(PollingstationdetailsPage, {
-	      title: globals.PSDETAILTITLE,
-	      menupg: this.titlec.page
+              title: globals.PSDETAILTITLE,
+              menupg: this.titlec.page
           });
       } catch (EE) {
           console.log('error in Submitting, exc='+ EE.toString())

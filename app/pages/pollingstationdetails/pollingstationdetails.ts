@@ -121,8 +121,9 @@ export class PollingstationdetailsPage {
     }
 
     setShifts() {
-        if (this.currentVolunteerHere.associatedPollingStationKey == 
-            this.currentStation.pollingStationKey) {
+        if ((this.currentVolunteerHere.associatedPollingStationKey == 
+            this.currentStation.pollingStationKey) &&
+            (this.currentVolunteerHere.shifts)) {
             if (this.currentVolunteerHere.shifts.includes(globals.EARLY_MORNING)) {
                 this.eM = true;
                 this.earlyM = true;
