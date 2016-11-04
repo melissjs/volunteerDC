@@ -6,6 +6,7 @@
       </ion-card>
 
 
+<div *ngIf="restSvc.getLoggedIn()">
 
 <ion-card padding>
   
@@ -121,5 +122,16 @@ Total remaining shifts to fill: {{shiftsToFill}}
            <button (click)="onRegister()" block large *ngIf="!restSvc.loggedIn" style="background-color:#959eb0; cursor:default">
   			    Register to sign up for shifts
            </button>
-      
+   
+</div>
+
+<div *ngIf="!restSvc.getLoggedIn()">
+<ion-card>
+   <ion-label>Please Login to see Polling Station details.</ion-label>  
+  <button type="button" (click)="onLoginClick()" block large>
+    Log in 
+  </button>
+</ion-card>
+
+</div>
 </ion-content>

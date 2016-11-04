@@ -4,6 +4,7 @@ import { Headerc} from '../headerc/headerc';
 
 // to nav to
 import { ConfirmationPage } from '../confirmation/confirmation';
+import { LoginPage } from '../loginpage/loginpage';
 import { UnregisteredsigninPage } from '../unregisteredsignin/unregisteredsignin';
 
 import { PollingstationComponent } from '../pollingstationcomponent/pollingstationcomponent';
@@ -334,5 +335,18 @@ export class PollingstationdetailsPage {
             menupg: this.titlec.page
         });
     }
+
+onLoginClick(){
+    var that = this;
+    try {
+        console.log('about to push login component...');
+        that.navCtrl.push(LoginPage, {
+            title: globals.LOGINPAGETITLE,
+            menupg: this.titlec.page
+        });
+    } catch (EE) { 
+        console.log('error in Submitting, exc='+ EE.toString())
+    }
+}  
 
 }
