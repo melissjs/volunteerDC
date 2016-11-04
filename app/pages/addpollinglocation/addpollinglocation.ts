@@ -236,7 +236,6 @@ onComparePrecintAndZip(){
           zip: value.enterZip,
         }
 
-
      // set station for details pages (MUST NOT ADD TO LIST IF CONFIRMED DUPLICATE)
       this.pollingStationService.setStation(this.newPollingStation);
 
@@ -264,52 +263,39 @@ onComparePrecintAndZip(){
                 }
         } else {
 
-        //console.log('new one: ' + this.newPollingStation.precinctNumber);
+            //console.log('new one: ' + this.newPollingStation.precinctNumber);
 
-            this.restSvc.savePollStationInfo(true)
-                .subscribe( (data) => {
-                    // Expect response created here...
-                    if (data.status == 201) {
-                        console.log('successful call:' + data);
-                        this.successForward(true);
-                    } else {
-                        // ?? shouldn't happen ??
-                        console.log('UNKNOWN STATUS:' + data);
-                        this.successForward(true);              
-                    }
-                } , err => {
-                    console.log('error occurred ' + err.toString());
-                    var errStr = null;
-                    if ((err.status == 0) ||
-                        (err.status == 404)) {
-                        this.successForward(false);
-                        return;
-                    } else if (err.status == 400) {
-                        errStr = err._body // toString();
-                    } else {
-                        errStr = err.toString();
-                    }
-                    // console.log(error.stack());
-                    let alert = this.alertCtrl.create({
-                        title: 'Error Adding Poll Station',
-                        subTitle: errStr,
-                        buttons: [{
-                            text: 'OK',
-                            handler: () => {
-                                alert.dismiss();
-                            }
-                        }]
-                    }
-                                                     );
-                    //timeout the error to let other modals finish dismissing.
-                    setTimeout(()=>{
-                        alert.present();
-                    },500);
-                }, () => {console.log('add polling station complete')}
-                          );
-    
+	    this.restSvc.saveObject('polling-stations',this.pollingStationService.getStation(),true
+				    ,this.successCb, this.failureCb, this);
          }
       }
+
+
+    successCb(that, real, data) {
+	// update the polling station info..
+	if (real) {
+	    that.newPollingStation = data;
+	    that.pollingStationService.setStation(data);
+	}
+	that.successForward(real);
+    }
+
+    failureCb(that, errStr) {
+        let alert = that.alertCtrl.create({
+            title: 'Error Adding Poll Station',
+            subTitle: errStr,
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    alert.dismiss();
+                }
+            }]
+        });
+        //timeout the error to let other modals finish dismissing.
+        setTimeout(()=>{
+            alert.present();
+        },500);
+    }
 
     successForward(real:boolean) {
         var subtitle;
@@ -344,8 +330,5 @@ onComparePrecintAndZip(){
         } catch (EE) {
             console.log('error in Submitting, exc='+ EE.toString())
         }
-
     }
-
-
 }

@@ -68,6 +68,11 @@
   </ion-list-header>
 
   <ion-item>
+    <ion-label stacked>Volunteer Key (make a note of this):</ion-label>
+    <ion-input readOnly=true value="{{currentTempVolunteer.volunteerKey}}" ></ion-input>
+  </ion-item>
+
+  <ion-item>
     <ion-label stacked>Full Name:</ion-label>
     <ion-input (click)="wasThisTouched()" type="text" formControlName="fullNameCtrl" ></ion-input>
   </ion-item>
