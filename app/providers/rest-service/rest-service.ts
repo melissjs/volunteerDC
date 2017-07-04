@@ -24,6 +24,8 @@ export class RestService {
     hashedPassCode: number;
     attemptedPassCode: number;
     lastPollingStationDate: any;
+    successLVR: any;
+    failureLVR: any;
 
     public loggedIn: boolean;
 
@@ -40,6 +42,8 @@ export class RestService {
         this.hashedPassCode = 0;
         this.attemptedPassCode = 0;
         this.lastPollingStationDate = null;
+        this.successLVR = null;
+        this.failureLVR = null;
 
         // submit call to initialize ionic.
         this.initIonic(false,null);
@@ -344,24 +348,24 @@ export class RestService {
         return retval2;
     }
 
-    onLogout(comp:any, errorcb){
+    onLogoutXX(comp:any, errorcb, successcb){
         var that = this;
         that.logoutUser()
             .subscribe( (data) => {
                 if (data.status == 200) {
                     console.log('successful logout call:' + data);
-                    that.successLogout(true,comp,errorcb);
+                    that.successLogout(true,comp,errorcb, successcb);
                 } else {
                     // ?? shouldn't happen ??
                     console.log('UNKNOWN LOGOUT STATUS:' + data);
-                    that.successLogout(true,comp,errorcb);
+                    that.successLogout(true,comp,errorcb, successcb);
                 }
             } , err => {
                 console.log('error occurred ' + err.toString() + err._body);
                 var subtitle;
                 if ((err.status == 0) ||
                     (err.status == 404)) {
-                    that.successLogout(false,comp,errorcb);
+                    that.successLogout(false,comp,errorcb, successcb);
                     // fake success
                     return;
                 } else if (err.status == 400) {
@@ -374,7 +378,7 @@ export class RestService {
             }, () => {console.log('logout complete')});
     }
 
-    successLogout(real: boolean,comp: any,errorcb) {
+    successLogout(real: boolean,comp: any,errorcb, successcb) {
         var that = this;
         if (!real) {
             // console.log(error.stack());
@@ -389,6 +393,9 @@ export class RestService {
         }
         // need to get a new csrf token.
         that.initIonic(false,null);
+        if (successcb) {
+            successcb(comp,real);
+        }
     }
 
     /* handleError(error) {
@@ -547,12 +554,12 @@ export class RestService {
                 that.volSvc.getVolunteers();
                 var fakedata = that.volSvc.getTeamVolunteersByPollKey(key);
                 this.volSvc.setVolunteers(fakedata,false);
-                this.volSvc.generateStationStats(key);
+                this.volSvc.generateStationStats();
                 setInternalcb(thatobj);
                 return;
             }
         }, () => {console.log('get volunteer data complete');
-                  this.volSvc.generateStationStats(key);
+                  this.volSvc.generateStationStats();
                   setInternalcb(thatobj);});
     }
 
@@ -586,6 +593,7 @@ export class RestService {
             console.log('successful get polling station data call:' + data);
             if (data != null) {
                 this.lastPollingStationDate = this.polSvc.addPollingStations(data);
+                this.getLastVoterRecord();
             } else {
                 console.log('error getting polling station data call:' + data.message);
             }
@@ -597,6 +605,19 @@ export class RestService {
                 return;
             }
         }, () => {console.log('get polling station data complete')});
+    }
+
+    registerLVRCallbacks(successLVR, failureLVR) {
+        this.successLVR = successLVR;
+        this.failureLVR = failureLVR;
+    }
+
+    getLastVoterRecord() {
+        var volkey = this.volSvc.getNewVolunteerKey();
+        if ((volkey != null) && (this.successLVR != null)) {
+            this.getObjectsByField('vote-record','volunteerKey', volkey
+                                   ,this.successLVR, this.failureLVR, this);
+        }
     }
 
     sendCollab(collabForm: any) {
@@ -723,7 +744,8 @@ export class RestService {
         // return retval2;
         retval2.subscribe( (data) => {
             // Expect response created here...
-            if (data.status == 201) {
+            if (((data.status == 201) && (doadd)) ||
+                ((data.status == 200) && (!doadd))) {
                 console.log('successful call to save ' + objtype + ':' + data);
                 if (successcb) {
                     successcb(thatobj,true, data._body);

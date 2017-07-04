@@ -35,6 +35,7 @@ export class Volunteerservice {
     shiftsToFill: number;
     shiftsFilled: number;
     usingReal: boolean;
+    activeVolunteers: number;
 
     constructor(/* pollingstationservice: Pollingstationservice, restSvc: RestService */) {
         this.currentVolunteer = null;
@@ -45,6 +46,7 @@ export class Volunteerservice {
         this.associatedVolunteerArray = [];
         this.shiftsFilled = 0;
         this.usingReal = false;
+	this.activeVolunteers = 1; // this volunteer for now..
 
         // if no one is logged in creat void volunteer 
         // this.restSvc.checkLoggedIn(this.setLoginTrue, this.setLoginFalse,this);
@@ -324,7 +326,7 @@ export class Volunteerservice {
         return this.currentVolunteer;
     }
 
-generateStationStats(passedStationKey){
+generateStationStats( /* passedStationKey */){
 
     //get array all volunteers with same station key
     //setting the associatedVolunteerArray is now done from rest-service
@@ -357,11 +359,19 @@ generateStationStats(passedStationKey){
         return this.currentVolunteer.associatedPollingStationKey;
     }
 
-// not in use
+    // called by activity.ts
+    getAssociatedVolunteers() {
+        return this.associatedVolunteerArray;
+    }
+    getVolunteerCount(){
+	return this.volunteerCount;
+    }
+    getVolunteersActive() {
+	return this.activeVolunteers;
+    }
 
-getVolunteerCount(){
-return this.volunteerCount;
-}
+
+// not in use
 
 getShiftsToFill(){
 return this.shiftsToFill;

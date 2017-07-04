@@ -205,6 +205,10 @@ duplicateStationSearch(passedPrecint: string, passedZip: number){
 // Only applicable to DC app
 
 isThisInState(state){
+    if (this.selectedStationXX == null) {
+	// This is an indication that they have not yet been authenticated.
+	return false;//??
+    }
     var stateUpper = this.selectedStationXX.state.toUpperCase();
     state = state.toUpperCase();
     var isInState = false;
@@ -217,7 +221,5 @@ isThisInState(state){
     }
     return isInState;
 }
-
-
 
 }
